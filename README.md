@@ -7,3 +7,5 @@
 - System of linear equations solver (using carmer's rule)
 
 - Vector length finder and normalizer
+
+- Rounder & Chopper

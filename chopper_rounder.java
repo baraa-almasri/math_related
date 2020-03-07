@@ -68,8 +68,7 @@ public class chopper_rounder {
 
             System.out.println("1.Continue, 2.Exit ? \t\t");
             int proceed = read.nextInt();
-            if ( proceed == 1 ) continue;
-            else break;
+            if ( proceed == 2 ) break;
         }
 
     }

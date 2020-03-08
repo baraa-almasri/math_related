@@ -9,3 +9,5 @@
 - Vector length finder and normalizer
 
 - Rounder & Chopper
+
+- Vectors paralleity checker

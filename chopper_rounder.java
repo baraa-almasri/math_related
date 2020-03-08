@@ -10,19 +10,19 @@ public class chopper_rounder {
         return digi ;
     }
 
-    static double chop(double number , long chopped ){
-        for ( int i = 1 ; i <= chopped ; i++ ){
+    static double chop(double number , long chopped , long digits){
+        for ( int i = 1 ; i <= digits - chopped ; i++ ){
             number -= ( number % Math.pow(10,i ) );
         }
         return number;
     }
-    static double round(double number , long rounded ){
+    static double round(double number , long rounded , long digits){
         double temp = number;
-        for ( int i = 1 ; i <= rounded ; i++ ){
+        for ( int i = 1 ; i <= digits - rounded ; i++ ){
             number -= ( number % Math.pow(10,i ) );
         }
-        if ( temp % Math.pow(10, rounded) >= 5 ){
-            number += Math.pow(10,rounded);
+        if ( temp % Math.pow(10, digits - rounded) >= 5 ){
+            number += Math.pow(10,digits - rounded);
         }
         return number;
     }
@@ -48,18 +48,18 @@ public class chopper_rounder {
 
             switch (choice) {
                 case 1:
-                    System.out.print("Enter number of digts you want to chop:\t");
+                    System.out.print("Enter number of digts chopping:\t");
                     chopped = read.nextInt();
-                    norm0(chop(num, chopped), digits);
-                    norm1(chop(num, chopped), digits);
+                    norm0(chop(num, chopped , digits), digits);
+                    norm1(chop(num, chopped , digits), digits);
                     //System.out.println( chop(num , chopped ));
                     break;
                 case 2:
-                    System.out.print("Enter number of digts you want to remove:\t");
+                    System.out.print("Enter number of digts after rounding:\t");
                     rounded = read.nextInt();
 
-                    norm0(round(num, rounded), digits);
-                    norm1(round(num, rounded), digits);
+                    norm0(round(num, rounded , digits), digits);
+                    norm1(round(num, rounded , digits), digits);
                     //System.out.println( round(num , rounded ));
                     break;
                 default:

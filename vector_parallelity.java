@@ -31,11 +31,11 @@ class vector_parellelty{
         }
 
         if ( parallel ){
-            System.out.println("Vextor1 & Vector2 are Parallel!" +
+            System.out.println("Vector1 & Vector2 are Parallel!" +
                     "\n & Vector1 = " + scaler[0] + " * Vector2");
         }
         else {
-            System.out.println("Vextor1 & Vector2 are not Parallel!");
+            System.out.println("Vector1 & Vector2 are not Parallel!");
         }
 
 

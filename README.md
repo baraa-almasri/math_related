@@ -1,4 +1,4 @@
-# Math related programms source codes in java and c++
+# Math related programs source codes in java and c++
 
 ### Includes
 

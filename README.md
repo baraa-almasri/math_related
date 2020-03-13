@@ -11,3 +11,5 @@
 - Rounder & Chopper
 
 - Vectors paralleity checker
+
+- Square Root Finder (LOL)

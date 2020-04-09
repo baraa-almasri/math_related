@@ -5,7 +5,20 @@ int main(){
 		<< "Enter the coefficents\n"
 		<< "AND DON'T ENTER THE SAME NUMBERS for both of the equations!!\n";
 	
-	double eq1[3], eq2[3], eq3[3];
+    double coefficients[3][3];
+    double d[3];
+    
+    for(int rows(0) ; rows < 3 ; rows++){
+        for(int cols(0) ; cols < 3 ; cols++){
+            cout << (char)(97 + cols) << rows+1 <<" = ";
+            cin >> coefficients[rows][cols];
+        }
+        cout << "d" << rows+1 << " = ";
+        cin >> d[rows];
+    }
+
+
+	/*double eq1[3], eq2[3], eq3[3];
     double d1, d2, d3;
     for ( int lol = 0 ; lol < 4 ; lol++ ){
         cout << (char)(97 + lol) << "1 = ";
@@ -37,18 +50,34 @@ int main(){
     //Using Carmer's rule....
     double D, Dx, Dy, Dz;
     
-    D = (eq1[0]*eq2[1]*eq3[2])+(eq1[1]*eq2[2]*eq3[0])+(eq1[2]*eq2[0]*eq3[1])
-        -(eq1[0]*eq2[2]*eq3[1])-(eq1[1]*eq2[0]*eq3[2])-(eq1[2]*eq2[1]*eq3[0]);
+    D = (coefficients[0][0]*coefficients[1][1]*coefficients[2][2])
+        +(coefficients[0][1]*coefficients[1][2]*coefficients[2][0])
+        +(coefficients[0][2]*coefficients[1][0]*coefficients[2][1])
+        -(coefficients[0][0]*coefficients[1][2]*coefficients[2][1])
+        -(coefficients[0][1]*coefficients[1][0]*coefficients[2][2])
+        -(coefficients[0][2]*coefficients[1][1]*coefficients[2][0]);
     
-    Dx = (d1*eq2[1]*eq3[2])+(eq1[1]*eq2[2]*d3)+(eq1[2]*d2*eq3[1])
-        -(d1*eq2[2]*eq3[1])-(eq1[1]*d2*eq3[2])-(eq1[2]*eq2[1]*d3);
+    Dx = (d[0]*coefficients[1][1]*coefficients[2][2])
+        +(coefficients[0][1]*coefficients[1][2]*d[2])
+        +(coefficients[0][2]*d[1]*coefficients[2][1])
+        -(d[0]*coefficients[1][2]*coefficients[2][1])
+        -(coefficients[0][1]*d[1]*coefficients[2][2])
+        -(coefficients[0][2]*coefficients[1][1]*d[2]);
+    
+    Dy = (coefficients[0][0]*d[1]*coefficients[2][2])
+        +(d[0]*coefficients[1][2]*coefficients[2][0])
+        +(coefficients[0][2]*coefficients[1][0]*d[2])
+        -(coefficients[0][0]*coefficients[1][2]*d[2])
+        -(d[0]*coefficients[1][0]*coefficients[2][2])
+        -(coefficients[0][2]*d[1]*coefficients[2][0]);
 
-    Dy = (eq1[0]*d2*eq3[2])+(d1*eq2[2]*eq3[0])+(eq1[2]*eq2[0]*d3)
-        -(eq1[0]*eq2[2]*d3)-(d1*eq2[0]*eq3[2])-(eq1[2]*d2*eq3[0]);
-        
-    Dz = (eq1[0]*eq2[1]*d3)+(eq1[1]*d2*eq3[0])+(d1*eq2[0]*eq3[1])
-        -(eq1[0]*d2*eq3[1])-(eq1[1]*eq2[0]*d3)-(d1*eq2[1]*eq3[0]);
-
+    Dz = (coefficients[0][0]*coefficients[1][1]*d[2])
+        +(coefficients[0][1]*d[1]*coefficients[2][0])
+        +(d[0]*coefficients[1][0]*coefficients[2][1])
+        -(coefficients[0][0]*d[1]*coefficients[2][1])
+        -(coefficients[0][1]*coefficients[1][0]*d[2])
+        -(d[0]*coefficients[1][1]*coefficients[2][0]);
+            
     cout << "X = " << (Dx/D) << endl;
     cout << "Y = " << (Dy/D) << endl;
     cout << "Z = " << (Dz/D) << endl;

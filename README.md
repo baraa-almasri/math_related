@@ -14,4 +14,4 @@
 
 - Square Root Finder (LOL)
 
-- Polygon vertices generator
+- Regular Polygon vertices generator

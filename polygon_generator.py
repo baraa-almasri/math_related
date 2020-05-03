@@ -21,15 +21,15 @@ noOfSides = int(input("Enter number of sides of the polygon: "))
 
 # radius = S/2sin(pi/n)
 # S = radius*2sin(pi/n)
-side = radius*2*math.sin((2*math.pi)/noOfSides)
+side = radius*2*math.sin(math.pi/noOfSides)
 
 # the angle between two neighbouring diameters of the polygon
 angle = (math.pi*2)/noOfSides
 theta = angle
 for i in range(1, noOfSides+1):
     print("for point ", i)
-    print("x:", x+genXcartesian(radius, theta))
-    print("y:", y+genYcartesian(radius, theta))
+    print("x:", x + genXcartesian(radius, theta))
+    print("y:", y + genYcartesian(radius, theta))
 
     theta += angle
 

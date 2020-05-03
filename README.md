@@ -1,4 +1,4 @@
-# Math related programs source codes in java and c++
+# Math related programs
 
 ### Includes
 
@@ -13,3 +13,5 @@
 - Vectors paralleity checker
 
 - Square Root Finder (LOL)
+
+- Polygon vertices generator

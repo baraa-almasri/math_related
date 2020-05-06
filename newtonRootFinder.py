@@ -4,7 +4,8 @@ from math import *
 # ln(x) definition
 def ln(x):
     return log(x, e)
-
+def log(x):
+	return log10(x)
 
 # function equation implementation copyRight Baraa Al-Masri. LOL :)
 y = 0 # some initial value for y before the big change :)
@@ -47,8 +48,9 @@ print("-= Newton-Raphson Method =-")
 print("---------------------------\n")
 
 equation = "y = "  # polynomial assignment statement
-equation += str(input("Enter function's formula: \nf(x) = "))
+equation += str(input("Enter function's formula: \nNote that x^n ==> x**n \nf(x) = "))
 x0 = float(input("Enter x0: "))  # initial point in the newton sequence
 errorTolerance = float(input("Enter error tolerance \nerror = "))
 
 findRootnewton(x0, equation, errorTolerance)
+

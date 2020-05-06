@@ -2,7 +2,7 @@
 
 ### Includes
 
-- calculator
+- Calculator
 
 - System of linear equations solver (using carmer's rule)
 
@@ -15,3 +15,7 @@
 - Square Root Finder (LOL)
 
 - Regular Polygon vertices generator
+
+- Newton-Raphson Root finder
+
+- Second Derivative finder

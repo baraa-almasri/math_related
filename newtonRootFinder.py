@@ -5,9 +5,9 @@ from math import *
 def ln(x):
     return log(x, e)
 def log(x):
-	return log10(x)
+    return log10(x)
 
-# function equation implementation copyRight Baraa Al-Masri. LOL :)
+# function formula
 y = 0 # some initial value for y before the big change :)
 def func(x, polynomial): # pol = polynomial
     updateY = "global y; " + polynomial
@@ -42,6 +42,7 @@ def findRootnewton(initialPoint, fx, error):
 
 
 ################################################################
+################################################################
 
 print("---------------------------")
 print("-= Newton-Raphson Method =-")
@@ -53,4 +54,3 @@ x0 = float(input("Enter x0: "))  # initial point in the newton sequence
 errorTolerance = float(input("Enter error tolerance \nerror = "))
 
 findRootnewton(x0, equation, errorTolerance)
-

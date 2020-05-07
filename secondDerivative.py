@@ -10,13 +10,11 @@ def log(x):
     return log10(x)
 
 
-# function equation implementation copyRight Baraa Al-Masri. LOL :)
 y = 0  # some initial value for y before the big change :)
 def func(x, polynomial):  # pol = polynomial
     updateY = "global y; " + polynomial
     exec(updateY)
     return y
-
 
 # 2nd derivative formula
 def secondDiffrentiate(point, approachingPoint, fx):
@@ -27,6 +25,7 @@ def secondDiffrentiate(point, approachingPoint, fx):
 
 
 ################################################################
+################################################################
 
 print("------------------------------")
 print("-= Second Derivative Finder =-")
@@ -35,8 +34,7 @@ print("------------------------------\n")
 equation = "y = "  # polynomial assignment statement
 equation += str(input("Enter function's formula: \nNote that x^n ==> x**n \nf(x) = "))
 x0 = float(input("Enter x0: "))  # point to find the second derivative at
-approachingPoint = float(input("Enter approachingPoint \nh = "))
+approachingPoint = float(input("\nEnter approaching point \nh = "))
 
 print("f''(", x0, ") = ", end="")
 print(secondDiffrentiate(x0, approachingPoint, equation))
-

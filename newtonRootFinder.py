@@ -1,15 +1,14 @@
 #!/usr/bin/python3
 from math import *
 
-# ln(x) definition
+# ln definition
 def ln(x):
     return log(x, e)
-def log(x):
-    return log10(x)
 
-# function formula
+# function equation implementation copyRight Baraa Al-Masri.
+# LOL :)
 y = 0 # some initial value for y before the big change :)
-def func(x, polynomial): # pol = polynomial
+def func(x, polynomial): # x is the given point(float), polynomial is the function's formula
     updateY = "global y; " + polynomial
     exec(updateY)
     return y

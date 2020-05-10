@@ -14,3 +14,4 @@
 - Bisection method root finder
 - Five-point formula
 - Forward-Difference formula
+- Numerical Integration

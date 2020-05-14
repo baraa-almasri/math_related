@@ -1,7 +1,6 @@
 #include <cstdio>
 #include <vector>
 #include "matrix.hpp"
-#include "functions.hpp"
 
 int main(int argCount, char *argValue[]){
     

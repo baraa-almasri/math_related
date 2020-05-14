@@ -72,13 +72,12 @@ double det(int rows, std::vector<std::vector<double>> mainMatrix){ //wondering w
 void solveSystem(int order){
     printf("System of the form a1X1 + a2X2 + .... + anXn = b\n");
 	printf("Enter the coefficents\n"); 
-	
+	// the augmented matrix, well part of it	
     vector<vector<double>> matrix;
-
+	readMatrix(order, matrix);
+  	
+  	// constants vector(math vector not that STL)
     double constants[order];
-
-    readMatrix(order, matrix);
-
     for(int moo = 0; moo < order; moo++){
         printf("b%i = ", moo+1);
         scanf("%lf", &constants[moo]);
@@ -102,9 +101,14 @@ void solveSystem(int order){
 
         tempMatrix = matrix;
     }
-    // k because I couldn't find a better name
+    // k because I couldn't find a better name, you got a better name suggest it I'm all ears
     for(int k = 0; k < order; k++){
         printf("var%i = %lf \n",k+1 , rawVariables[k]/D);
     }
+  
+  /*for(int k : rawVariables){
+        printf("var = %lf \n" , k/D);
+    }
+  */
  
 }

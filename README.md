@@ -3,7 +3,7 @@
 ### Includes
 
 - Calculator
-- System of linear equations solver (using carmer's rule)
+- System of linear equations solver `for n unknowns` (using carmer's rule) 
 - Vector length finder and normalizer
 - Rounder & Chopper
 - Vectors paralleity checker
@@ -15,3 +15,4 @@
 - Five-point formula
 - Forward-Difference formula
 - Numerical Integration
+- Matrix app

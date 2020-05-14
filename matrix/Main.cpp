@@ -13,7 +13,7 @@ int main(int argCount, char *argValue[]){
     matrix.readMatrix();
     matrix.printMatrix();
     //m.det();
-    printf("det = %lf\n", matrix.det() );
+    printf("det = %lf\n", matrix.findDeterminant() );
 
     //std::vector< std::vector<double> > B;
     Matrix B = Matrix(order);

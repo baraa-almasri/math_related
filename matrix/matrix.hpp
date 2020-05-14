@@ -1,7 +1,9 @@
+//matrix class by Baraa Al-Masri
 #include <cstdio>
 #include <vector>
 #include <cmath>
 #include <cstdlib>
+#include <iostream>
 
 //this whole thing deals with square matrices so rows = columns
 class Matrix{
@@ -53,6 +55,7 @@ public:
             for(int col = 0 ; col < cols ; col++){
                 // temporary variable to store element
                 double temp;
+                printf("m%i%i = ", row+1,col+1);
                 scanf("%lf", &temp);
                 // add the temporary variable to the temporary vector
                 tempVector.push_back(temp);
@@ -65,13 +68,18 @@ public:
     }
     // well it's a printing function no comments needed :)
     void printMatrix(){
+        printf("\nM = | ");
         int cols = Matrix::rows; // for readablity
         for(int row = 0 ; row < rows ; row++){
             for(int col = 0 ; col < cols ; col++){
-                printf("%lf ", Matrix::matrix.at(row).at(col));
+                std::cout << Matrix::matrix[row][col] << "";
+                std::cout << (col == cols-1 ? " |" : " ");
             }
-            printf("\n");     
+            printf("\n");
+            std::cout << (row != rows - 1 ? "    | " : "");
+            
         }
+        printf("\n");
     }
     void add(std::vector< std::vector<double> > anotherMatrix){
         int order = Matrix::matrix.size();
@@ -91,7 +99,7 @@ public:
     }
     
     // find determinant of a matrix
-    double det(){
+    double findDeterminant(){
         return det(rows, matrix);
     }
     // end of functions, well I lied :)    

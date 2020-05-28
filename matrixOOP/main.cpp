@@ -6,10 +6,7 @@
 #define RED "\033[31m"
 // reset color output
 #define RESET "\033[0m"
-// returns memory address of the matching matrix name
-// note that it need excepyiopn handelling in the main function :)
-SquareMatrix *findMatrix(char matrixName[], SquareMatrix **array, int SIZE);
-
+    
 int main(void){
     printf("enter number of square matrices you want to have:  ");
     int noOfMatrices;
@@ -37,8 +34,6 @@ int main(void){
     }
     // choose an opertation to be done on matrix(s)
     while(1){
-        
-        
         printf("Available operations(two matrices only):\n");
         printf("1. Addition\n");
         printf("2. Multiplication\n");
@@ -49,7 +44,10 @@ int main(void){
         int choice;
         printf("Enter your choice:  ");
         scanf("%d", &choice);
-
+        if(choice == 6){
+            printf("Have a nice day!\n");
+            exit(0);
+        }
         // set pointers to the matrices
         SquareMatrix *mtrxPtr1, *mtrxPtr2;
         
@@ -108,10 +106,6 @@ int main(void){
             case 5:
                 printf("\ntrace of matrix %s = %lf\n", mtrxPtr1->getMatrixName().c_str(), mtrxPtr1->find_trace());
                 break;
-
-            case 6:
-                printf("have a nice day!\n");
-                exit(0);
             default:
                 printf(RED);
                 printf("Invalid choice!\n");
@@ -125,20 +119,3 @@ int main(void){
     return 0;
 }
 
-// returns memory address of the matching matrix name
-// note that it need excepyiopn handelling in the main function :)
-SquareMatrix *findMatrix(char matrixName[], SquareMatrix **array, int SIZE){ // pointer to pointer i.e pointer to the
-                                                                            // array of pointers(objects)
-    for(int i = 0; i < SIZE; i++)
-        //try{
-            if(array[i]->getMatrixName() == matrixName)
-                return array[i];
-        /*}
-        catch (std::logic_error){
-            printf(RED);
-            printf("no such matrix found!\t re-choose!\n");
-            printf(RESET);
-            continue;
-        }*/
-        
-}

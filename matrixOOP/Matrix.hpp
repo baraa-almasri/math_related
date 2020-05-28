@@ -124,7 +124,6 @@ public:
         vector< vector<double> > newMatrixsArray;
         initMatrix(newMatrixsArray, order, order);
 
-        printf("size1 = %d, size2 = %d\n", order, order2);
         for(int row = 0; row < order; row++){
             for(int col = 0; col < order; col++){
                 newMatrixsArray[row][col] = otherMatrix[row][col] + this->matrix[row][col];
@@ -205,45 +204,43 @@ private:
         int cols = rows; // for readablity                 //scroll down to see some messed up blin 
         double answer = 0;
         if(rows == 2){
-            //answer += ( mainMatrix[0][0] * mainMatrix[1][1] ) - ( mainMatrix[1][0] * mainMatrix[0][1] );
-            //return answer;
             return ( mainMatrix[0][0] * mainMatrix[1][1] ) - ( mainMatrix[1][0] * mainMatrix[0][1] );
         }
             
-        else if (rows > 2){
+        
 
-            int newRows, newCols;
-            int cols = rows; // for readablity
-            newRows = rows - 0; // those two where "rows - 1" then I realised that
-            newCols = cols - 0; // this moo ain't working so....
+        int newRows, newCols;
+        int cols = rows; // for readablity
+        newRows = rows - 0; // those two where "rows - 1" then I realised that
+        newCols = cols - 0; // this moo ain't working so....
 
 
-            // first row, alternating columns
-            for(int mainCol = 0; mainCol < cols; mainCol++){
-                std::vector< std::vector<double> > newMatrix;
-                // for future reads :)
-                // I had to stop @ newRows - 1 so the index won't be out of range in the main matrix
-                for(int newRow = 0; newRow < newRows - 1; newRow++){
-                    // temporary vector to store columns
-                    std::vector<double> tempVector;
+        // first row, alternating columns
+        for(int mainCol = 0; mainCol < cols; mainCol++){
+            std::vector< std::vector<double> > newMatrix;
+            // for future reads :)
+            // I had to stop @ newRows - 1 so the index won't be out of range in the main matrix
+            for(int newRow = 0; newRow < newRows - 1; newRow++){
+                // temporary vector to store columns
+                std::vector<double> tempVector;
                     
-                    for(int newCol = 0; newCol < newCols; newCol++){
+                for(int newCol = 0; newCol < newCols; newCol++){
                         
-                        if( newCol != mainCol ){
-                            double temp;
-                            temp = mainMatrix[newRow+1][newCol];
-                            tempVector.push_back(temp);
+                    if( newCol != mainCol ){
+                        double temp;
+                        temp = mainMatrix[newRow+1][newCol];
+                        tempVector.push_back(temp);
 
-                        }
                     }
-                    // add the temporary vector to the current row of the main 2D vector
-                    newMatrix.push_back(tempVector);
-
                 }
-                answer += pow(-1, mainCol) * mainMatrix[0][mainCol] * (det(newRows-1, newMatrix));
+                // add the temporary vector to the current row of the main 2D vector
+                newMatrix.push_back(tempVector);
+
             }
-            //printf("LOL Cyka\n");
+            answer += pow(-1, mainCol) * mainMatrix[0][mainCol] * (det(newRows-1, newMatrix));
         }
+        //printf("LOL Cyka\n");
+    
         // finally return the answer when the recieved matrix is 1*1
         return answer;
     
@@ -276,4 +273,25 @@ private:
 
 };
 // end of class
+
+// some sort of linear search function
+
+// returns memory address of the matching matrix name
+// note that it need excepyiopn handelling in the main function :)
+SquareMatrix *findMatrix(char matrixName[], SquareMatrix **array, int SIZE){ // pointer to pointer i.e pointer to the
+                                                                            // array of pointers(objects)
+    for(int i = 0; i < SIZE; i++)
+        //try{
+            if(array[i]->getMatrixName() == matrixName)
+                return array[i];
+        /*}
+        catch (std::logic_error){
+            printf(RED);
+            printf("no such matrix found!\t re-choose!\n");
+            printf(RESET);
+            continue;
+        }*/
+        
+}
+
 #endif 

@@ -210,7 +210,6 @@ private:
         
 
         int newRows, newCols;
-        int cols = rows; // for readablity
         newRows = rows - 0; // those two where "rows - 1" then I realised that
         newCols = cols - 0; // this moo ain't working so....
 

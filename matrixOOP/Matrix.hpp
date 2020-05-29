@@ -109,8 +109,8 @@ public:
     // this function adds a matrix to the current matrix & returns the added matrix
     vector< vector<double> > add(SquareMatrix *anotherMatrix){
         // orders check
-        int order = this->matrix.size();
-        int order2 = anotherMatrix->getMatrix().size();
+        int order = this->getRows();
+        int order2 = anotherMatrix->getRows();
         if(order != order2 ){
             printf("Hold up different orders no sum for you!\n");
             exit(0);

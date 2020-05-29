@@ -8,6 +8,16 @@
 #define RESET "\033[0m"
     
 int main(void){
+    // clear screen equivalent
+    cout << string(100, '\n');
+    printf("----------------------------\n");
+    printf("-= The Big Matrix Program =-\n");
+    printf("----------------------------\n\n");
+    printf("press enter to continue....");
+    cin.ignore();
+    // clear screen equivalent
+    cout << string(100, '\n');
+    
     printf("enter number of square matrices you want to have:  ");
     int noOfMatrices;
     scanf("%d", &noOfMatrices);
@@ -78,7 +88,7 @@ int main(void){
             case 1:
                 // setting result matrix value
                 newMatrixName = mtrxPtr1->getMatrixName() + " + " + mtrxPtr2->getMatrixName();
-                tempMatrix = new SquareMatrix(order, newMatrixName);        
+                tempMatrix = new SquareMatrix(mtrxPtr1->getRows(), newMatrixName);        
                 tempMatrix->setMatrix( mtrxPtr1->add(mtrxPtr2) );
                 // printing result matrix value
                 tempMatrix->printMatrix();
@@ -86,7 +96,7 @@ int main(void){
             case 2:
                 // setting result matrix value
                 newMatrixName = mtrxPtr1->getMatrixName() + " x " + mtrxPtr2->getMatrixName();
-                tempMatrix = new SquareMatrix(order, newMatrixName);        
+                tempMatrix = new SquareMatrix(mtrxPtr1->getRows(), newMatrixName);        
                 tempMatrix->setMatrix( mtrxPtr1->multiply(mtrxPtr2->getMatrix()) );
                 // printing result matrix value
                 tempMatrix->printMatrix();
@@ -95,7 +105,7 @@ int main(void){
             case 3:
                 // setting result matrix value
                 newMatrixName = mtrxPtr1->getMatrixName() + " Transpose " ;
-                tempMatrix = new SquareMatrix(order, newMatrixName);        
+                tempMatrix = new SquareMatrix(mtrxPtr1->getRows(), newMatrixName);        
                 tempMatrix->setMatrix( mtrxPtr1->transpose() );
                 // printing result matrix value
                 tempMatrix->printMatrix();
@@ -118,4 +128,3 @@ int main(void){
  
     return 0;
 }
-

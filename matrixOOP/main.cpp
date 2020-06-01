@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "Matrix.hpp"
+#include "SquareMatrix.hpp"
 #include <iostream>
 // red color output
 #define RED "\033[31m"

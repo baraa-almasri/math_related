@@ -6,7 +6,7 @@
 #define RED "\033[31m"
 // reset color output
 #define RESET "\033[0m"
-    
+using namespace std; // standard namespace
 int main(void){
     // clear screen equivalent
     cout << string(100, '\n');
@@ -114,7 +114,7 @@ int main(void){
                 printf("\ndeterminant of matrix %s = %lf\n", mtrxPtr1->getMatrixName().c_str(), mtrxPtr1->findDeterminant());
                 break;
             case 5:
-                printf("\ntrace of matrix %s = %lf\n", mtrxPtr1->getMatrixName().c_str(), mtrxPtr1->find_trace());
+                printf("\ntrace of matrix %s = %lf\n", mtrxPtr1->getMatrixName().c_str(), mtrxPtr1->findTrace());
                 break;
             default:
                 printf(RED);

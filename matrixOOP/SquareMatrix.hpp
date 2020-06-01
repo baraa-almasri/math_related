@@ -1,10 +1,10 @@
 #ifndef SQUAREMATRIX_HPP
 #define SQUAREMATRIX_HPP
 //matrix class by Baraa Al-Masri
-#include <cstdio>
+#include <stdio.h>
 #include <vector>
-#include <cmath>
-#include <cstdlib>
+#include <math.h>
+#include <stdlib.h>
 #include <iostream>
 using namespace std;
 //this whole thing deals with square matrices so rows = columns
@@ -49,7 +49,7 @@ public:
     double findDeterminant();
     
     // find the trace of the matrix
-    double find_trace();
+    double findTrace();
 
     // find the transpose matrix
     vector< vector<double> > transpose();
@@ -68,7 +68,7 @@ private:
     string matrixName;
 
     // determinant finder, it's private so the object function call is not parameterized :)
-    // otherwise it'll get messy like a bee kingdom
+    // otherwise it'll get messy like a bee hive
     double det(int rows, std::vector<std::vector<double>> mainMatrix);
 
     // initialse a matrix with zeros

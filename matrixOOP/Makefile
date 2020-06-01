@@ -1,20 +1,23 @@
 #name of the output file
 #this compiles the object files into an executable file
-output: main.o SquareMatrix.o
-	clang++ -v main.o SquareMatrix.o -o matrixProgram
+matrixProgram: Main.o SquareMatrix.o BasicMatrix.o
+	clang++ -v Main.o SquareMatrix.o BasicMatrix.o -o matrixProgram
 
 #creating object file of the main.cpp
-main.o: main.cpp
-	clang++ -c main.cpp
+Main.o: Main.cpp
+	clang++ -c Main.cpp
 
-#creating object file of the SquareMatrix.hpp
-
-SquareMatrix.hpp.gch:
+#creating object file of SquareMatrix.hpp
+SquareMatrix.hpp.gch: SquareMatrix.hpp
 	clang++ -c SquareMatrix.hpp
-#creating object file of the SquareMatrix.cpp
-SquareMatrix.o:
+
+#creating object file of SquareMatrix.cpp
+SquareMatrix.o: SquareMatrix.cpp
 	clang++ -c SquareMatrix.cpp
 
+#creating object file of BasicMatrixIO.cpp
+BasicMatrix.o: BasicMatrix.cpp
+	clang++ -c BasicMatrix.cpp
 
 #Note that the (-c) option in gcc or clang compiles the ".cpp"
 #file into an object file i.e ".o" file

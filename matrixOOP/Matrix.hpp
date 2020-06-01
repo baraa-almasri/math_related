@@ -166,21 +166,24 @@ public:
 
     }
     // multiply the matrix with a given matrix and put the result in a new matrix
-    vector< vector<double> > multiply( vector< vector< double> > otherMatrix){
+    vector< vector<double> > multiply( SquareMatrix *anotherMatrix){
+        // the another matrix's vector
+        vector< vector<double> > otherMatrix;
+        otherMatrix = anotherMatrix->getMatrix();
         // rows & columns of the other matrix
-        int otherRows = otherMatrix.size();
-        int otherColumns = otherMatrix.front().size();
+        int otherRows = anotherMatrix->getRows();
+        int otherColumns = anotherMatrix->getCols();
         // rows & columns of the resulting matrix
-        int newRows = SquareMatrix::rows;
+        int newRows = this->rows;
         int newColumns = otherColumns;
         // new matrix
         vector< vector<double> > newMatrix;
         initMatrix(newMatrix, newRows, newColumns);
         // Multiplying matrix a and b and storing in array mult.
-        for(int i = 0; i < SquareMatrix::rows; ++i)
-            for(int j = 0; j < otherColumns; ++j)
-                for(int k = 0; k < SquareMatrix::columns; ++k){
-                    newMatrix[i][j] += SquareMatrix::matrix[i][k] * otherMatrix[k][j];
+        for(int row1 = 0; row1 < this->rows; row1++)
+            for(int col2 = 0; col2 < otherColumns; col2++)
+                for(int col1 = 0; col1 < this->columns; col1++){
+                    newMatrix[row1][col2] += this->matrix[row1][col1] * otherMatrix[col1][col2];
                 }
         // finally get the resulting matrix
         return newMatrix;

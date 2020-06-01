@@ -97,7 +97,7 @@ int main(void){
                 // setting result matrix value
                 newMatrixName = mtrxPtr1->getMatrixName() + " x " + mtrxPtr2->getMatrixName();
                 tempMatrix = new SquareMatrix(mtrxPtr1->getRows(), newMatrixName);        
-                tempMatrix->setMatrix( mtrxPtr1->multiply(mtrxPtr2->getMatrix()) );
+                tempMatrix->setMatrix( mtrxPtr1->multiply(mtrxPtr2) );
                 // printing result matrix value
                 tempMatrix->printMatrix();
                 break;

@@ -58,7 +58,7 @@ int main(void){
             printf("Have a nice day!\n");
             exit(0);
         }
-        // set pointers to the matrices
+        // set pointers to the operand matrices
         SquareMatrix *mtrxPtr1, *mtrxPtr2;
         
         printf("enter matrix(s) name(s) to operate on(from the list you provided earlier):\n");
@@ -89,7 +89,7 @@ int main(void){
                 // setting result matrix value
                 newMatrixName = mtrxPtr1->getMatrixName() + " + " + mtrxPtr2->getMatrixName();
                 tempMatrix = new SquareMatrix(mtrxPtr1->getRows(), newMatrixName);        
-                tempMatrix->setMatrix( mtrxPtr1->add(mtrxPtr2) );
+                tempMatrix->setMatrix( (*mtrxPtr1 += *mtrxPtr2).getMatrix() )  ;
                 // printing result matrix value
                 tempMatrix->printMatrix();
                 break;
@@ -97,7 +97,7 @@ int main(void){
                 // setting result matrix value
                 newMatrixName = mtrxPtr1->getMatrixName() + " x " + mtrxPtr2->getMatrixName();
                 tempMatrix = new SquareMatrix(mtrxPtr1->getRows(), newMatrixName);        
-                tempMatrix->setMatrix( mtrxPtr1->multiply(mtrxPtr2) );
+                tempMatrix->setMatrix( (*mtrxPtr1 *= *mtrxPtr2).getMatrix() );
                 // printing result matrix value
                 tempMatrix->printMatrix();
                 break;

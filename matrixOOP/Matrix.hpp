@@ -106,33 +106,26 @@ public:
 
     // action functions :)
 
-    // this function adds a matrix to the current matrix & returns the added matrix
-    vector< vector<double> > add(SquareMatrix *anotherMatrix){
-        // orders check
-        int order = this->getRows();
-        int order2 = anotherMatrix->getRows();
-        if(order != order2 ){
-            printf("Hold up different orders no sum for you!\n");
-            exit(0);
-        }
-        // another matrix's 2D array
-        vector< vector<double> > otherMatrix;
-        otherMatrix = anotherMatrix->getMatrix();
-        // new matrix
-        string newMatrixName =  matrixName + " + " + anotherMatrix->getMatrixName();
-        SquareMatrix *newMatrix = new SquareMatrix(order, newMatrixName);
-        vector< vector<double> > newMatrixsArray;
-        initMatrix(newMatrixsArray, order, order);
+    // overloaded operators :) :) :)
 
-        for(int row = 0; row < order; row++){
-            for(int col = 0; col < order; col++){
-                newMatrixsArray[row][col] = otherMatrix[row][col] + this->matrix[row][col];
-            }
-        }
-        newMatrix->setMatrix(newMatrixsArray);
-        return newMatrix->getMatrix();
+    // add equals a matrix operator
+    SquareMatrix operator += (SquareMatrix anotherMatrix){
+        // new matrix to hold the result
+        SquareMatrix newMatrix = *this; // has the info of the first operand so ther's no need for "initMatrix()"
+        newMatrix.setMatrix( add(anotherMatrix) );
+        // return the new matrix
+        return newMatrix;
     }
     
+    // muliply equals a matrix operator
+    SquareMatrix operator *= (SquareMatrix anotherMatrix){
+        // new matrix to hold the result
+        SquareMatrix newMatrix = *this; // has the info of the first operand so ther's no need for "initMatrix()"
+        newMatrix.setMatrix( multiply(anotherMatrix) );
+        // return the new matrix
+        return newMatrix;
+    }
+
     // find the determinant of the matrix
     double findDeterminant(){
         return det(rows, matrix);
@@ -165,29 +158,7 @@ public:
         return transposed_matrix;
 
     }
-    // multiply the matrix with a given matrix and put the result in a new matrix
-    vector< vector<double> > multiply( SquareMatrix *anotherMatrix){
-        // the another matrix's vector
-        vector< vector<double> > otherMatrix;
-        otherMatrix = anotherMatrix->getMatrix();
-        // rows & columns of the other matrix
-        int otherRows = anotherMatrix->getRows();
-        int otherColumns = anotherMatrix->getCols();
-        // rows & columns of the resulting matrix
-        int newRows = this->rows;
-        int newColumns = otherColumns;
-        // new matrix
-        vector< vector<double> > newMatrix;
-        initMatrix(newMatrix, newRows, newColumns);
-        // Multiplying matrix a and b and storing in array mult.
-        for(int row1 = 0; row1 < this->rows; row1++)
-            for(int col2 = 0; col2 < otherColumns; col2++)
-                for(int col1 = 0; col1 < this->columns; col1++){
-                    newMatrix[row1][col2] += this->matrix[row1][col1] * otherMatrix[col1][col2];
-                }
-        // finally get the resulting matrix
-        return newMatrix;
-    }
+    
  
 
     // end of functions, well I lied :)    
@@ -271,6 +242,57 @@ private:
             printf(" ");
         }
 
+    }
+
+    // this function adds a matrix to the current matrix & returns the added matrix
+    vector< vector<double> > add(SquareMatrix anotherMatrix){
+        // orders check
+        int order = this->getRows();
+        int order2 = anotherMatrix.getRows();
+        if(order != order2 ){
+            printf("Hold up different orders no sum for you!\n");
+            exit(0);
+        }
+        // another matrix's 2D array
+        vector< vector<double> > otherMatrix;
+        otherMatrix = anotherMatrix.getMatrix();
+        // new matrix
+        string newMatrixName =  matrixName + " + " + anotherMatrix.getMatrixName();
+        SquareMatrix *newMatrix = new SquareMatrix(order, newMatrixName);
+        vector< vector<double> > newMatrixsArray;
+        initMatrix(newMatrixsArray, order, order);
+
+        for(int row = 0; row < order; row++){
+            for(int col = 0; col < order; col++){
+                newMatrixsArray[row][col] = otherMatrix[row][col] + this->matrix[row][col];
+            }
+        }
+        newMatrix->setMatrix(newMatrixsArray);
+        return newMatrix->getMatrix();
+    }
+
+    // multiply the matrix with a given matrix and put the result in a new matrix
+    vector< vector<double> > multiply( SquareMatrix anotherMatrix){
+        // the another matrix's vector
+        vector< vector<double> > otherMatrix;
+        otherMatrix = anotherMatrix.getMatrix();
+        // rows & columns of the other matrix
+        int otherRows = anotherMatrix.getRows();
+        int otherColumns = anotherMatrix.getCols();
+        // rows & columns of the resulting matrix
+        int newRows = this->rows;
+        int newColumns = otherColumns;
+        // new matrix
+        vector< vector<double> > newMatrix;
+        initMatrix(newMatrix, newRows, newColumns);
+        // Multiplying matrix a and b and storing in array mult.
+        for(int row1 = 0; row1 < this->rows; row1++)
+            for(int col2 = 0; col2 < otherColumns; col2++)
+                for(int col1 = 0; col1 < this->columns; col1++){
+                    newMatrix[row1][col2] += this->matrix[row1][col1] * otherMatrix[col1][col2];
+                }
+        // finally get the resulting matrix
+        return newMatrix;
     }
 
 };

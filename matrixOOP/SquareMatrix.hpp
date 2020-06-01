@@ -53,8 +53,7 @@ public:
 
     // find the transpose matrix
     vector< vector<double> > transpose();
-    
- 
+
 
     // end of functions, well I lied :)    
     ////////////////

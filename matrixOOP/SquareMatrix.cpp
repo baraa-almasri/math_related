@@ -215,5 +215,3 @@ vector< vector<double> > SquareMatrix::multiply( SquareMatrix anotherMatrix){
     // finally get the resulting matrix
     return newMatrix;
 }
-
-

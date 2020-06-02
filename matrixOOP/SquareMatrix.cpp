@@ -105,17 +105,17 @@ vector< vector<double> > SquareMatrix::transpose(){
     int new_rows = SquareMatrix::columns;
     int new_columns = SquareMatrix::rows;
     
-    vector< vector<double> > transposed_matrix;
-    initMatrix(transposed_matrix, new_rows, new_columns);
+    vector< vector<double> > transposedMatrix;
+    initMatrix(transposedMatrix, new_rows, new_columns);
     
     for(int row = 0; row < new_rows; row++){
         for(int col = 0; col < new_columns; col++){
-            transposed_matrix[row][col] = matrix[col][row];
+            transposedMatrix[row][col] = matrix[col][row];
         }
             
     }
 
-    return transposed_matrix;
+    return transposedMatrix;
 
 }
 
@@ -157,7 +157,6 @@ double SquareMatrix::det(int rows, std::vector<std::vector<double>> mainMatrix){
         }
         answer += pow(-1, mainCol) * mainMatrix[0][mainCol] * (det(newRows-1, newMatrix));
     }
-    //printf("LOL Cyka\n");
 
     // finally return the answer when the recieved matrix is 1*1
     return answer;
@@ -166,52 +165,70 @@ double SquareMatrix::det(int rows, std::vector<std::vector<double>> mainMatrix){
 
 
 // this function adds a matrix to the current matrix & returns the added matrix
-vector< vector<double> > SquareMatrix::add(SquareMatrix anotherMatrix){
+vector< vector<double> > SquareMatrix::add( SquareMatrix anotherMatrix ){
     // orders check
-    int order = this->getRows();
-    int order2 = anotherMatrix.getRows();
-    if(order != order2 ){
+    int rows1 = this->getRows();
+    int cols1 = this->getCols();
+    int rows2 = anotherMatrix.getRows();
+    int cols2 = anotherMatrix.getCols();
+
+    if( rows1 != rows2 && cols1 != cols2 ){
         printf("Hold up different orders no sum for you!\n");
         exit(0);
     }
-    // another matrix's 2D array
+
+    // anotherMatrix's 2D array
     vector< vector<double> > otherMatrix;
     otherMatrix = anotherMatrix.getMatrix();
-    // new matrix
-    string newMatrixName =  matrixName + " + " + anotherMatrix.getMatrixName();
-    SquareMatrix *newMatrix = new SquareMatrix(order, newMatrixName);
-    vector< vector<double> > newMatrixsArray;
-    initMatrix(newMatrixsArray, order, order);
 
-    for(int row = 0; row < order; row++){
-        for(int col = 0; col < order; col++){
+    // new matrix
+    vector< vector<double> > newMatrixsArray;
+    initMatrix(newMatrixsArray, rows1, cols1);
+
+    for(int row = 0; row < rows1; row++)
+        for(int col = 0; col < cols1; col++)
             newMatrixsArray[row][col] = otherMatrix[row][col] + this->matrix[row][col];
-        }
-    }
-    newMatrix->setMatrix(newMatrixsArray);
-    return newMatrix->getMatrix();
+        
+    
+    return newMatrixsArray;
 }
 
 // multiply the matrix with a given matrix and put the result in a new matrix
-vector< vector<double> > SquareMatrix::multiply( SquareMatrix anotherMatrix){
+vector< vector<double> > SquareMatrix::multiply( SquareMatrix anotherMatrix ){
     // the another matrix's vector
     vector< vector<double> > otherMatrix;
     otherMatrix = anotherMatrix.getMatrix();
+
     // rows & columns of the other matrix
-    int otherRows = anotherMatrix.getRows();
-    int otherColumns = anotherMatrix.getCols();
+    int rows2 = anotherMatrix.getRows();
+    int columns2 = anotherMatrix.getCols();
+
     // rows & columns of the resulting matrix
-    int newRows = this->rows;
-    int newColumns = otherColumns;
+    // suppose newRows : rows1, rows3
+    //         newCols : columns2, columns3
+    //         Common  : rows2, columns1
+    int rows3 = this->rows;
+    int columns3 = columns2;
+
+
+    // orders check
+    if( this->columns != rows2 ){
+        printf("Hold up different orders no multiplication for you!\n");
+        exit(0);
+    }
+
+    // shared rows & columns
+    int commons = this->columns;
     // new matrix
     vector< vector<double> > newMatrix;
-    initMatrix(newMatrix, newRows, newColumns);
-    // Multiplying matrix a and b and storing in array mult.
-    for(int row1 = 0; row1 < this->rows; row1++)
-        for(int col2 = 0; col2 < otherColumns; col2++)
-            for(int col1 = 0; col1 < this->columns; col1++){
-                newMatrix[row1][col2] += this->matrix[row1][col1] * otherMatrix[col1][col2];
-            }
+    initMatrix(newMatrix, rows3, columns3);
+    
+    // Multiplying matrix 1 and 2 and storing in matrix 3.
+    for( int row3 = 0; row3 < rows3; row3++ )
+        for( int col3 = 0; col3 < columns3; col3++ )
+            for( int common = 0; common < commons; common++ )
+                newMatrix[row3][col3] += this->matrix[row3][common] * otherMatrix[common][col3];
+
     // finally get the resulting matrix
     return newMatrix;
 }

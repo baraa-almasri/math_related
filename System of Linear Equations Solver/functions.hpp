@@ -23,47 +23,44 @@ void readMatrix(int rows, vector<vector<double> >& matrix){
         // and roll over if condition is true :) 
     }
 }
+// the actual determinant finder :)
 double det(int rows, std::vector<std::vector<double>> mainMatrix){ //wondering why called mainMatrix
     int cols = rows; // for readablity                 //scroll down to see some messed up blin 
     double answer = 0;
     if(rows == 2){
         return ( mainMatrix[0][0] * mainMatrix[1][1] ) - ( mainMatrix[1][0] * mainMatrix[0][1] );
     }
-        
-    else if (rows > 2){
 
-        int newRows, newCols;
-        int cols = rows; // for readablity
-        newRows = rows - 0; // those two where "rows - 1" then I realised that
-        newCols = cols - 0; // this moo ain't working so....
+    int newRows, newCols;
+    newRows = rows - 0; // those two where "rows - 1" then I realised that
+    newCols = cols - 0; // this moo ain't working so....
 
 
-        // first row, alternating columns
-        for(int mainCol = 0; mainCol < cols; mainCol++){
-            std::vector< std::vector<double> > newMatrix;
-            // for future reads :)
-            // I had to stop @ newRows - 1 so the index won't be out of range in the main matrix
-            for(int newRow = 0; newRow < newRows - 1; newRow++){
-                // temporary vector to store columns
-                std::vector<double> tempVector;
+    // first row, alternating columns
+    for(int mainCol = 0; mainCol < cols; mainCol++){
+        std::vector< std::vector<double> > newMatrix;
+        // for future reads :)
+        // I had to stop @ newRows - 1 so the index won't be out of range in the main matrix
+        for(int newRow = 0; newRow < newRows - 1; newRow++){
+            // temporary vector to store columns
+            std::vector<double> tempVector;
                 
-                for(int newCol = 0; newCol < newCols; newCol++){
+            for(int newCol = 0; newCol < newCols; newCol++){
                     
-                    if( newCol != mainCol ){
-                        double temp;
-                        temp = mainMatrix[newRow+1][newCol];
-                        tempVector.push_back(temp);
+                if( newCol != mainCol ){
+                    double temp;
+                    temp = mainMatrix[newRow+1][newCol];
+                    tempVector.push_back(temp);
 
-                    }
                 }
-                // add the temporary vector to the current row of the main 2D vector
-                newMatrix.push_back(tempVector);
-
             }
-            answer += pow(-1, mainCol) * mainMatrix[0][mainCol] * (det(newRows-1, newMatrix));
+            // add the temporary vector to the current row of the main 2D vector
+            newMatrix.push_back(tempVector);
+
         }
-        //printf("LOL Cyka\n");
+        answer += pow(-1, mainCol) * mainMatrix[0][mainCol] * (det(newRows-1, newMatrix));
     }
+
     // finally return the answer when the recieved matrix is 1*1
     return answer;
 

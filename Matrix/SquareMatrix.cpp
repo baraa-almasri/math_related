@@ -86,7 +86,7 @@ SquareMatrix SquareMatrix::operator *= (SquareMatrix anotherMatrix){
 
 // find the determinant of the matrix
 double SquareMatrix::findDeterminant(){
-    return det(rows, matrix);
+    return det( matrix, rows );
 }
 
 
@@ -120,49 +120,50 @@ vector< vector<double> > SquareMatrix::transpose(){
 }
 
 
+/* return cofactor matrix of an element of a matrix */
+vector< vector<double> > SquareMatrix::getCofactor( vector< vector<double> > matrix, int order, int excludedRow, int excludedColumn){
+	/* coofactored matrix  */
+	vector< vector<double> > newMatrix;
+
+	for( int row = 0; row < order; row++ ){
+		vector< double > temp;
+		for( int col = 0; col < order; col++ ){
+			/* if element in the main matrix doesn't intersect with the 
+			 *  excluded row or column then it's added to the cofactor matrix */
+			if( row != excludedRow && col != excludedColumn){
+				//double tempElement = matrix[row][col];
+				temp.push_back(matrix[row][col]);
+			}
+		}
+		/* add the temporary array to the matrix */
+		if( !temp.empty() )
+			newMatrix.push_back(temp);
+	}
+	/* return the cofactor matrix */
+	return newMatrix;
+}
+
 // the actual determinant finder :)
-double SquareMatrix::det(int rows, std::vector<std::vector<double>> mainMatrix){ //wondering why called mainMatrix
-    int cols = rows; // for readablity                 //scroll down to see some messed up blin 
+double SquareMatrix::det( vector<vector<double>> matrix, int order ){ 
     double answer = 0;
-    if(rows == 2){
-        return ( mainMatrix[0][0] * mainMatrix[1][1] ) - ( mainMatrix[1][0] * mainMatrix[0][1] );
+    if( order == 2 ){
+        return ( matrix[0][0] * matrix[1][1] ) - ( matrix[1][0] * matrix[0][1] );
     }
 
-    int newRows, newCols;
-    newRows = rows - 0; // those two where "rows - 1" then I realised that
-    newCols = cols - 0; // this moo ain't working so....
-
-
-    // first row, alternating columns
-    for(int mainCol = 0; mainCol < cols; mainCol++){
-        std::vector< std::vector<double> > newMatrix;
-        // for future reads :)
-        // I had to stop @ newRows - 1 so the index won't be out of range in the main matrix
-        for(int newRow = 0; newRow < newRows - 1; newRow++){
-            // temporary vector to store columns
-            std::vector<double> tempVector;
-                
-            for(int newCol = 0; newCol < newCols; newCol++){
-                    
-                if( newCol != mainCol ){
-                    double temp;
-                    temp = mainMatrix[newRow+1][newCol];
-                    tempVector.push_back(temp);
-
-                }
-            }
-            // add the temporary vector to the current row of the main 2D vector
-            newMatrix.push_back(tempVector);
-
-        }
-        answer += pow(-1, mainCol) * mainMatrix[0][mainCol] * (det(newRows-1, newMatrix));
+    // first row alternating columns
+    for(int mainCol = 0; mainCol < order; mainCol++){
+        vector< vector<double> > newMatrix;
+	/* equaling the new matrix with the cofactor of each element of the first row
+	 * of the main matrix
+	 */
+        newMatrix = getCofactor( matrix , order, 0, mainCol);
+	answer += pow(-1, mainCol) * matrix[0][mainCol] * (det( newMatrix, order - 1 ));
     }
 
     // finally return the answer when the recieved matrix is 1*1
     return answer;
 
 }
-
 
 // this function adds a matrix to the current matrix & returns the added matrix
 vector< vector<double> > SquareMatrix::add( SquareMatrix anotherMatrix ){

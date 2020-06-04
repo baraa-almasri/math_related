@@ -115,7 +115,6 @@ void operationsMenu(SquareMatrix *matricesList[], int noOfMatrices){
                 // printing result matrix value
                 tempMatrix->printMatrix();
                 break;
-            
             case 3:
                 // setting result matrix value
                 newMatrixName = mtrxPtr1->getMatrixName() + " Transpose " ;
@@ -136,7 +135,6 @@ void operationsMenu(SquareMatrix *matricesList[], int noOfMatrices){
                 printf(RESET);
                 printf("Test");
         }
-
     }
 }
 

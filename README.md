@@ -2,7 +2,6 @@
 
 ### Includes
 
-- Calculator
 - System of linear equations solver `for n unknowns` (using carmer's rule) 
 - Vector length finder and normalizer
 - Rounder & Chopper

@@ -1,7 +1,7 @@
 #name of the output file
 #this compiles the object files into an executable file
-matrixProgram: Main.o AuxFunctions.o SquareMatrix.o BasicMatrix.o 
-	clang++ -v Main.o AuxFunctions.o SquareMatrix.o BasicMatrix.o -o matrixProgram
+matrixProgram: Main.o SquareMatrix.o BasicMatrix.o 
+	clang++ -v Main.o SquareMatrix.o BasicMatrix.o -o matrixProgram
 
 #creating object file of the main.cpp
 Main.o: Main.cpp
@@ -18,15 +18,6 @@ SquareMatrix.o: SquareMatrix.cpp
 #creating object file of BasicMatrixIO.cpp
 BasicMatrix.o: BasicMatrix.cpp
 	clang++ -c BasicMatrix.cpp
-
-#creating object file of AuxFunctions.hpp
-AuxFunctions.hpp.gch: AuxFunctions.hpp
-	clang++ -c AuxFunctions.hpp
-
-#creating object file of AuxFunctions.cpp
-AuxFunctions.o: AuxFunctions.cpp
-	clang++ -c AuxFunctions.cpp
-
 
 
 #Note that the (-c) option in gcc or clang compiles the ".cpp"

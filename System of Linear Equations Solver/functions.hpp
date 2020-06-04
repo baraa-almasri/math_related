@@ -23,7 +23,53 @@ void readMatrix(int rows, vector<vector<double> >& matrix){
         // and roll over if condition is true :) 
     }
 }
+/* return cofactor of an element of a matrix */
+vector< vector<double> > getCofactor( vector< vector<double> > matrix, int mainMatrixSize, int excludedRow, int excludedColumn){
+	/* coofactored matrix  */
+	vector< vector<double> > newMatrix;
+
+	for( int row = 0; row < mainMatrixSize; row++ ){
+		vector< double > temp;
+		for( int col = 0; col < mainMatrixSize; col++ ){
+			/* if element in the main matrix doesn't intersect with the 
+			 *  excluded row or column then it's added to the cofactor matrix */
+			if( row != excludedRow && col != excludedColumn){
+				//double tempElement = matrix[row][col];
+				temp.push_back(matrix[row][col]);
+			}
+		}
+		/* add the temporary array to the matrix */
+		if( !temp.empty() )
+			newMatrix.push_back(temp);
+	}
+	/* return the cofactor matrix */
+	return newMatrix;
+}
+
 // the actual determinant finder :)
+double det(int rows, std::vector<std::vector<double>> mainMatrix){ //wondering why called mainMatrix
+    int cols = rows; // for readablity                 //scroll down to see some messed up blin, will be changed :)
+    double answer = 0;
+    if(rows == 2){
+        return ( mainMatrix[0][0] * mainMatrix[1][1] ) - ( mainMatrix[1][0] * mainMatrix[0][1] );
+    }
+
+    // first row, alternating columns
+    for(int mainCol = 0; mainCol < cols; mainCol++){
+        vector< vector<double> > newMatrix;
+	/* equaling the new matrix with the cofactor of each element of the first row
+	 * of the main matrix
+	 */
+        newMatrix = getCofactor( mainMatrix , rows, 0, mainCol);
+	answer += pow(-1, mainCol) * mainMatrix[0][mainCol] * (det(rows - 1, newMatrix));
+    }
+
+    // finally return the answer when the recieved matrix is 1*1
+    return answer;
+
+}
+
+/* the actual determinant finder :)/
 double det(int rows, std::vector<std::vector<double>> mainMatrix){ //wondering why called mainMatrix
     int cols = rows; // for readablity                 //scroll down to see some messed up blin 
     double answer = 0;
@@ -65,7 +111,7 @@ double det(int rows, std::vector<std::vector<double>> mainMatrix){ //wondering w
     return answer;
 
 }
-
+*/
 void solveSystem(int order){
     printf("System of the form a1X1 + a2X2 + .... + anXn = b\n");
 	printf("Enter the coefficents\n"); 

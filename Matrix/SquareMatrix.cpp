@@ -57,11 +57,51 @@ string SquareMatrix::getMatrixName(){
 }
 ////////
 
+// I/O functions:
 
+// read values into the matrix
+void SquareMatrix::readMatrix(){
+    printf("Enter matrix %s elements:\n", matrixName.c_str());
 
-// action functions :)
+    int cols = SquareMatrix::rows; // for readablity
+    for(int row = 0 ; row < rows ; row++){
+        for(int col = 0 ; col < cols ; col++){
+            printf("element%d%d = ", row+1, col+1);
+            scanf("%lf", &matrix[row][col]);
+        }
+        printf("\n");
+    }
+}
 
-// overloaded operators :) :) :)
+// well it's a printing function no comments needed :)
+void SquareMatrix::printMatrix(){
+    //printf("\nMatrix's elements:");
+    printf("\n%s = | ", matrixName.c_str());
+    int cols = SquareMatrix::rows; // for readablity
+    for(int row = 0 ; row < rows ; row++){
+        for(int col = 0 ; col < cols ; col++){
+            std::cout << SquareMatrix::matrix[row][col] << "";
+            std::cout << (col == cols-1 ? " |" : " ");
+        }
+        printf("\n");
+        if( row != rows - 1){
+            printSpaces(matrixName); // print some spaces for formatting :)
+            printf("   | ");
+        }
+    }
+    printf("\n");
+}
+
+// print spaces as same as matrix name, used in "readMatrix()"
+void SquareMatrix::printSpaces(string matrixName){
+    int length = matrixName.length();
+    for (int i = 0; i < length; i++ ){
+        printf(" ");
+    }
+
+}
+
+// actual matrices operations functions:
 
 // add equals a matrix operator
 SquareMatrix SquareMatrix::operator += (SquareMatrix anotherMatrix){
@@ -72,7 +112,6 @@ SquareMatrix SquareMatrix::operator += (SquareMatrix anotherMatrix){
     return newMatrix;
 }
 
-
 // multiply equals a matrix operator
 SquareMatrix SquareMatrix::operator *= (SquareMatrix anotherMatrix){
     // new matrix to hold the result
@@ -81,6 +120,7 @@ SquareMatrix SquareMatrix::operator *= (SquareMatrix anotherMatrix){
     // return the new matrix
     return newMatrix;
 }
+
 // multiply equals a scalar operator
 SquareMatrix SquareMatrix::operator *= (double scalar){
     // new matrix to hold the result
@@ -97,7 +137,6 @@ double SquareMatrix::determinant(){
     return det( matrix, rows );
 }
 
-
 // find the trace of the matrix
 double SquareMatrix::trace(){
     double trace = 0;
@@ -106,7 +145,6 @@ double SquareMatrix::trace(){
     }
     return trace;
 }
-
 
 // find the transpose matrix
 vector< vector<double> > SquareMatrix::transpose(){
@@ -127,9 +165,6 @@ vector< vector<double> > SquareMatrix::transpose(){
 // find the adjoint matrix
 vector< vector<double> > SquareMatrix::adjoint() {
     vector <vector<double>> result;
-    /* the adjoint matrix has the same order of
-     * the original matrix.
-     */
     initMatrix(result, this->rows, this->columns);
 
     for(int row = 0; row < this->rows; row++){
@@ -149,9 +184,6 @@ vector< vector<double> > SquareMatrix::adjoint() {
 // find the inverse matrix
 vector< vector<double> > SquareMatrix::inverse(){
     vector< vector<double> > result;
-    /* the inverse matrix has the same order of
-     * the original matrix.
-     */
     initMatrix(result, this->rows, this->columns);
 
     /* fisrt find adjoint of the main matrix*/
@@ -234,15 +266,15 @@ vector< vector<double> > SquareMatrix::add( SquareMatrix anotherMatrix ){
     otherMatrix = anotherMatrix.getMatrix();
 
     // new matrix
-    vector< vector<double> > newMatrixsArray;
-    initMatrix(newMatrixsArray, rows1, cols1);
+    vector< vector<double> > result;
+    initMatrix(result, rows1, cols1);
 
     for(int row = 0; row < rows1; row++)
         for(int col = 0; col < cols1; col++)
-            newMatrixsArray[row][col] = otherMatrix[row][col] + this->matrix[row][col];
+            result[row][col] = otherMatrix[row][col] + this->matrix[row][col];
 
 
-    return newMatrixsArray;
+    return result;
 }
 
 // multiply the matrix with a given matrix and put the result in a new matrix
@@ -271,26 +303,23 @@ vector< vector<double> > SquareMatrix::multiply( SquareMatrix anotherMatrix ){
     // shared rows & columns
     int commons = this->columns;
     // new matrix
-    vector< vector<double> > newMatrix;
-    initMatrix(newMatrix, rows3, columns3);
+    vector< vector<double> > result;
+    initMatrix(result, rows3, columns3);
 
     // Multiplying matrix 1 and 2 and storing in matrix 3.
     for( int row3 = 0; row3 < rows3; row3++ )
         for( int col3 = 0; col3 < columns3; col3++ )
             for( int common = 0; common < commons; common++ )
-                newMatrix[row3][col3] += this->matrix[row3][common] * otherMatrix[common][col3];
+                result[row3][col3] += this->matrix[row3][common] * otherMatrix[common][col3];
 
     // finally get the resulting matrix
-    return newMatrix;
+    return result;
 }
 
 // multiply the matrix with a given number and put the result in a new matrix
 vector< vector<double> > SquareMatrix::scalarMultiply( double scalar ){
     /* a matrix to store the result */
     vector< vector<double> > result;
-    /* well since it's scaler multiplication then it's the original matrix
-     * but with every element multiplied by the given scalar
-     */
     result = this->matrix;
 
     for( int row = 0; row < this->rows; row++ ){
@@ -300,4 +329,39 @@ vector< vector<double> > SquareMatrix::scalarMultiply( double scalar ){
     }
     /* finally get the result */
     return result;
+}
+
+// initialse a matrix with zeros
+void SquareMatrix::initMatrix(vector< vector<double> > &mtrx, int rows, int columns){
+
+    for(int row = 0 ; row < rows ; row++){
+        // temporary vector to store columns
+        std::vector<double> tempVector;
+        for(int col = 0 ; col < columns ; col++){
+            // add the temporary variable to the temporary vector
+            tempVector.push_back(0);
+        }
+        // add the temporary vector to the current row of the main 2D vector
+        mtrx.push_back(tempVector);
+    }
+    //return mtrx; //blyat what was I thinking :)
+}
+
+
+// returns memory address of the matching matrix name note that it needs exceptiopn 
+// handelling in the main function or wherever the place it's been called from :)
+SquareMatrix *findMatrix(char matrixName[], SquareMatrix **array, int SIZE){ // pointer to pointer i.e pointer to the
+    // array of pointers(objects)
+    for(int i = 0; i < SIZE; i++)
+        //try{
+        if(array[i]->getMatrixName() == matrixName)
+            return array[i];
+        /*}
+        catch (std::logic_error){
+            printf(RED);
+            printf("no such matrix found!\t re-choose!\n");
+            printf(RESET);
+            continue;
+        }*/
+
 }

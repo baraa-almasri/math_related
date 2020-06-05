@@ -54,14 +54,15 @@ int choiceMenu(){
     printf("Available operations(two matrices only):\n");
     printf("1. Addition\n");
     printf("2. Multiplication\n");
-    printf("3. Transpose (of one matrix)\n");
-    printf("4. Determinant (of one matrix)\n");
-    printf("5. Trace (of one matrix)\n");
-    printf("6. exit\n");
+    printf("3. Scalar Multiplication\n");
+    printf("4. Transpose (of one matrix)\n");
+    printf("5. Determinant (of one matrix)\n");
+    printf("6. Trace (of one matrix)\n");
+    printf("7. exit\n");
     int choice;
     printf("Enter your choice:  ");
     scanf("%d", &choice);
-    if(choice == 6){
+    if(choice == 7){
         printf("Have a nice day!\n");
         exit(0);
     }
@@ -100,7 +101,7 @@ void operationsMenu(SquareMatrix *matricesList[], int noOfMatrices){
         // choice maker, hmm....
         switch( choice ){
             case 1:
-                // setting result matrix value
+                // setting result matrix values
                 newMatrixName = mtrxPtr1->getMatrixName() + " + " + mtrxPtr2->getMatrixName();
                 tempMatrix = new SquareMatrix(mtrxPtr1->getRows(), newMatrixName);        
                 tempMatrix->setMatrix( (*mtrxPtr1 += *mtrxPtr2).getMatrix() )  ;
@@ -108,25 +109,36 @@ void operationsMenu(SquareMatrix *matricesList[], int noOfMatrices){
                 tempMatrix->printMatrix();
                 break;
             case 2:
-                // setting result matrix value
-                newMatrixName = mtrxPtr1->getMatrixName() + " x " + mtrxPtr2->getMatrixName();
+                // setting result matrix values
+                newMatrixName = mtrxPtr1->getMatrixName() + " * " + mtrxPtr2->getMatrixName();
                 tempMatrix = new SquareMatrix(mtrxPtr1->getRows(), newMatrixName);        
                 tempMatrix->setMatrix( (*mtrxPtr1 *= *mtrxPtr2).getMatrix() );
                 // printing result matrix value
                 tempMatrix->printMatrix();
                 break;
             case 3:
-                // setting result matrix value
+                printf("enter a scalar:  ");
+                double scalar;
+                scanf("%lf", &scalar);
+                // setting result matrix values
+                newMatrixName = mtrxPtr1->getMatrixName() + " * " + to_string(scalar);
+                tempMatrix = new SquareMatrix(mtrxPtr1->getRows(), newMatrixName);        
+                tempMatrix->setMatrix( (*mtrxPtr1 *= scalar).getMatrix() );
+                // printing result matrix value
+                tempMatrix->printMatrix();
+                break;
+            case 4:
+                // setting result matrix values
                 newMatrixName = mtrxPtr1->getMatrixName() + " Transpose " ;
                 tempMatrix = new SquareMatrix(mtrxPtr1->getRows(), newMatrixName);        
                 tempMatrix->setMatrix( mtrxPtr1->transpose() );
                 // printing result matrix value
                 tempMatrix->printMatrix();
                 break;
-            case 4:
+            case 5:
                 printf("\ndet(%s) = %lf\n\n", mtrxPtr1->getMatrixName().c_str(), mtrxPtr1->findDeterminant());
                 break;
-            case 5:
+            case 6:
                 printf("\ntrace(%s) = %lf\n\n", mtrxPtr1->getMatrixName().c_str(), mtrxPtr1->findTrace());
                 break;
             default:

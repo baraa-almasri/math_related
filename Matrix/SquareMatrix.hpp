@@ -42,9 +42,12 @@ public:
     // add equals a matrix operator
     SquareMatrix operator += (SquareMatrix anotherMatrix);
     
-    // muliply equals a matrix operator
+    // multiply equals a matrix operator
     SquareMatrix operator *= (SquareMatrix anotherMatrix);
 
+    // multiply equals a scalar operator
+    SquareMatrix operator *= (double scalar);
+    
     // find the determinant of the matrix
     double findDeterminant();
     
@@ -71,19 +74,22 @@ private:
     double det( std::vector<std::vector<double>> matrix, int rows );
 
     // cofactor function
-    vector< vector<double> > getCofactor( vector< vector<double> > matrix, int order, int excludedRow, int excludedColumn);
+    vector< vector<double> > getCofactor( vector< vector<double> > matrix, int order, int excludedRow, int excludedColumn );
 
     // initialse a matrix with zeros
-    void initMatrix(vector< vector<double> > &mtrx, int rows, int columns);
+    void initMatrix(vector< vector<double> > &mtrx, int rows, int columns );
 
     // print spaces as same as matrix name
     void printSpaces(string matrixName);
 
     // this function adds a matrix to the current matrix & returns the added matrix
-    vector< vector<double> > add(SquareMatrix anotherMatrix);
+    vector< vector<double> > add(SquareMatrix anotherMatrix );
 
     // multiply the matrix with a given matrix and put the result in a new matrix
-    vector< vector<double> > multiply( SquareMatrix anotherMatrix);
+    vector< vector<double> > multiply( SquareMatrix anotherMatrix );
+
+    // multiply the matrix with a given number and put the result in a new matrix
+    vector< vector<double> > scalarMultiply( double scalar );
 
 };
 // end of class

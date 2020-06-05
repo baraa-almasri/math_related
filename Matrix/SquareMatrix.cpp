@@ -73,11 +73,19 @@ SquareMatrix SquareMatrix::operator += (SquareMatrix anotherMatrix){
 }
 
 
-// muliply equals a matrix operator
+// multiply equals a matrix operator
 SquareMatrix SquareMatrix::operator *= (SquareMatrix anotherMatrix){
     // new matrix to hold the result
     SquareMatrix newMatrix = *this; // has the info of the first operand so ther's no need for "initMatrix()"
     newMatrix.setMatrix( multiply(anotherMatrix) );
+    // return the new matrix
+    return newMatrix;
+}
+// multiply equals a scalar operator
+SquareMatrix SquareMatrix::operator *= (double scalar){
+    // new matrix to hold the result
+    SquareMatrix newMatrix = *this; // has the info of the first operand so ther's no need for "initMatrix()"
+    newMatrix.setMatrix( scalarMultiply(scalar) );
     // return the new matrix
     return newMatrix;
 }
@@ -211,7 +219,6 @@ vector< vector<double> > SquareMatrix::multiply( SquareMatrix anotherMatrix ){
     int rows3 = this->rows;
     int columns3 = columns2;
 
-
     // orders check
     if( this->columns != rows2 ){
         printf("Hold up different orders no multiplication for you!\n");
@@ -232,4 +239,23 @@ vector< vector<double> > SquareMatrix::multiply( SquareMatrix anotherMatrix ){
 
     // finally get the resulting matrix
     return newMatrix;
+}
+
+// multiply the matrix with a given number and put the result in a new matrix
+vector< vector<double> > SquareMatrix::scalarMultiply( double scalar ){
+    /* a matrix to store the result */
+    vector< vector<double> > result;
+    initMatrix(result, this->rows, this->columns);
+    /* well since it's scaler multiplication then it's the original matrix
+     * but with every element multiplied by the given scalar
+     */
+    result = this->getMatrix();
+
+    for( int row = 0; row < this->rows; row++ ){
+        for( int col = 0; col < this->columns; col++ ){
+            result[row][col] *= scalar;
+        }
+    }
+    /* finally get the result */
+    return result;
 }

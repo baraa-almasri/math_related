@@ -1,4 +1,4 @@
-#include "SquareMatrix.hpp" // headers already included there :)
+#include "SquareMatrix.h" // headers already included there :)
 using namespace std;
 
 // constructors
@@ -23,7 +23,7 @@ SquareMatrix SquareMatrix::setRows(int rows){
         this->rows = rows;
     // return object of the same class
     return *this;
-}    
+}
 int SquareMatrix::getRows(){
     return this->rows;
 }
@@ -35,7 +35,7 @@ SquareMatrix SquareMatrix::setCols(int cols){
         this->columns = cols;
     // return object of the same class
     return *this;
-}    
+}
 int SquareMatrix::getCols(){
     return this->columns;
 }
@@ -93,13 +93,13 @@ SquareMatrix SquareMatrix::operator *= (double scalar){
 
 
 // find the determinant of the matrix
-double SquareMatrix::findDeterminant(){
+double SquareMatrix::determinant(){
     return det( matrix, rows );
 }
 
 
 // find the trace of the matrix
-double SquareMatrix::findTrace(){
+double SquareMatrix::trace(){
     double trace = 0;
     for(int diagonal = 0; diagonal < rows; diagonal++){
         trace += matrix[diagonal][diagonal];
@@ -112,47 +112,90 @@ double SquareMatrix::findTrace(){
 vector< vector<double> > SquareMatrix::transpose(){
     int new_rows = SquareMatrix::columns;
     int new_columns = SquareMatrix::rows;
-    
+
     vector< vector<double> > transposedMatrix;
     initMatrix(transposedMatrix, new_rows, new_columns);
-    
+
     for(int row = 0; row < new_rows; row++){
         for(int col = 0; col < new_columns; col++){
             transposedMatrix[row][col] = matrix[col][row];
         }
-            
     }
-
     return transposedMatrix;
-
 }
 
+// find the adjoint matrix
+vector< vector<double> > SquareMatrix::adjoint() {
+    vector <vector<double>> result;
+    /* the adjoint matrix has the same order of
+     * the original matrix.
+     */
+    initMatrix(result, this->rows, this->columns);
+
+    for(int row = 0; row < this->rows; row++){
+        for (int col = 0; col < this->columns ; col++) {
+            vector< vector<double> > cofactor;
+            cofactor = getCofactor(this->matrix, this->rows, row, col);
+            /* instead of taking the transpose of the result
+             * matrix, store the values as they are transposed :)
+             */
+            result[col][row] = pow(-1, (row+1)+(col+1)) * det(cofactor, this->rows - 1);
+        }
+    }
+    /* finally get the result */
+    return result;
+}
+
+// find the inverse matrix
+vector< vector<double> > SquareMatrix::inverse(){
+    vector< vector<double> > result;
+    /* the inverse matrix has the same order of
+     * the original matrix.
+     */
+    initMatrix(result, this->rows, this->columns);
+
+    /* fisrt find adjoint of the main matrix*/
+    vector< vector<double> > adjointMatrix;
+    adjointMatrix = adjoint();
+    /* second find the determinant of the main matrix*/
+    const double DET = determinant();
+    /* then find the inverse by dividing each element of the
+     * adjoint matrix over the determinant
+     */
+    for(int row = 0; row < this->rows; row++){
+        for (int col = 0; col < this->columns ; col++) {
+            result[row][col] = adjointMatrix[row][col]/DET;
+        }
+    }
+    /* finally get the result */
+    return result;
+}
 
 /* return cofactor matrix of an element of a matrix */
 vector< vector<double> > SquareMatrix::getCofactor( vector< vector<double> > matrix, int order, int excludedRow, int excludedColumn){
-	/* coofactored matrix  */
-	vector< vector<double> > newMatrix;
+    /* cofactored matrix  */
+    vector< vector<double> > newMatrix;
 
-	for( int row = 0; row < order; row++ ){
-		vector< double > temp;
-		for( int col = 0; col < order; col++ ){
-			/* if element in the main matrix doesn't intersect with the 
-			 *  excluded row or column then it's added to the cofactor matrix */
-			if( row != excludedRow && col != excludedColumn){
-				//double tempElement = matrix[row][col];
-				temp.push_back(matrix[row][col]);
-			}
-		}
-		/* add the temporary array to the matrix */
-		if( !temp.empty() )
-			newMatrix.push_back(temp);
-	}
-	/* return the cofactor matrix */
-	return newMatrix;
+    for( int row = 0; row < order; row++ ){
+        vector< double > temp;
+        for( int col = 0; col < order; col++ ){
+            /* if element in the main matrix doesn't intersect with the
+             *  excluded row or column then it's added to the cofactor matrix */
+            if( row != excludedRow && col != excludedColumn){
+                //double tempElement = matrix[row][col];
+                temp.push_back(matrix[row][col]);
+            }
+        }
+        /* add the temporary array to the matrix */
+        if( !temp.empty() )
+            newMatrix.push_back(temp);
+    }
+    /* return the cofactor matrix */
+    return newMatrix;
 }
 
 // the actual determinant finder :)
-double SquareMatrix::det( vector<vector<double>> matrix, int order ){ 
+double SquareMatrix::det( vector<vector<double>> matrix, int order ){
     double answer = 0;
     if( order == 2 ){
         return ( matrix[0][0] * matrix[1][1] ) - ( matrix[1][0] * matrix[0][1] );
@@ -161,11 +204,11 @@ double SquareMatrix::det( vector<vector<double>> matrix, int order ){
     // first row alternating columns
     for(int mainCol = 0; mainCol < order; mainCol++){
         vector< vector<double> > newMatrix;
-	/* equaling the new matrix with the cofactor of each element of the first row
-	 * of the main matrix
-	 */
+        /* equaling the new matrix with the cofactor of each element of the first row
+         * of the main matrix
+         */
         newMatrix = getCofactor( matrix , order, 0, mainCol);
-	answer += pow(-1, mainCol) * matrix[0][mainCol] * (det( newMatrix, order - 1 ));
+        answer += pow(-1, mainCol) * matrix[0][mainCol] * (det( newMatrix, order - 1 ));
     }
 
     // finally return the answer when the recieved matrix is 1*1
@@ -197,8 +240,8 @@ vector< vector<double> > SquareMatrix::add( SquareMatrix anotherMatrix ){
     for(int row = 0; row < rows1; row++)
         for(int col = 0; col < cols1; col++)
             newMatrixsArray[row][col] = otherMatrix[row][col] + this->matrix[row][col];
-        
-    
+
+
     return newMatrixsArray;
 }
 
@@ -230,7 +273,7 @@ vector< vector<double> > SquareMatrix::multiply( SquareMatrix anotherMatrix ){
     // new matrix
     vector< vector<double> > newMatrix;
     initMatrix(newMatrix, rows3, columns3);
-    
+
     // Multiplying matrix 1 and 2 and storing in matrix 3.
     for( int row3 = 0; row3 < rows3; row3++ )
         for( int col3 = 0; col3 < columns3; col3++ )
@@ -245,11 +288,10 @@ vector< vector<double> > SquareMatrix::multiply( SquareMatrix anotherMatrix ){
 vector< vector<double> > SquareMatrix::scalarMultiply( double scalar ){
     /* a matrix to store the result */
     vector< vector<double> > result;
-    initMatrix(result, this->rows, this->columns);
     /* well since it's scaler multiplication then it's the original matrix
      * but with every element multiplied by the given scalar
      */
-    result = this->getMatrix();
+    result = this->matrix;
 
     for( int row = 0; row < this->rows; row++ ){
         for( int col = 0; col < this->columns; col++ ){

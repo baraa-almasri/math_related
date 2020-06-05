@@ -1,5 +1,5 @@
-#ifndef SQUAREMATRIX_HPP
-#define SQUAREMATRIX_HPP
+#ifndef SQUAREMATRIX_H
+#define SQUAREMATRIX_H
 //matrix class by Baraa Al-Masri
 #include <stdio.h>
 #include <vector>
@@ -17,7 +17,7 @@ public:
     // lame setters & getters
     SquareMatrix setRows(int rows);
     int getRows();
-    
+
     SquareMatrix setCols(int cols);
     int getCols();
     //
@@ -28,7 +28,7 @@ public:
     string getMatrixName();
     ////////
 
-    
+
     // read values into the matrix
     void readMatrix();
 
@@ -41,22 +41,27 @@ public:
 
     // add equals a matrix operator
     SquareMatrix operator += (SquareMatrix anotherMatrix);
-    
+
     // multiply equals a matrix operator
     SquareMatrix operator *= (SquareMatrix anotherMatrix);
 
     // multiply equals a scalar operator
     SquareMatrix operator *= (double scalar);
-    
+
     // find the determinant of the matrix
-    double findDeterminant();
-    
+    double determinant();
+
     // find the trace of the matrix
-    double findTrace();
+    double trace();
 
     // find the transpose matrix
     vector< vector<double> > transpose();
 
+    // find the adjugate matrix
+    vector< vector<double> > adjoint();
+
+    // find the inverse matrix
+    vector< vector<double> > inverse();
 
     // end of functions, well I lied :)    
     ////////////////

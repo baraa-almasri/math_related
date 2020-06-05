@@ -1,14 +1,14 @@
 #name of the output file
 #this compiles the object files into an executable file
-matrixProgram: Main.o SquareMatrix.o BasicMatrix.o 
-	clang++ -v Main.o SquareMatrix.o BasicMatrix.o -o matrixProgram
+matrixProgram: main.o SquareMatrix.o BasicMatrix.o 
+	clang++ -v main.o SquareMatrix.o BasicMatrix.o -o matrixProgram
 
 #creating object file of the main.cpp
-Main.o: Main.cpp
-	clang++ -c Main.cpp
+main.o: main.cpp
+	clang++ -c main.cpp
 
 #creating object file of SquareMatrix.hpp
-SquareMatrix.hpp.gch: SquareMatrix.hpp
+SquareMatrix.h.gch: SquareMatrix.h
 	clang++ -c SquareMatrix.hpp
 
 #creating object file of SquareMatrix.cpp
@@ -29,4 +29,4 @@ clean:
 	rm *.gch
 # use gcc instead
 gcc:
-	g++ Main.cpp AuxFunctions.hpp AuxFunctions.cpp SquareMatrix.hpp SquareMatrix.cpp BasicMatrix.cpp -o matrixProgram
+	g++ Main.cpp AuxFunctions.h AuxFunctions.cpp SquareMatrix.h SquareMatrix.cpp BasicMatrix.cpp -o matrixProgram

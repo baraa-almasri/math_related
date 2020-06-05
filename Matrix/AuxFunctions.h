@@ -15,10 +15,15 @@ using namespace std; // standard namespace
 void welcome(){
     // clear screen equivalent
     cout << string(100, '\n');
-    printf("----------------------------\n");
-    printf("-= The Big Matrix Program =-\n");
-    printf("----------------------------\n\n");
-    printf("press enter to continue....");
+    puts("#     ###  #  #  ###   ### #     ##  #     #");
+    puts("#    #   # ## # #     #    #    #  # #  #  #");
+    puts("#    #   # # ## #  ## #    #    #### # # # #");
+    puts("####  ###  #  #  ###   ### #### #  #  #   #");
+    
+    puts("\n      Longcalw Terminal Matrix Program");
+    puts("\n      By Baraa Al-Masri . version 0.7 ");
+    
+    puts("\n\n      press enter to continue....");
     cin.ignore();
     // clear screen equivalent
     cout << string(100, '\n');

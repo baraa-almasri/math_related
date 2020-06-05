@@ -1,3 +1,20 @@
+/*-----------------------------------------------------------------------------
+ *Created by Baraa Al-Masri | E-Mail : baraa.masri@asu.edu.jo | Twitter : @baraa_c137
+ *Grab me a cup of coffee : https://www.paypal.me/baraamasri
+ *Contributer: Baraa Al-Masri
+ *------------------------------------------------------------------------------
+ *This program is free software: you can redistribute it and/or modify
+ *it under the terms of the GNU General Public License as published by
+ *the Free Software Foundation, either version 2 of the License, or
+ *(at your option) any later version.
+ *This program is distributed in the hope that it will be useful,
+ *but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *GNU General Public License for more details.
+ *You should have received a copy of the GNU General Public License
+ *along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *-------------------------------------------------------------------------------
+ */
 #ifndef SQUAREMATRIX_H
 #define SQUAREMATRIX_H
 //matrix class by Baraa Al-Masri
@@ -28,16 +45,15 @@ public:
     string getMatrixName();
     ////////
 
+    // I/O functions:
 
     // read values into the matrix
     void readMatrix();
 
-    // well it's a printing function no comments needed :)
+    // print values from matrix
     void printMatrix();
 
-    // action functions :)
-
-    // overloaded operators :) :) :)
+    // actual matrices operations functions
 
     // add equals a matrix operator
     SquareMatrix operator += (SquareMatrix anotherMatrix);
@@ -98,8 +114,6 @@ private:
 
 };
 // end of class
-
-// some sort of linear search function
 
 // returns memory address of the matching matrix name
 // note that it need excepyiopn handelling in the main function :)

@@ -1,7 +1,7 @@
 #name of the output file
 #this compiles the object files into an executable file
-matrixProgram: main.o SquareMatrix.o 
-	clang++ -v main.o SquareMatrix.o -o matrixProgram
+longclaw: main.o SquareMatrix.o 
+	clang++ -v main.o SquareMatrix.o -o longclaw
 
 #creating object file of the main.cpp
 main.o: main.cpp

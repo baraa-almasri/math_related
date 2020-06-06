@@ -17,6 +17,10 @@
  */
 #include "SquareMatrix.h" // headers already included there :)
 using namespace std;
+// red color output
+#define RED "\033[31m"
+// reset color output
+#define RESET "\033[0m"
 
 // constructors
 SquareMatrix::SquareMatrix(int order, string matrixName){
@@ -367,18 +371,12 @@ void SquareMatrix::initMatrix(vector< vector<double> > &mtrx, int rows, int colu
 
 // returns memory address of the matching matrix name note that it needs exceptiopn 
 // handelling in the main function or wherever the place it's been called from :)
-SquareMatrix *findMatrix(char matrixName[], SquareMatrix **array, int SIZE){ // pointer to pointer i.e pointer to the
+SquareMatrix *findMatrix(char matrixName[], SquareMatrix **array, const int SIZE){ 
+    // pointer to pointer i.e pointer to the
     // array of pointers(objects)
     for(int i = 0; i < SIZE; i++)
-        //try{
         if(array[i]->getMatrixName() == matrixName)
             return array[i];
-        /*}
-        catch (std::logic_error){
-            printf(RED);
-            printf("no such matrix found!\t re-choose!\n");
-            printf(RESET);
-            continue;
-        }*/
+        
     return nullptr;
 }

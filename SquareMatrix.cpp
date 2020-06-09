@@ -82,7 +82,7 @@ string SquareMatrix::getMatrixName(){
 
 // read values into the matrix
 void SquareMatrix::readMatrix(){
-    printf("Enter matrix %s elements:\n", matrixName.c_str());
+    printf("Enter matrix %s elements:\n", this->matrixName.c_str());
 
     int cols = SquareMatrix::rows; // for readablity
     for(int row = 0 ; row < rows ; row++){
@@ -96,7 +96,6 @@ void SquareMatrix::readMatrix(){
 
 // well it's a printing function no comments needed :)
 void SquareMatrix::printMatrix(){
-    //printf("\nMatrix's elements:");
     printf("\n%s = | ", matrixName.c_str());
     int cols = SquareMatrix::rows; // for readablity
     for(int row = 0 ; row < rows ; row++){
@@ -169,8 +168,8 @@ double SquareMatrix::trace(){
 
 // find the transpose matrix
 vector< vector<double> > SquareMatrix::transpose(){
-    int new_rows = SquareMatrix::columns;
-    int new_columns = SquareMatrix::rows;
+    int new_rows = this->columns;
+    int new_columns = this->rows;
 
     vector< vector<double> > transposedMatrix;
     initMatrix(transposedMatrix, new_rows, new_columns);
@@ -226,7 +225,7 @@ vector< vector<double> > SquareMatrix::inverse(){
 
 /* return cofactor matrix of an element of a matrix */
 vector< vector<double> > SquareMatrix::getCofactor( vector< vector<double> > matrix, int order, int excludedRow, int excludedColumn){
-    /* cofactored matrix  */
+    // cofactored matrix  
     vector< vector<double> > newMatrix;
 
     for( int row = 0; row < order; row++ ){
@@ -250,11 +249,15 @@ vector< vector<double> > SquareMatrix::getCofactor( vector< vector<double> > mat
 // the actual determinant finder :)
 double SquareMatrix::det( vector<vector<double>> matrix, int order ){
     double answer = 0;
+    // if order is 1x1 return the oly element in the matrix
+    if( order == 1){
+        return matrix[0][0];
+    }
+    // if order is 2x2 calcuate the order in the basic way
     if( order == 2 ){
         return ( matrix[0][0] * matrix[1][1] ) - ( matrix[1][0] * matrix[0][1] );
     }
-
-    // first row alternating columns
+    // targeted first row 
     for(int mainCol = 0; mainCol < order; mainCol++){
         vector< vector<double> > newMatrix;
         /* equaling the new matrix with the cofactor of each element of the first row
@@ -272,14 +275,16 @@ double SquareMatrix::det( vector<vector<double>> matrix, int order ){
 // this function adds a matrix to the current matrix & returns the added matrix
 vector< vector<double> > SquareMatrix::add( SquareMatrix anotherMatrix ){
     // orders check
-    int rows1 = this->getRows();
-    int cols1 = this->getCols();
+    int rows1 = this->rows;
+    int cols1 = this->columns;
     int rows2 = anotherMatrix.getRows();
     int cols2 = anotherMatrix.getCols();
 
     if( rows1 != rows2 && cols1 != cols2 ){
         printf("Hold up different orders no sum for you!\n");
-        exit(0);
+        // trying this hopfully it'll work :)
+        return this->matrix;
+        //exit(0);
     }
 
     // anotherMatrix's 2D array
@@ -318,7 +323,9 @@ vector< vector<double> > SquareMatrix::multiply( SquareMatrix anotherMatrix ){
     // orders check
     if( this->columns != rows2 ){
         printf("Hold up different orders no multiplication for you!\n");
-        exit(0);
+        // trying this hopfully it'll work :)
+        return this->matrix;
+        //exit(0);
     }
 
     // shared rows & columns
@@ -339,7 +346,7 @@ vector< vector<double> > SquareMatrix::multiply( SquareMatrix anotherMatrix ){
 
 // multiply the matrix with a given number and put the result in a new matrix
 vector< vector<double> > SquareMatrix::scalarMultiply( double scalar ){
-    /* a matrix to store the result */
+    // a matrix to store the result 
     vector< vector<double> > result;
     result = this->matrix;
 
@@ -348,7 +355,7 @@ vector< vector<double> > SquareMatrix::scalarMultiply( double scalar ){
             result[row][col] *= scalar;
         }
     }
-    /* finally get the result */
+    // finally get the result 
     return result;
 }
 
@@ -357,13 +364,13 @@ void SquareMatrix::initMatrix(vector< vector<double> > &mtrx, int rows, int colu
 
     for(int row = 0 ; row < rows ; row++){
         // temporary vector to store columns
-        std::vector<double> tempVector;
+        vector<double> temp;
         for(int col = 0 ; col < columns ; col++){
             // add the temporary variable to the temporary vector
-            tempVector.push_back(0);
+            temp.push_back(0);
         }
         // add the temporary vector to the current row of the main 2D vector
-        mtrx.push_back(tempVector);
+        mtrx.push_back(temp);
     }
     //return mtrx; //blyat what was I thinking :)
 }
@@ -371,8 +378,6 @@ void SquareMatrix::initMatrix(vector< vector<double> > &mtrx, int rows, int colu
 
 // returns memory address of the matching matrix name
 SquareMatrix *findMatrix(char matrixName[], SquareMatrix **array, const int SIZE){ 
-    // pointer to pointer i.e pointer to the
-    // array of pointers(objects)
     for(int i = 0; i < SIZE; i++)
         if(array[i]->getMatrixName() == matrixName)
             return array[i];

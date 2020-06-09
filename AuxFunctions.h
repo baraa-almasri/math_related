@@ -11,6 +11,22 @@ using namespace std; // standard namespace
 // reset color output
 #define RESET "\033[0m"
 
+// necessary for some reason :)
+void hold(){
+    puts("\n\tpress enter to continue....");
+    // getchar is used to input a character
+    while(getchar() != '\n');
+}
+
+// cross platform clear screen
+void clear(){
+    int counter = 0;
+    while(counter < 100){
+        puts("\n");
+        counter++;
+    }
+}
+
 // welcome screen
 void welcome(){
     // clear screen equivalent
@@ -20,13 +36,11 @@ void welcome(){
     puts("#    #   # # ## #  ## #    #    #### # # # #");
     puts("####  ###  #  #  ###   ### #### #  #  #   #");
     
-    puts("\n      Longcalw Terminal Matrix Program");
-    puts("\n      By Baraa Al-Masri . version 0.7 ");
+    puts("\n\tLongcalw Terminal Matrix Program");
+    puts("\n\tBy Baraa Al-Masri . version 0.7 ");
     
-    puts("\n\n      press enter to continue....");
-    cin.ignore();
-    // clear screen equivalent
-    cout << string(100, '\n');
+    hold();
+    clear();
 }
 
 // enter matrices data
@@ -49,7 +63,6 @@ void matricesInput(SquareMatrix *matricesList[], int noOfMatrices){
 
 }
 
-
 // list available matrices
 void listMatrices(SquareMatrix *matricesList[], int noOfMatrices){
     printf("available matrices:\n");
@@ -57,6 +70,7 @@ void listMatrices(SquareMatrix *matricesList[], int noOfMatrices){
         matricesList[index]->printMatrix();
     }
 }
+
 // menu
 int choiceMenu(){
     printf("Available operations(two operand matrices max):\n");
@@ -108,7 +122,7 @@ void operationsMenu(SquareMatrix *matricesList[], int noOfMatrices){
         }
         // a matrix to hold the reulting answers & its name
         SquareMatrix *tempMatrix;
-        std::string newMatrixName;
+        string newMatrixName;
         // choice maker, hmm....
         switch( choice ){
             case 1:

@@ -116,7 +116,6 @@ private:
 // end of class
 
 // returns memory address of the matching matrix name
-// note that it need excepyiopn handelling in the main function :)
 SquareMatrix *findMatrix(char matrixName[], SquareMatrix **array, int SIZE);
 
 #endif 

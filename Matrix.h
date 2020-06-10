@@ -31,11 +31,10 @@ public:
     // constructors
     Matrix(int rows, int columns, string matrixName);
     Matrix();
-
     // lame setters & getters
     Matrix setRows(int rows);
     int getRows();
-
+    //
     Matrix setCols(int cols);
     int getCols();
     //
@@ -45,12 +44,10 @@ public:
     Matrix setMatrixName(string matrixName);
     string getMatrixName();
     ////////
-
     // I/O functions:
 
     // read values into the matrix
     void readMatrix();
-
     // print values from matrix
     void printMatrix();
 
@@ -58,13 +55,10 @@ public:
 
     // add equals a matrix operator
     Matrix operator += (Matrix anotherMatrix);
-
     // multiply equals a matrix operator
     Matrix operator *= (Matrix anotherMatrix);
-
     // multiply equals a scalar operator
     Matrix operator *= (double scalar);
-    
     // find the transpose matrix
     vector< vector<double> > transpose();
     
@@ -82,25 +76,18 @@ protected:
     // determinant finder, it's private so the object function call is not parameterized :)
     // otherwise it'll get messy like a bee hive
     double det( vector<vector<double>> matrix, int rows );
-
     // cofactor function
     vector< vector<double> > getCofactor( vector< vector<double> > matrix, int order, int excludedRow, int excludedColumn );
-
     // initialse a matrix with zeros
     void initMatrix(vector< vector<double> > &mtrx, int rows, int columns );
-
     // print spaces as same as matrix name
     void printSpaces(string matrixName);
-
     // this function adds a matrix to the current matrix & returns the added matrix
     vector< vector<double> > add(Matrix anotherMatrix );
-
     // multiply the matrix with a given matrix and put the result in a new matrix
     vector< vector<double> > multiply( Matrix anotherMatrix );
-
     // multiply the matrix with a given number and put the result in a new matrix
     vector< vector<double> > scalarMultiply( double scalar );
-
 };
 // end of class
 

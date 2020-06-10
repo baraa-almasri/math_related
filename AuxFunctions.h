@@ -35,10 +35,10 @@ void welcome(){
     puts("#    #   # ## # #     #    #    #  # #  #  #");
     puts("#    #   # # ## #  ## #    #    #### # # # #");
     puts("####  ###  #  #  ###   ### #### #  #  #   #");
-    
+
     puts("\n\tLongcalw Terminal Matrix Program");
     puts("\n\tBy Baraa Al-Masri . version 0.7 ");
-    
+
     hold();
     clear();
 }
@@ -110,7 +110,7 @@ void operationsMenu(SquareMatrix *matricesList[], int noOfMatrices){
         printf("name1:  ");
         scanf("%s", &name1);
         // set matrix pointer as matrix name
-        mtrxPtr1 = findMatrix(name1, matricesList, noOfMatrices);
+        mtrxPtr1 = (SquareMatrix*)findMatrix(name1, (Matrix**)matricesList, noOfMatrices);
 
         if (choice < 3){
             // name of the second operand matrix(well if exists)
@@ -118,7 +118,7 @@ void operationsMenu(SquareMatrix *matricesList[], int noOfMatrices){
             printf("name2:  ");
             scanf("%s", &name2);
             // set matrix pointer as matrix name
-            mtrxPtr2 = findMatrix(name2, matricesList, noOfMatrices);
+            mtrxPtr2 = (SquareMatrix*)findMatrix(name2, (Matrix**)matricesList, noOfMatrices);
         }
         // a matrix to hold the reulting answers & its name
         SquareMatrix *tempMatrix;

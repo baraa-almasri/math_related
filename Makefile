@@ -1,11 +1,19 @@
 #name of the output file
 #this compiles the object files into an executable file
-longclaw: longclaw.o SquareMatrix.o 
-	clang++ -v longclaw.o SquareMatrix.o -o longclaw
+longclaw: longclaw.o Matrix.o SquareMatrix.o 
+	clang++ -v longclaw.o Matrix.o SquareMatrix.o -o longclaw
 
 #creating object file of the main.cpp
 longclaw.o: longclaw.cpp
 	clang++ -c longclaw.cpp
+
+#creating object file of Matrix.hpp
+Matrix.h.gch: Matrix.h
+	clang++ -c Matrix.hpp
+
+#creating object file of Matrix.cpp
+Matrix.o: Matrix.cpp
+	clang++ -c Matrix.cpp
 
 #creating object file of SquareMatrix.hpp
 SquareMatrix.h.gch: SquareMatrix.h
@@ -22,7 +30,7 @@ SquareMatrix.o: SquareMatrix.cpp
 #the action clean clears the directory as seen
 clean:
 	rm *.o
-	#rm *.gch
+	rm *.gch
 # or use gcc instead
 gcc:
-	g++ longclaw.cpp AuxFunctions.h AuxFunctions.cpp SquareMatrix.h SquareMatrix.cpp -o matrixProgram
+	g++ longclaw.cpp AuxFunctions.h Matrix.h Matrix.cpp SquareMatrix.h SquareMatrix.cpp -o matrixProgram

@@ -73,11 +73,6 @@ protected:
     int columns;
     string matrixName;
 
-    // determinant finder, it's private so the object function call is not parameterized :)
-    // otherwise it'll get messy like a bee hive
-    double det( vector<vector<double>> matrix, int rows );
-    // cofactor function
-    vector< vector<double> > getCofactor( vector< vector<double> > matrix, int order, int excludedRow, int excludedColumn );
     // initialse a matrix with zeros
     void initMatrix(vector< vector<double> > &mtrx, int rows, int columns );
     // print spaces as same as matrix name

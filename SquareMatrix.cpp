@@ -24,19 +24,12 @@ using namespace std;
 
 // constructors
 SquareMatrix::SquareMatrix(int order, string matrixName): Matrix(order, order, matrixName){
-    /*setRows(order);
-    setCols(order);
-    initMatrix(SquareMatrix::matrix, order, order);
-    setMatrixName(matrixName);
-*/}
-SquareMatrix::SquareMatrix(): Matrix(){
-  /*  setRows(1);
-    setCols(1);
-    initMatrix(SquareMatrix::matrix, 1, 1);
-    setMatrixName("M");
-*/}
 
-// actual matrices operations functions:
+}
+SquareMatrix::SquareMatrix(): Matrix(){
+
+}
+
 // square matrix specials
 
 // find the determinant of the matrix

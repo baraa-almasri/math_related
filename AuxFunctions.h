@@ -83,20 +83,21 @@ void listMatrices(Matrix *matricesList[], int noOfMatrices){
 
 // menu
 int choiceMenu(){
-    printf("Available operations(two operand matrices max):\n");
-    printf("1. Addition\n");
-    printf("2. Multiplication\n");
-    printf("3. Scalar Multiplication\n");
-    printf("4. Matrix Transpose\n");
-    printf("5. Matrix Determinant\n");
-    printf("6. Matrix Trace\n");
-    printf("7. Adjoint Matrix\n");
-    printf("8. Matrix Inverse\n");
-    printf("9. exit\n");
+    puts("Available operations(two operand matrices max):\n");
+    puts("1. Addition");
+    puts("2. Multiplication");
+    puts("3. Scalar Multiplication");
+    puts("4. Matrix Transpose");
+    puts("5. Matrix Determinant");
+    puts("6. Matrix Trace");
+    puts("7. Adjoint Matrix");
+    puts("8. Matrix Inverse");
+    puts("9. Power of matrix");
+    puts("10. exit");
     int choice;
     printf("Enter your choice:  ");
     scanf("%d", &choice);
-    if(choice == 9){
+    if(choice == 10){
         printf("Have a nice day!\n");
         exit(0);
     }
@@ -198,6 +199,13 @@ void operationsMenu(Matrix *matricesList[], int noOfMatrices){
                 tempMatrix->setMatrix( mtrxPtr1->inverse() );
                 // printing result matrix value
                 tempMatrix->printMatrix();
+                break;
+            
+            case 9:
+                printf("enter power:  ");
+                double power;
+                scanf("%lf", &power);
+                mtrxPtr1->power(power).printMatrix();
                 break;
 
             default:

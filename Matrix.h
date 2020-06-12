@@ -61,7 +61,9 @@ public:
     Matrix operator *= (double scalar);
     // find the transpose matrix
     vector< vector<double> > transpose();
-    
+    // power of matrix
+    Matrix power(double exp);
+
     // end of functions, well I lied :)    
     ////////////////
 

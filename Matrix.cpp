@@ -241,6 +241,24 @@ vector< vector<double> > Matrix::multiply( Matrix anotherMatrix ){
     return result;
 }
 
+
+// multiply the matrix with a given matrix and put the result in a new matrix
+Matrix Matrix::power( double exponent ){
+    Matrix *result = this;
+    static int counter = 0;
+    if (!(counter > 0)){
+        // set name here so it wont be done several times :)
+        string resultName = getMatrixName() + " ^ " + to_string(exponent); 
+        result->setMatrixName(resultName);
+    }
+
+    if ( exponent == 1 ){       
+        return *result;
+    }
+    counter++;        
+    return *result *= power( exponent - 1);
+}
+
 // multiply the matrix with a given number and put the result in a new matrix
 vector< vector<double> > Matrix::scalarMultiply( double scalar ){
     // a matrix to store the result 

@@ -28,7 +28,7 @@ void clear(){
 }
 
 // welcome screen
-void welcome(){
+void printWelcomeScreen(){
     // clear screen equivalent
     cout << string(100, '\n');
     puts("#     ###  #  #  ###   ### #     ##  #     #");
@@ -37,26 +37,36 @@ void welcome(){
     puts("####  ###  #  #  ###   ### #### #  #  #   #");
 
     puts("\n\tLongcalw Terminal Matrix Program");
-    puts("\n\tBy Baraa Al-Masri . version 0.7 ");
+    puts("\n\tBy Baraa Al-Masri . version 0.8 ");
 
     hold();
     clear();
 }
 
 // enter matrices data
-void matricesInput(SquareMatrix *matricesList[], int noOfMatrices){
+void matricesInput(Matrix *matricesList[], int noOfMatrices){
 
-    int order;
+    int rows, columns;
     // enter matrices details
     for (int index = 0; index < noOfMatrices; index++){
-        printf("enter order of matrix %d: ", index + 1);
-        scanf("%d", &order);
+        printf("enter order of matrix %d:\n", index + 1);
+        printf("rows = ");
+        scanf("%d", &rows);
+        printf("columns = ");
+        scanf("%d", &columns);
+
         printf("enter name of matrix %d: ", index + 1);
         char matrixName[99];
         scanf("%s", &matrixName);
         printf("\n");
         // instatiate the object with the given data
-        matricesList[index] = new SquareMatrix(order, matrixName);
+        if( rows == columns){
+            matricesList[index] = new Matrix(rows, columns, matrixName);
+            matricesList[index] = (SquareMatrix*)matricesList[index];
+        }
+        else{
+            matricesList[index] = new Matrix(rows, columns, matrixName);
+        }
         // enter matrix's elements
         matricesList[index]->readMatrix();
     }
@@ -64,7 +74,7 @@ void matricesInput(SquareMatrix *matricesList[], int noOfMatrices){
 }
 
 // list available matrices
-void listMatrices(SquareMatrix *matricesList[], int noOfMatrices){
+void listMatrices(Matrix *matricesList[], int noOfMatrices){
     printf("available matrices:\n");
     for(int index = 0; index < noOfMatrices; index++){
         matricesList[index]->printMatrix();
@@ -94,12 +104,13 @@ int choiceMenu(){
 }
 
 // operations menu
-void operationsMenu(SquareMatrix *matricesList[], int noOfMatrices){
+void operationsMenu(Matrix *matricesList[], int noOfMatrices){
     // choose an operation to be done on matrix(s)
     while(1){
         int choice = choiceMenu();
         // set pointers to the operand matrices
         SquareMatrix *mtrxPtr1, *mtrxPtr2;
+        Matrix *nonSquarePtr1 = mtrxPtr1, *nonSquarePtr2 = mtrxPtr2;
 
         printf("enter matrix(s) name(s) to operate on(from the list you provided earlier):\n");
         printf(RED);
@@ -110,7 +121,7 @@ void operationsMenu(SquareMatrix *matricesList[], int noOfMatrices){
         printf("name1:  ");
         scanf("%s", &name1);
         // set matrix pointer as matrix name
-        mtrxPtr1 = (SquareMatrix*)findMatrix(name1, (Matrix**)matricesList, noOfMatrices);
+        mtrxPtr1 = (SquareMatrix*)findMatrix(name1, matricesList, noOfMatrices);
 
         if (choice < 3){
             // name of the second operand matrix(well if exists)
@@ -118,17 +129,17 @@ void operationsMenu(SquareMatrix *matricesList[], int noOfMatrices){
             printf("name2:  ");
             scanf("%s", &name2);
             // set matrix pointer as matrix name
-            mtrxPtr2 = (SquareMatrix*)findMatrix(name2, (Matrix**)matricesList, noOfMatrices);
+            mtrxPtr2 = (SquareMatrix*)findMatrix(name2, matricesList, noOfMatrices);
         }
         // a matrix to hold the reulting answers & its name
-        SquareMatrix *tempMatrix;
+        Matrix *tempMatrix;
         string newMatrixName;
         // choice maker, hmm....
         switch( choice ){
             case 1:
                 // setting result matrix values
                 newMatrixName = mtrxPtr1->getMatrixName() + " + " + mtrxPtr2->getMatrixName();
-                tempMatrix = new SquareMatrix(mtrxPtr1->getRows(), newMatrixName);
+                tempMatrix = new Matrix(mtrxPtr1->getRows(), mtrxPtr1->getCols(), newMatrixName);
                 tempMatrix->setMatrix( (*mtrxPtr1 += *mtrxPtr2).getMatrix() )  ;
                 // printing result matrix value
                 tempMatrix->printMatrix();
@@ -136,7 +147,7 @@ void operationsMenu(SquareMatrix *matricesList[], int noOfMatrices){
             case 2:
                 // setting result matrix values
                 newMatrixName = mtrxPtr1->getMatrixName() + " * " + mtrxPtr2->getMatrixName();
-                tempMatrix = new SquareMatrix(mtrxPtr1->getRows(), newMatrixName);
+                tempMatrix = new Matrix(mtrxPtr1->getRows(), mtrxPtr2->getCols(), newMatrixName);
                 tempMatrix->setMatrix( (*mtrxPtr1 *= *mtrxPtr2).getMatrix() );
                 // printing result matrix value
                 tempMatrix->printMatrix();
@@ -147,7 +158,7 @@ void operationsMenu(SquareMatrix *matricesList[], int noOfMatrices){
                 scanf("%lf", &scalar);
                 // setting result matrix values
                 newMatrixName = mtrxPtr1->getMatrixName() + " * " + to_string(scalar);
-                tempMatrix = new SquareMatrix(mtrxPtr1->getRows(), newMatrixName);
+                tempMatrix = new Matrix(mtrxPtr1->getRows(), mtrxPtr1->getCols(), newMatrixName);
                 tempMatrix->setMatrix( (*mtrxPtr1 *= scalar).getMatrix() );
                 // printing result matrix value
                 tempMatrix->printMatrix();
@@ -155,18 +166,22 @@ void operationsMenu(SquareMatrix *matricesList[], int noOfMatrices){
             case 4:
                 // setting result matrix values
                 newMatrixName = mtrxPtr1->getMatrixName() + " Transpose " ;
-                tempMatrix = new SquareMatrix(mtrxPtr1->getRows(), newMatrixName);
+                tempMatrix = new Matrix(mtrxPtr1->getRows(), mtrxPtr1->getCols(), newMatrixName);
                 tempMatrix->setMatrix( mtrxPtr1->transpose() );
                 // printing result matrix value
                 tempMatrix->printMatrix();
                 break;
             case 5:
+                mtrxPtr1 = (SquareMatrix*)mtrxPtr1;
                 printf("\ndet(%s) = %lf\n\n", mtrxPtr1->getMatrixName().c_str(), mtrxPtr1->determinant());
                 break;
             case 6:
+
+                mtrxPtr1 = (SquareMatrix*)mtrxPtr1;
                 printf("\ntrace(%s) = %lf\n\n", mtrxPtr1->getMatrixName().c_str(), mtrxPtr1->trace());
                 break;
             case 7:
+                mtrxPtr1 = (SquareMatrix*)mtrxPtr1;
                 // setting result matrix values
                 newMatrixName = "adj(" + mtrxPtr1->getMatrixName() + ") ";
                 tempMatrix = new SquareMatrix(mtrxPtr1->getRows(), newMatrixName);
@@ -176,6 +191,7 @@ void operationsMenu(SquareMatrix *matricesList[], int noOfMatrices){
                 break;
 
             case 8:
+                mtrxPtr1 = (SquareMatrix*)mtrxPtr1;
                 // setting result matrix values
                 newMatrixName = "inverse(" + mtrxPtr1->getMatrixName() + ") ";
                 tempMatrix = new SquareMatrix(mtrxPtr1->getRows(), newMatrixName);

@@ -61,47 +61,51 @@ double det( vector<vector<double>> matrix, int order ){
 	 * of the main matrix
 	 */
         newMatrix = getCofactor( matrix , order, 0, mainCol);
-	answer += pow(-1, mainCol) * matrix[0][mainCol] * (det( newMatrix, order - 1 ));
+		answer += pow(-1, mainCol) * matrix[0][mainCol] * (det( newMatrix, order - 1 ));
     }
 
     // finally return the answer when the recieved matrix is 1*1
     return answer;
 
 }
-
-/* find solution of system of n linear equations */
-void solveSystem(int order){
+void enterAugmentedMatrixData(int order, vector< vector<double> > &coefficents, vector<double> &constants){
 	puts("System of the form a1X1 + a2X2 + .... + anXn = b\n");
 	puts("Enter the coefficents\n"); 
 	// the augmented matrix, well part of it	
-	vector<vector<double>> matrix;
-	readMatrix( matrix, order );
+	readMatrix( coefficents, order );
   	
 	puts("enter constants:\n");
   	// constants vector(math vector not that STL)
-	double constants[order];
-    	for(int moo = 0; moo < order; moo++){
-        	printf("b%i = ", moo+1);
-		scanf("%lf", &constants[moo]);
-    	}
+    for(int moo = 0; moo < order; moo++){
+       	printf("b%i = ", moo+1);
+		double temp;
+		scanf("%lf", &temp);
+		constants.push_back(temp);
+    }
 
+}
+/* find solution of system of n linear equations */
+void solveSystem(int order){
 	//Using Carmer's rule....
+	vector< vector<double> > coefficents; 
+	vector<double> constants;
+	enterAugmentedMatrixData(order, coefficents, constants);	
 	double D;
-	D = det( matrix, order ); 
+	D = det( coefficents, order ); 
 
 	// since it's a system for n variables we're gonna need a vector to store those variables
-	vector<double> rawVariables; // you'll find why it's called raw :) in line 
+	vector<double> rawVariables; // you'll find why it's called raw :) in line 111
 	// but first we need matrices with the constant column so....
 	vector<vector<double>> tempMatrix;
-	tempMatrix = matrix;
+	tempMatrix = coefficents;
 	for(int column = 0; column < order; column++){
 		// now swinging between rows
 		for(int row = 0; row < order; row++){
         		tempMatrix[row][column] = constants[row];   
-    		}
+   		}
 		rawVariables.push_back( det( tempMatrix, order ) );
 
-		tempMatrix = matrix;
+		tempMatrix = coefficents;
 	}
 	// k because I couldn't find a better name, you got a better name suggest it I'm all ears
 	for(int k = 0; k < order; k++){

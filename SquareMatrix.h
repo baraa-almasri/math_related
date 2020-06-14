@@ -31,7 +31,7 @@ public:
     // constructors
     SquareMatrix(int order, string matrixName);
     SquareMatrix();
-
+    vector<vector<double>> getIdentityMatrix();
     // actual matrices operations functions
     // square matrix specials
 
@@ -47,9 +47,12 @@ public:
     ////////////////
 
 private:
+    vector<vector<double>> identityMatrix;
     // determinant finder, it's private so the object function call is not parameterized :)
     // otherwise it'll get messy like a bee hive
-    double det( std::vector<std::vector<double>> matrix, int rows );
+    double det( vector<vector<double>> matrix, int rows );
+    // generate an identity matrix coressponding to the order of the original matrix
+    void genIdentity();
     // cofactor function
     vector< vector<double> > getCofactor( vector< vector<double> > matrix, int order, int excludedRow, int excludedColumn );
 

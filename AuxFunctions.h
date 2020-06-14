@@ -108,6 +108,7 @@ int choiceMenu(){
 void operationsMenu(Matrix *matricesList[], int noOfMatrices){
     // choose an operation to be done on matrix(s)
     while(1){
+        listMatrices(matricesList, noOfMatrices);
         int choice = choiceMenu();
         // set pointers to the operand matrices
         SquareMatrix *mtrxPtr1, *mtrxPtr2;
@@ -213,6 +214,8 @@ void operationsMenu(Matrix *matricesList[], int noOfMatrices){
                 printf(RESET);
                 printf("Test");
         }
+        hold();
+        while(getchar() != '\n');
     }
 }
 

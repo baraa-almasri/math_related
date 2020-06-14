@@ -25,12 +25,16 @@ using namespace std;
 
 // constructors
 SquareMatrix::SquareMatrix(int order, string matrixName): Matrix(order, order, matrixName){
+    genIdentity();
 }
-SquareMatrix::SquareMatrix(): Matrix(){
+SquareMatrix::SquareMatrix(): SquareMatrix(1, "M"){
 }
 
 // square matrix specials
-
+// 
+vector<vector<double>> SquareMatrix::getIdentityMatrix(){
+    return this->identityMatrix;
+}
 // find the determinant of the matrix
 double SquareMatrix::determinant(){
     return det( matrix, rows );
@@ -107,6 +111,14 @@ vector< vector<double> > SquareMatrix::getCofactor( vector< vector<double> > mat
     }
     /* return the cofactor matrix */
     return newMatrix;
+}
+
+// generate an identity matrix
+void SquareMatrix::genIdentity() {
+    initMatrix(this->identityMatrix, this->getRows(), this->getCols());
+    for(int diag = 0; diag < this->getRows(); diag++) {
+        this->identityMatrix[diag][diag] = 1;
+    }
 }
 
 // the actual determinant finder :)

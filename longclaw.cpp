@@ -8,7 +8,6 @@ int main(){
     scanf("%d", &noOfMatrices);
     Matrix *matricesList[noOfMatrices];
     matricesInput(matricesList, noOfMatrices);
-    listMatrices(matricesList, noOfMatrices);
     operationsMenu(matricesList, noOfMatrices);
 
     return 0;

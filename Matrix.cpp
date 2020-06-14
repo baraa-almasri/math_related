@@ -31,12 +31,7 @@ Matrix::Matrix(int rows, int columns, string matrixName){
     initMatrix(this->zeroMatrix, rows, columns);
     setMatrixName(matrixName);
 }
-Matrix::Matrix(){
-    setRows(1);
-    setCols(1);
-    initMatrix(this->matrix, 1, 1);
-    initMatrix(this->zeroMatrix, 1, 1);
-    setMatrixName("M");
+Matrix::Matrix(): Matrix(1, 1, "M"){
 }
 
 // lame setters & getters
@@ -79,6 +74,11 @@ Matrix Matrix::setMatrixName(string matrixName){
 string Matrix::getMatrixName(){
     return this->matrixName;
 }
+// 
+vector<vector<double>> Matrix::getZeroMatrix(){
+    return this->zeroMatrix;
+}
+
 ////////
 
 // I/O functions:
@@ -89,7 +89,7 @@ void Matrix::readMatrix(){
 
     for(int row = 0 ; row < this->rows ; row++){
         for(int col = 0 ; col < this->columns ; col++){
-            printf("element%d%d = ", row+1, col+1);
+            printf("%s%d%d = ", this->getMatrixName().c_str(), row+1, col+1);
             scanf("%lf", &matrix[row][col]);
         }
         printf("\n");
@@ -204,7 +204,10 @@ int Matrix::checkOrders(Matrix mtrx1, Matrix mtrx2){
 vector< vector<double> > Matrix::add( Matrix anotherMatrix ){
     // orders check
     if(checkOrders(*this, anotherMatrix) != 1){
-        return this->zeroMatrix;
+        puts(RED);
+        puts("different orders so I ruined the answer :)");
+        puts(RESET);
+        return anotherMatrix.getZeroMatrix();
     }
 
     // anotherMatrix's 2D array
@@ -235,7 +238,10 @@ vector< vector<double> > Matrix::multiply( Matrix anotherMatrix ){
     //         Common  : rows2, columns1
 
     if(checkOrders(*this, anotherMatrix) == 0){
-        return this->zeroMatrix;
+        puts(RED);
+        puts("different orders so I ruined the answer :)");
+        puts(RESET);
+        return anotherMatrix.getZeroMatrix();
     }
     // shared rows & columns
     int commons = this->columns;
@@ -285,6 +291,8 @@ vector< vector<double> > Matrix::scalarMultiply( double scalar ){
     // finally get the result 
     return result;
 }
+
+
 
 // initialise a matrix with zeros
 void Matrix::initMatrix(vector< vector<double> > &mtrx, int rows, int columns){

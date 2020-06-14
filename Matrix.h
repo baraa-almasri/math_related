@@ -43,6 +43,8 @@ public:
     //
     Matrix setMatrixName(string matrixName);
     string getMatrixName();
+    //
+    vector<vector<double>> getZeroMatrix();
     ////////
     // I/O functions:
 
@@ -79,7 +81,7 @@ protected:
     int rows;
     int columns;
     string matrixName;
-    // zero matrix for some reason
+    // zero matrix
     vector<vector<double>> zeroMatrix;
     // initialise a matrix with zeros
     void initMatrix(vector< vector<double> > &mtrx, int rows, int columns );

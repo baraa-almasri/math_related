@@ -37,16 +37,12 @@ public:
 
     // find the determinant of the matrix
     double determinant();
-
     // find the trace of the matrix
     double trace();
-
     // find the adjugate matrix
     vector< vector<double> > adjoint();
-
     // find the inverse matrix
     vector< vector<double> > inverse();
-
     // end of functions, well I lied :)    
     ////////////////
 
@@ -54,7 +50,6 @@ private:
     // determinant finder, it's private so the object function call is not parameterized :)
     // otherwise it'll get messy like a bee hive
     double det( std::vector<std::vector<double>> matrix, int rows );
-
     // cofactor function
     vector< vector<double> > getCofactor( vector< vector<double> > matrix, int order, int excludedRow, int excludedColumn );
 

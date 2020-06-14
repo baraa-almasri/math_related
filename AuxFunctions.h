@@ -166,8 +166,8 @@ void operationsMenu(Matrix *matricesList[], int noOfMatrices){
                 break;
             case 4:
                 // setting result matrix values
-                newMatrixName = mtrxPtr1->getMatrixName() + " Transpose " ;
-                tempMatrix = new Matrix(mtrxPtr1->getRows(), mtrxPtr1->getCols(), newMatrixName);
+                newMatrixName = mtrxPtr1->getMatrixName() + " Transpose" ;
+                tempMatrix = new Matrix(mtrxPtr1->getCols(), mtrxPtr1->getRows(), newMatrixName);
                 tempMatrix->setMatrix( mtrxPtr1->transpose() );
                 // printing result matrix value
                 tempMatrix->printMatrix();
@@ -177,9 +177,8 @@ void operationsMenu(Matrix *matricesList[], int noOfMatrices){
                 printf("\ndet(%s) = %lf\n\n", mtrxPtr1->getMatrixName().c_str(), mtrxPtr1->determinant());
                 break;
             case 6:
-
                 mtrxPtr1 = (SquareMatrix*)mtrxPtr1;
-                printf("\ntrace(%s) = %lf\n\n", mtrxPtr1->getMatrixName().c_str(), mtrxPtr1->trace());
+                printf("\ntr(%s) = %lf\n\n", mtrxPtr1->getMatrixName().c_str(), mtrxPtr1->trace());
                 break;
             case 7:
                 mtrxPtr1 = (SquareMatrix*)mtrxPtr1;

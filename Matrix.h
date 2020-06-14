@@ -81,7 +81,7 @@ protected:
     string matrixName;
     // zero matrix for some reason
     vector<vector<double>> zeroMatrix;
-    // initialse a matrix with zeros
+    // initialise a matrix with zeros
     void initMatrix(vector< vector<double> > &mtrx, int rows, int columns );
     // print spaces as same as matrix name
     void printSpaces(string matrixName);

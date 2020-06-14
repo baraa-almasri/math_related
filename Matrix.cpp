@@ -155,14 +155,14 @@ Matrix Matrix::operator *= (double scalar){
 
 // find the transpose matrix
 vector< vector<double> > Matrix::transpose(){
-    int new_rows = this->columns;
-    int new_columns = this->rows;
+    int newRows = this->columns;
+    int newColumns = this->rows;
 
     vector< vector<double> > transposedMatrix;
-    initMatrix(transposedMatrix, new_rows, new_columns);
+    initMatrix(transposedMatrix, newRows, newColumns);
 
-    for(int row = 0; row < new_rows; row++){
-        for(int col = 0; col < new_columns; col++){
+    for(int row = 0; row < newRows; row++){
+        for(int col = 0; col < newColumns; col++){
             transposedMatrix[row][col] = matrix[col][row];
         }
     }
@@ -199,7 +199,6 @@ int Matrix::checkOrders(Matrix mtrx1, Matrix mtrx2){
     return 0;
 
 }
-
 
 // this function adds a matrix to the current matrix & returns the added matrix
 vector< vector<double> > Matrix::add( Matrix anotherMatrix ){
@@ -287,7 +286,7 @@ vector< vector<double> > Matrix::scalarMultiply( double scalar ){
     return result;
 }
 
-// initialse a matrix with zeros
+// initialise a matrix with zeros
 void Matrix::initMatrix(vector< vector<double> > &mtrx, int rows, int columns){
 
     for(int row = 0 ; row < rows ; row++){

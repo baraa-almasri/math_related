@@ -15,6 +15,7 @@
  *along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *-------------------------------------------------------------------------------
  */
+
 #include "SquareMatrix.h" // headers already included there :)
 using namespace std;
 // red color output
@@ -24,10 +25,8 @@ using namespace std;
 
 // constructors
 SquareMatrix::SquareMatrix(int order, string matrixName): Matrix(order, order, matrixName){
-
 }
 SquareMatrix::SquareMatrix(): Matrix(){
-
 }
 
 // square matrix specials
@@ -45,7 +44,6 @@ double SquareMatrix::trace(){
     }
     return trace;
 }
-
 
 // find the adjoint matrix
 vector< vector<double> > SquareMatrix::adjoint() {
@@ -131,8 +129,6 @@ double SquareMatrix::det( vector<vector<double>> matrix, int order ){
         newMatrix = getCofactor( matrix , order, 0, mainCol);
         answer += pow(-1, mainCol) * matrix[0][mainCol] * (det( newMatrix, order - 1 ));
     }
-
     // finally return the answer when the recieved matrix is 1*1
     return answer;
-
 }

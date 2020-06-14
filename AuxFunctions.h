@@ -122,7 +122,7 @@ void operationsMenu(Matrix *matricesList[], int noOfMatrices){
         printf("name1:  ");
         scanf("%s", &name1);
         // set matrix pointer as matrix name
-        mtrxPtr1 = (SquareMatrix*)findMatrix(name1, matricesList, noOfMatrices);
+        mtrxPtr1 = (SquareMatrix*)SquareMatrix::findMatrix(name1, matricesList, noOfMatrices);
 
         if (choice < 3){
             // name of the second operand matrix(well if exists)
@@ -130,7 +130,7 @@ void operationsMenu(Matrix *matricesList[], int noOfMatrices){
             printf("name2:  ");
             scanf("%s", &name2);
             // set matrix pointer as matrix name
-            mtrxPtr2 = (SquareMatrix*)findMatrix(name2, matricesList, noOfMatrices);
+            mtrxPtr2 = (SquareMatrix*)SquareMatrix::findMatrix(name2, matricesList, noOfMatrices);
         }
         // a matrix to hold the reulting answers & its name
         Matrix *tempMatrix;

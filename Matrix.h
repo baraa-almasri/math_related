@@ -64,6 +64,11 @@ public:
     // power of matrix
     Matrix power(double exp);
 
+    // static functions:
+
+    // returns memory address of the matching matrix name
+    static Matrix *findMatrix(char matrixName[], Matrix **array, int SIZE);
+
     // end of functions, well I lied :)    
     ////////////////
 
@@ -74,11 +79,14 @@ protected:
     int rows;
     int columns;
     string matrixName;
-
+    // zero matrix for some reason
+    vector<vector<double>> zeroMatrix;
     // initialse a matrix with zeros
     void initMatrix(vector< vector<double> > &mtrx, int rows, int columns );
     // print spaces as same as matrix name
     void printSpaces(string matrixName);
+    // check orders
+    int checkOrders(Matrix mtrx1, Matrix mtrx2);
     // this function adds a matrix to the current matrix & returns the added matrix
     vector< vector<double> > add(Matrix anotherMatrix );
     // multiply the matrix with a given matrix and put the result in a new matrix
@@ -87,8 +95,5 @@ protected:
     vector< vector<double> > scalarMultiply( double scalar );
 };
 // end of class
-
-// returns memory address of the matching matrix name
-Matrix *findMatrix(char matrixName[], Matrix **array, int SIZE);
 
 #endif // MATRIX_H

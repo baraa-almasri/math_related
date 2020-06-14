@@ -31,6 +31,7 @@ public:
     // constructors
     Matrix(int rows, int columns, string matrixName);
     Matrix();
+
     // lame setters & getters
     Matrix setRows(int rows);
     int getRows();
@@ -45,11 +46,12 @@ public:
     string getMatrixName();
     //
     vector<vector<double>> getZeroMatrix();
-    ////////
+    
     // I/O functions:
-
+    
     // read values into the matrix
     void readMatrix();
+
     // print values from matrix
     void printMatrix();
 
@@ -57,12 +59,16 @@ public:
 
     // add equals a matrix operator
     Matrix operator += (Matrix anotherMatrix);
+
     // multiply equals a matrix operator
     Matrix operator *= (Matrix anotherMatrix);
+
     // multiply equals a scalar operator
     Matrix operator *= (double scalar);
+
     // find the transpose matrix
     vector< vector<double> > transpose();
+
     // power of matrix
     Matrix power(double exp);
 
@@ -83,16 +89,22 @@ protected:
     string matrixName;
     // zero matrix
     vector<vector<double>> zeroMatrix;
+
     // initialise a matrix with zeros
     void initMatrix(vector< vector<double> > &mtrx, int rows, int columns );
+
     // print spaces as same as matrix name
     void printSpaces(string matrixName);
+
     // check orders
     int checkOrders(Matrix mtrx1, Matrix mtrx2);
+
     // this function adds a matrix to the current matrix & returns the added matrix
     vector< vector<double> > add(Matrix anotherMatrix );
+
     // multiply the matrix with a given matrix and put the result in a new matrix
     vector< vector<double> > multiply( Matrix anotherMatrix );
+
     // multiply the matrix with a given number and put the result in a new matrix
     vector< vector<double> > scalarMultiply( double scalar );
 };

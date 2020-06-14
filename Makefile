@@ -30,7 +30,6 @@ SquareMatrix.o: SquareMatrix.cpp
 #the action clean clears the directory as seen
 clean:
 	rm *.o
-	rm *.gch
 # or use gcc instead
 gcc:
 	g++ longclaw.cpp AuxFunctions.h Matrix.h Matrix.cpp SquareMatrix.h SquareMatrix.cpp -o matrixProgram

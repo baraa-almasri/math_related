@@ -36,12 +36,20 @@
 **`Setters & Getters:`**
 
    - setRows(int), getRows()
+   
    - setCols(int), getCols()
+   
    - setMatrix(vector<vector<double>>), getMatrix()
+   
    - setMatrixName(string), getMatrixName() 
+   
    - getZeroMatrix() 
+   
    - `SquareMatrix` getIdentityMatrix()
-   - getOrder() : returns a string representing the order of the matrix
+   
+   - getOrder() 
+   
+     returns a string representing the order of the matrix
    
    
 **`Static:`** 
@@ -73,6 +81,6 @@
   
     find the determinant of the matrix
       
-  - `SquareMatrix`inverse()
+  - `SquareMatrix` inverse()
    
      find the inverse of the matrix

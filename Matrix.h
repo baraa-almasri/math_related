@@ -46,7 +46,8 @@ public:
     string getMatrixName();
     //
     vector<vector<double>> getZeroMatrix();
-    
+    //
+    string getOrder();
     // I/O functions:
     
     // read values into the matrix

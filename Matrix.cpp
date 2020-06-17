@@ -46,7 +46,7 @@ Matrix Matrix::setRows(int rows){
 int Matrix::getRows(){
     return this->rows;
 }
-
+//
 Matrix Matrix::setCols(int cols){
     if(cols < 0)
         cols = 1;
@@ -78,7 +78,10 @@ string Matrix::getMatrixName(){
 vector<vector<double>> Matrix::getZeroMatrix(){
     return this->zeroMatrix;
 }
-
+//
+string Matrix::getOrder(){
+    return to_string(this->getRows()) + "*" + to_string(this->getCols());
+}
 ////////
 
 // I/O functions:

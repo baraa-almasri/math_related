@@ -1,4 +1,4 @@
-# Matrix & SquareMatrix Classes Documentation
+# Classes Documentation
 
 ### Member private variables:
       

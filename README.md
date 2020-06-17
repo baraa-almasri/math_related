@@ -33,7 +33,26 @@
     multiplies a matrix or a scalar with the current matrix and returns the resulting matrix
     
     
+**`Setters & Getters:`**
+
+   - setRows(int), getRows()
+   - setCols(int), getCols()
+   - setMatrix(vector<vector<double>>), getMatrix()
+   - setMatrixName(string), getMatrixName() 
+   - getZeroMatrix() 
+   - `SquareMatrix` getIdentityMatrix()
+   - getOrder() : returns a string representing the order of the matrix
+   
+   
+**`Static:`** 
+  
+  - findMatrix(char*, Matrix**, int)
+    
+    finds a matrix in an array of Matrix or SquareMatrix
+    
+    
 **`Matrix Operations:`**
+  
   - transpose()
     
     returns transposed matrix of the current matrix
@@ -42,4 +61,18 @@
   
     return a matrix raised to the given power
     
-#### the rest for tomorow :)
+  - `SquareMatrix` trace()
+  
+    find trace of the matrix
+    
+  - `SquareMatrix` adjoint()
+  
+    find the adjoint matrix
+      
+  - `SquareMatrix` determinant()
+  
+    find the determinant of the matrix
+      
+  - `SquareMatrix`inverse()
+   
+     find the inverse of the matrix

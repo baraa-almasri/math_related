@@ -1,10 +1,9 @@
 #include "Function.h"
 #include <stdio.h>
-#include <iostream>
 
 int main() {
     Function *f = new Function("(x+3)");
-    printf("f(5) = %d\n", f->evaluate(5));
+    printf("f(5) = %d\n", f->evaluate(6));
 
      return 0;
 }

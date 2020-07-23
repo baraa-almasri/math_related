@@ -1,11 +1,9 @@
-#include <stdio.h> 
 #include <string> // for solvePostfix function
 #include <math.h> // for execOperator function
 #include <stdlib.h> // used malloc only
 #include <stack> // for convertInToPost function
 #include <ctype.h> // for convertInToPost function
-#include <regex>
-#include <iostream>
+#include <regex> // regular expression
 
 class Function {
 public:
@@ -22,11 +20,12 @@ public:
         std::regex x("[(x)]");
 
         // get the evaluated value
-        return solvePostfix(std::regex_replace(tmp, x, std::to_string(5)) );// << std::endl;
+        return solvePostfix(std::regex_replace(tmp, x, std::to_string(value)) );// << std::endl;
     }
 
 
 private:
+
     std::string equation;
 
     // functions

@@ -26,7 +26,7 @@ public:
     }
 
 
-
+private:
     std::string equation;
 
     // functions

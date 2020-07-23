@@ -1,45 +1,38 @@
 #include <stdio.h> 
-#include <string.h> // for appendChrToStr function
+#include <string> // for solvePostfix function
 #include <math.h> // for execOperator function
 #include <stdlib.h> // used malloc only
 #include <stack> // for convertInToPost function
 #include <ctype.h> // for convertInToPost function
-#include <regex.h>
+#include <regex>
+#include <iostream>
 
 class Function {
 public:
-    Function(char *equation) {
+    Function(std::string equation) {
         this->equation = equation;
     }
+    
+    int evaluate(int value) {
+        // temp string 
+        std::string tmp;
+        // convert function equation to postfix
+        tmp = convertInToPost(this->equation);
+        // regex to match x
+        std::regex x("[(x)]");
 
-    /*int evaluate(int value) {
-        std::regex x ("[(x)]");
-        std::string eq = this->equation;
-        char *tmp = regex;
-        return solvePostfix();
-    }*/
+        // get the evaluated value
+        return solvePostfix(std::regex_replace(tmp, x, std::to_string(5)) );// << std::endl;
+    }
 
 
-private:
-    char *equation;
+
+    std::string equation;
 
     // functions
 
-    // append character to string
-    char *appentChrToStr(char *SrcString, char character) {
-        // temp string
-        char *temp = (char *)malloc(strlen(SrcString) + 1);
-        // add the sourve string to temporary string
-        strcpy(temp, SrcString);
-        // add the character to the new string
-        temp[strlen(SrcString)] = character;
-
-        // return the new string
-        return temp;
-    }
-
     // execute a binary operator using a character variable
-    int execOperator(int rightOperand, int leftOperand, char operation){
+    static int execOperator(int rightOperand, int leftOperand, char operation){
         switch(operation){
             case '+':
                 return rightOperand + leftOperand;
@@ -57,19 +50,19 @@ private:
     }
 
     // check for operator
-    bool isOperator(char character){
+    static bool isOperator(char character){
         char c = character;
         return (c == '+' || c == '-' || c == '*' || c == '/' || c == '^') ? 1 : 0;
     }
 
     // convert infix to postfix
-    char *convertInToPost(char *infix) {
+    static std::string convertInToPost(std::string infix) {
         std::stack<char> *tmp = new std::stack<char>;
         
-        char *postfix = (char *)malloc(sizeof(char)*strlen(infix));
+        std::string postfix = "";
         char t;
         
-        for(int i = 0; i < strlen(infix) ;i++) {   
+        for(int i = 0; i < infix.length() ;i++) {   
             
             switch(infix[i]) {
                 case '^':
@@ -80,13 +73,13 @@ private:
                 tmp->push(infix[i]);
                 break;
                 case ')':   
-                    postfix = appentChrToStr(postfix, tmp->top());
+                    postfix.push_back(tmp->top());
                     tmp->pop();
                     break;
             }
             
-            if(isalnum(infix[i])) {
-                postfix = appentChrToStr(postfix, infix[i]);
+            if(isalnum(infix.at(i))) {
+                postfix.push_back(infix.at(i));
             }
         }
         
@@ -94,10 +87,10 @@ private:
     }
 
     // solve postfix (duh)
-    int solvePostfix(char *postfix){
-        for(int lol = 0; lol < strlen(postfix); lol++){
+    static int solvePostfix(std::string postfix){
+        for(int lol = 0; lol < postfix.length(); lol++){
             // temporary string to store the original string after evaluating two numbers with thier operator
-            char *temp = "";
+            std::string temp = "";
             if( isOperator(postfix[lol]) ){
                 // step one: append elements before the operands & operator to the temporary string
 
@@ -105,8 +98,7 @@ private:
                 // & ends @ main index - 2 because the index has the operator & the two indexes before it has the operands
                 for(int i = 0; i < lol - 2; i++){
                     if(i >= 0)
-                        temp = appentChrToStr(temp, postfix[i]);
-                        
+                        temp.push_back(postfix.at(i));
                 }
                 // step two: append the evaluated number to the temporary string
 
@@ -115,13 +107,13 @@ private:
 
                 int result = execOperator( rightOperand, leftOperand, postfix[lol] );
                 
-                temp = appentChrToStr(temp, (char)(result + 48) );
+                temp.push_back( (char)(result + 48) );
 
                 // step three: 
                 // append the rest of the postfix into the temp string
 
-                for(int i = lol + 1; i < strlen(postfix); i++){
-                    temp = appentChrToStr(temp, postfix[i]);
+                for(int i = lol + 1; i < postfix.length(); i++){
+                    temp.push_back(postfix.at(i));
                 }
 
                 // step four
@@ -136,8 +128,8 @@ private:
 
                 // step six if there's no more operators return the final number
                 
-                if( strlen(postfix) == 1){
-                    return atoi(postfix);
+                if( postfix.length() == 1){
+                    return std::stoi(postfix);
                 }
 
             }

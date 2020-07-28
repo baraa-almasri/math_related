@@ -25,8 +25,16 @@ public:
     void operator*=(Complex<type>);
     void operator/=(Complex<type>);
     //void operator=(Complex<type>);
+    // inverse
+    Complex<type> *getInverse();
     
-    
+    // check if the number is pure real or imaginary 
+    bool isPureReal();
+    bool isPureImaginary();
+
+    // get conjugate of the complex number
+    Complex<type> *getConjugate();
+
     // get algebraic representaion of the complex number
     std::string getAlgebraic();
 
@@ -117,7 +125,7 @@ void Complex<type>::operator-=(Complex<type> anotherComplex) {
 }
 
 TEMP
-// add a complex number to the current complex number
+// multiply a complex number to the current complex number
 void Complex<type>::operator*=(Complex<type> anotherComplex) {
     // oh this will be messy 
     // res = (a + bi)(x + yi)
@@ -138,18 +146,98 @@ void Complex<type>::operator*=(Complex<type> anotherComplex) {
 
 }
 
+TEMP
+// devide the current complex number over the given complex number
+void Complex<type>::operator/=(Complex<type> anotherComplex) {
+    // temporary complex number 
+    Complex<type> *tmp = new Complex<type>(this->getReal(), this->getImaginary());
+
+    if(anotherComplex.isPureReal()) {
+        // multiply and divide by other number's conjugate
+        anotherComplex *= *anotherComplex.getConjugate();
+        *tmp *= *anotherComplex.getConjugate();
+
+        type denominatorValue;
+        denominatorValue = anotherComplex.getReal();
+
+        this->setReal( tmp->getReal() / denominatorValue );
+        this->setImaginary( tmp->getImaginary() / denominatorValue );
+    }
+
+    *this *= *anotherComplex.getInverse();
+
+    // update representitive strings
+    updateAlgebraicString();
+
+    // return object of the same type
+    //return *this;
+}
+
 // other functions
 
 TEMP
 // update algebraic representation
 void Complex<type>::updateAlgebraicString() {
-    this->algebraicRepresntation = std::to_string(getReal()) + " + " + std::to_string(getImaginary()) + "i";
+    this->algebraicRepresntation = 
+        (this->isPureImaginary()? "": std::to_string(getReal()) ) // add real part
+        + ( this->getImaginary() > 0 && !this->isPureReal()? " + ": " ") // add a plus sign if there's no one
+        + ( this->isPureReal() ? "": std::to_string(getImaginary()) ) // add imaginary part
+        + ( this->isPureReal() ? "": "i"); // add imaginary unit
 }
 
+TEMP
+Complex<type> *Complex<type>::getConjugate() {
+    
+    Complex<type> *tmp = new Complex<type>(this->getReal(), this->getImaginary());
+    // multiply the imaginary part by -1
+    tmp->setImaginary( -1*tmp->getImaginary() );
+    
+    return tmp;
+}
 TEMP
 // get algebraic representation of the complex number
 std::string Complex<type>::getAlgebraic() {
     return this->algebraicRepresntation;
+}
+
+TEMP
+// check if complex number is pure real
+bool Complex<type>::isPureReal() {
+    return this->getImaginary() == 0; 
+}
+
+TEMP
+// check if complex number is pure imaginary
+bool Complex<type>::isPureImaginary() {
+    return this->getReal() == 0; 
+}
+
+TEMP
+// get inverse of the complex number
+Complex<type> *Complex<type>::getInverse() {
+    // Z = a + bi
+    // Z' = 1/(a + bi)
+    // Z' = ~Z / ~Z*Z
+    // Z' = ~Z / (some x ∈ R)
+
+    // temp copy complex number
+    Complex<type> *tmp = new Complex<type>(this->getReal(), this->getImaginary());
+    
+    *tmp *= *(tmp->getConjugate() );
+    type theXmentionedAbove = tmp->getReal();
+
+    // temp parts
+    type tmpReal;
+    type tmpImg;
+
+    // assign values
+    tmpReal = this->getConjugate()->getReal() / theXmentionedAbove;
+    tmpImg = this->getConjugate()->getImaginary() / theXmentionedAbove;
+
+    // another temp
+    Complex<type> *inverse = new Complex<type>(tmpReal, tmpImg);
+
+    return inverse;
 }
 
 #endif // COMPLEX_H

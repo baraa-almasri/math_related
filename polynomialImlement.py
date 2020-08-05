@@ -32,17 +32,26 @@ def secondDiffrentiate(point, approachingPoint, fx) -> float:
 ################################################################
 ################################################################
 
-
 equation = "y = "  # polynomial assignment statement
 equation += str(input("Enter function's formula: \nNote that x^n ==> x**n \nf(x) = "))
-x0 = float(input("Enter x: "))  # point to find the second derivative at
 
 
-print("f(%f) = " % x0, end="")
-print(func(x0, equation))
+while True:
+    x0 = float(input("Enter x: "))  # point to find the second derivative at
 
-print("f'(%f) = " % x0, end="")
-print(diff(x0, 0.0000001, equation))
 
-print("f''(%f) = " % x0, end="")
-print(secondDiffrentiate(x0, 0.0000001, equation))
+    print("f(%f) = " % x0, end="")
+    print(func(x0, equation))
+
+    print("f'(%f) = " % x0, end="")
+    print(diff(x0, 0.0000001, equation))
+
+    print("f''(%f) = " % x0, end="")
+    print(secondDiffrentiate(x0, 0.0000001, equation))
+
+    print()
+#:    print("1. Continue, 2. Exit")
+ #   exit = int(input())
+  #  if exit == 2:
+   #     break
+

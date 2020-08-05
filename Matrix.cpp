@@ -40,6 +40,7 @@ Matrix Matrix::setRows(int rows){
         rows = 1;
     else
         this->rows = rows;
+
     // return object of the same class
     return *this;
 }
@@ -52,6 +53,7 @@ Matrix Matrix::setCols(int cols){
         cols = 1;
     else
         this->columns = cols;
+ 
     // return object of the same class
     return *this;
 }
@@ -61,6 +63,7 @@ int Matrix::getCols(){
 //
 Matrix Matrix::setMatrix(vector< vector<double> > matrix){
     this->matrix = matrix;
+
     return *this;
 }
 std::vector< std::vector<double> > Matrix::getMatrix(){
@@ -69,6 +72,7 @@ std::vector< std::vector<double> > Matrix::getMatrix(){
 //
 Matrix Matrix::setMatrixName(string matrixName){
     this->matrixName = matrixName;
+
     return *this;
 }
 string Matrix::getMatrixName(){
@@ -83,6 +87,7 @@ string Matrix::getOrder(){
     return to_string(this->getRows()) + "*" + to_string(this->getCols());
 }
 ////////
+
 
 // I/O functions:
 
@@ -99,14 +104,15 @@ void Matrix::readMatrix(){
     }
 }
 
+
 // well it's a printing function no comments needed :)
 void Matrix::printMatrix(){
     printf("\n%s = | ", matrixName.c_str());
     
     for(int row = 0 ; row < this->rows ; row++){
         for(int col = 0 ; col < this->columns ; col++){
-            std::cout << this->matrix[row][col] << "";
-            std::cout << (col == this->columns-1 ? " |" : " ");
+            cout << this->matrix[row][col] << "";
+            cout << (col == this->columns-1 ? " |" : " ");
         }
         printf("\n");
         if( row != rows - 1){
@@ -117,6 +123,7 @@ void Matrix::printMatrix(){
     printf("\n");
 }
 
+
 // print spaces as same as matrix name, used in "readMatrix()"
 void Matrix::printSpaces(string matrixName){
     int length = matrixName.length();
@@ -125,6 +132,7 @@ void Matrix::printSpaces(string matrixName){
     }
 
 }
+
 
 // actual matrices operations functions:
 
@@ -137,6 +145,7 @@ Matrix Matrix::operator += (Matrix anotherMatrix){
     return newMatrix;
 }
 
+
 // multiply equals a matrix operator
 Matrix Matrix::operator *= (Matrix anotherMatrix){
     // new matrix to hold the result
@@ -145,6 +154,7 @@ Matrix Matrix::operator *= (Matrix anotherMatrix){
     // return the new matrix
     return newMatrix;
 }
+
 
 // multiply equals a scalar operator
 Matrix Matrix::operator *= (double scalar){
@@ -155,6 +165,7 @@ Matrix Matrix::operator *= (double scalar){
     return newMatrix;
 }
 //// end of overloaded operators
+
 
 // find the transpose matrix
 vector< vector<double> > Matrix::transpose(){
@@ -169,8 +180,10 @@ vector< vector<double> > Matrix::transpose(){
             transposedMatrix[row][col] = matrix[col][row];
         }
     }
+
     return transposedMatrix;
 }
+
 
 // if valid for addition return 1, for multiplication return 2, else return 0
 int Matrix::checkOrders(Matrix mtrx1, Matrix mtrx2){
@@ -195,13 +208,15 @@ int Matrix::checkOrders(Matrix mtrx1, Matrix mtrx2){
         return 1;
     }
     // return 2 for multiply ability
-    if( cols1 == rows2 ){
+    else if( cols1 == rows2 ){
+
         return 2;
     }
     // return 0 for nothing available
     return 0;
 
 }
+
 
 // this function adds a matrix to the current matrix & returns the added matrix
 vector< vector<double> > Matrix::add( Matrix anotherMatrix ){
@@ -228,6 +243,7 @@ vector< vector<double> > Matrix::add( Matrix anotherMatrix ){
 
     return result;
 }
+
 
 // multiply the matrix with a given matrix and put the result in a new matrix
 vector< vector<double> > Matrix::multiply( Matrix anotherMatrix ){
@@ -263,6 +279,22 @@ vector< vector<double> > Matrix::multiply( Matrix anotherMatrix ){
 }
 
 
+// multiply the matrix with a given number and put the result in a new matrix
+vector< vector<double> > Matrix::scalarMultiply( double scalar ){
+    // a matrix to store the result 
+    vector< vector<double> > result;
+    result = this->matrix;
+
+    for( int row = 0; row < this->rows; row++ ){
+        for( int col = 0; col < this->columns; col++ ){
+            result[row][col] *= scalar;
+        }
+    }
+    // finally get the result 
+    return result;
+}
+
+
 // multiply the matrix with a given matrix and put the result in a new matrix
 Matrix Matrix::power( double exponent ){
     Matrix *result = this;
@@ -279,22 +311,6 @@ Matrix Matrix::power( double exponent ){
     counter++;        
     return *result *= power( exponent - 1);
 }
-
-// multiply the matrix with a given number and put the result in a new matrix
-vector< vector<double> > Matrix::scalarMultiply( double scalar ){
-    // a matrix to store the result 
-    vector< vector<double> > result;
-    result = this->matrix;
-
-    for( int row = 0; row < this->rows; row++ ){
-        for( int col = 0; col < this->columns; col++ ){
-            result[row][col] *= scalar;
-        }
-    }
-    // finally get the result 
-    return result;
-}
-
 
 
 // initialise a matrix with zeros
@@ -321,4 +337,28 @@ Matrix* Matrix::findMatrix(char matrixName[], Matrix **array, const int SIZE){
             return array[i];
         
     return nullptr;
+}
+
+
+/* return cofactor matrix of an element of a matrix */
+vector< vector<double> > Matrix::getCofactor( vector< vector<double> > matrix, int order, int excludedRow, int excludedColumn){
+    // cofactored matrix  
+    vector< vector<double> > newMatrix;
+
+    for( int row = 0; row < order; row++ ){
+        vector< double > temp;
+        for( int col = 0; col < order; col++ ){
+            /* if element in the main matrix doesn't intersect with the
+             *  excluded row or column then it's added to the cofactor matrix */
+            if( row != excludedRow && col != excludedColumn){
+                //double tempElement = matrix[row][col];
+                temp.push_back(matrix[row][col]);
+            }
+        }
+        /* add the temporary array to the matrix */
+        if( !temp.empty() )
+            newMatrix.push_back(temp);
+    }
+    /* return the cofactor matrix */
+    return newMatrix;
 }

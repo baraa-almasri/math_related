@@ -1,48 +1,35 @@
-/*-----------------------------------------------------------------------------
- *Created by Baraa Al-Masri | E-Mail : baraa.masri@asu.edu.jo | Twitter : @hexagon16rpm
- *Grab me a cup of coffee : https://www.paypal.me/baraamasri
- *Contributer: Baraa Al-Masri
- *------------------------------------------------------------------------------
- *This program is free software: you can redistribute it and/or modify
- *it under the terms of the GNU General Public License as published by
- *the Free Software Foundation, either version 2 of the License, or
- *(at your option) any later version.
- *This program is distributed in the hope that it will be useful,
- *but WITHOUT ANY WARRANTY; without even the implied warranty of
- *MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *GNU General Public License for more details.
- *You should have received a copy of the GNU General Public License
- *along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *-------------------------------------------------------------------------------
- */
 
 #ifndef MATRIX_H
 #define MATRIX_H
 //matrix class by Baraa Al-Masri
 #include <stdio.h>
 #include <vector>
+using std::vector;
 #include <math.h>
 #include <stdlib.h>
+#include <string>
+using std::string;
 #include <iostream>
-using namespace std;
+using std::cout;
+using std::endl;
 
 class Matrix{
 public:
     // constructors
-    Matrix(int rows, int columns, string matrixName);
+    Matrix(int, int, string);
     Matrix();
 
     // lame setters & getters
-    Matrix setRows(int rows);
+    Matrix setRows(int);
     int getRows();
     //
-    Matrix setCols(int cols);
+    Matrix setCols(int);
     int getCols();
     //
-    Matrix setMatrix(vector< vector<double> > matrix);
+    Matrix setMatrix(vector< vector<double> >);
     vector< vector<double> > getMatrix();
     //
-    Matrix setMatrixName(string matrixName);
+    Matrix setMatrixName(string);
     string getMatrixName();
     //
     vector<vector<double>> getZeroMatrix();
@@ -59,25 +46,28 @@ public:
     // actual matrices operations functions
 
     // add equals a matrix operator
-    Matrix operator += (Matrix anotherMatrix);
+    Matrix operator += (Matrix);
 
     // multiply equals a matrix operator
-    Matrix operator *= (Matrix anotherMatrix);
+    Matrix operator *= (Matrix);
 
     // multiply equals a scalar operator
-    Matrix operator *= (double scalar);
+    Matrix operator *= (double);
 
     // find the transpose matrix
     vector< vector<double> > transpose();
 
     // power of matrix
-    Matrix power(double exp);
+    Matrix power(double);
+    
+    // cofactor function
+    vector< vector<double> > getCofactor( vector< vector<double> >, int, int, int );
 
     // static functions:
 
     // returns memory address of the matching matrix name
-    static Matrix *findMatrix(char matrixName[], Matrix **array, int SIZE);
-
+    static Matrix *findMatrix(char[], Matrix **, int);
+    
     // end of functions, well I lied :)    
     ////////////////
 
@@ -92,22 +82,22 @@ protected:
     vector<vector<double>> zeroMatrix;
 
     // initialise a matrix with zeros
-    void initMatrix(vector< vector<double> > &mtrx, int rows, int columns );
+    void initMatrix(vector< vector<double> > &, int, int );
 
     // print spaces as same as matrix name
-    void printSpaces(string matrixName);
+    void printSpaces(string);
 
     // check orders
-    int checkOrders(Matrix mtrx1, Matrix mtrx2);
+    int checkOrders(Matrix, Matrix);
 
     // this function adds a matrix to the current matrix & returns the added matrix
-    vector< vector<double> > add(Matrix anotherMatrix );
+    vector< vector<double> > add(Matrix);
 
     // multiply the matrix with a given matrix and put the result in a new matrix
-    vector< vector<double> > multiply( Matrix anotherMatrix );
+    vector< vector<double> > multiply( Matrix );
 
     // multiply the matrix with a given number and put the result in a new matrix
-    vector< vector<double> > scalarMultiply( double scalar );
+    vector< vector<double> > scalarMultiply( double );
 };
 // end of class
 

@@ -90,28 +90,7 @@ vector< vector<double> > SquareMatrix::inverse(){
     return result;
 }
 
-/* return cofactor matrix of an element of a matrix */
-vector< vector<double> > SquareMatrix::getCofactor( vector< vector<double> > matrix, int order, int excludedRow, int excludedColumn){
-    // cofactored matrix  
-    vector< vector<double> > newMatrix;
 
-    for( int row = 0; row < order; row++ ){
-        vector< double > temp;
-        for( int col = 0; col < order; col++ ){
-            /* if element in the main matrix doesn't intersect with the
-             *  excluded row or column then it's added to the cofactor matrix */
-            if( row != excludedRow && col != excludedColumn){
-                //double tempElement = matrix[row][col];
-                temp.push_back(matrix[row][col]);
-            }
-        }
-        /* add the temporary array to the matrix */
-        if( !temp.empty() )
-            newMatrix.push_back(temp);
-    }
-    /* return the cofactor matrix */
-    return newMatrix;
-}
 
 // generate an identity matrix
 void SquareMatrix::genIdentity() {
@@ -124,7 +103,7 @@ void SquareMatrix::genIdentity() {
 // the actual determinant finder :)
 double SquareMatrix::det( vector<vector<double>> matrix, int order ){
     double answer = 0;
-    // if order is 1x1 return the oly element in the matrix
+    // if order is 1x1 return the only element in the matrix
     if( order == 1){
         return matrix[0][0];
     }
@@ -141,6 +120,6 @@ double SquareMatrix::det( vector<vector<double>> matrix, int order ){
         newMatrix = getCofactor( matrix , order, 0, mainCol);
         answer += pow(-1, mainCol) * matrix[0][mainCol] * (det( newMatrix, order - 1 ));
     }
-    // finally return the answer when the recieved matrix is 1*1
+    // return the answer when the recursion base is reached
     return answer;
 }

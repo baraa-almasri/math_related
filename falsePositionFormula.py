@@ -51,7 +51,7 @@ print("---------------------------\n")
 while True:
     equation = "y = "  # polynomial assignment statement
     equation += str(input("Enter function's formula: \nNote that x^n ==> x**n \nf(x) = "))
-    print("Now we'll find root on the interval [a,b] using bisection method")
+    print("Now we'll find root on the interval [a,b] using false position method")
     firstPoint = float(input("enter a: "))
     secondPoint = float(input("enter b: "))
     errorTolerance = float(input("Enter error tolerance \nerror = "))

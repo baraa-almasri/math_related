@@ -19,6 +19,7 @@ Matrix.o: Matrix.cpp
 SquareMatrix.h.gch: SquareMatrix.h
 	clang++ -c SquareMatrix.hpp
 
+	
 #creating object file of SquareMatrix.cpp
 SquareMatrix.o: SquareMatrix.cpp
 	clang++ -c SquareMatrix.cpp

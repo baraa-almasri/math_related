@@ -1,4 +1,3 @@
-
 #ifndef MATRIX_H
 #define MATRIX_H
 //matrix class by Baraa Al-Masri

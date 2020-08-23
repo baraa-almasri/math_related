@@ -1,4 +1,3 @@
-
 #ifndef SQUAREMATRIX_H
 #define SQUAREMATRIX_H
 //matrix class by Baraa Al-Masri

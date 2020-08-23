@@ -1,6 +1,6 @@
 # Longclaw
 
-### Go to the [wiki page](https://github.com/baraa-almasri/longclaw/wiki) for class documentation 
+### Go to the [wiki page](https://github.com/baraa-almasri/math_related/wiki/Longclaw-main-wiki) for class documentation 
 ### Prerequisites:
 
 - git `duh`

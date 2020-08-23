@@ -13,4 +13,4 @@
 - Five-point formula
 - Forward-Difference formula
 - Numerical Integration
-- Matrix app `moved to a seperate repo`
+- Matrix app `moved to a seperate repo` ***moved back***

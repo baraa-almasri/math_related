@@ -217,6 +217,7 @@ void operationsMenu(Matrix *matricesList[], int noOfMatrices){
         hold();
         while(getchar() != '\n');
     }
+    
 }
 
 #endif

@@ -33,21 +33,12 @@ double execOperator(double rightOperand, double leftOperand, char operation){
             return 0;
     }
 }
-
+using std::stod;
 double evalFromString(string polynomial) {
-    double rFinalNumber{0.0};
-
-    double rFirstOperand;
-    double rSecondOperand;
-
-    bool firstEnterd{false};
 
 	for ( int k = 0; k < polynomial.size(); k++ ) {
         string sFirstOperand{""};
         string sSecondOperand{""};
-
-        rFirstOperand = 0.0;
-        rSecondOperand = 0.0;
 
 		if ( isOperator(polynomial[k]) ) {
             char op = polynomial[k];
@@ -59,7 +50,6 @@ double evalFromString(string polynomial) {
             }
 
             std::reverse(sFirstOperand.begin(), sFirstOperand.end());   
-            rFirstOperand = std::stod(sFirstOperand);
 
             for( int l = k+1; !isOperator(polynomial[l]) && l < polynomial.size(); l++ ) {
                 sSecondOperand.push_back(polynomial[l]);
@@ -67,34 +57,30 @@ double evalFromString(string polynomial) {
                 k = l;
             }
             
-            rSecondOperand = std::stod(sSecondOperand);
-
             sFirstOperand.push_back('#');
             sFirstOperand += sSecondOperand;
             sFirstOperand.push_back('*');
 
-            rFinalNumber += execOperator(rFirstOperand, rSecondOperand, op);
-
             polynomial = std::regex_replace(polynomial, 
                 (std::regex)sFirstOperand, std::to_string( 
-                execOperator(rFirstOperand, rSecondOperand, op)
+                execOperator( stod(sFirstOperand)
+                    , stod(sSecondOperand)
+                    , op)
                 )
             );
                     
-            // remove duplicate numbers            
-            rFinalNumber -= rFirstOperand == rSecondOperand ? rFirstOperand: 0;
+
 		}
 	
 	}		
 
     return std::stod(polynomial);
-    //return rFinalNumber;
 }
 
 
 int main() {
 
-    string fun = "10+16-2";
+    string fun = "2*6+33";
 
     std::cout << evalFromString(fun) << std::endl;
 

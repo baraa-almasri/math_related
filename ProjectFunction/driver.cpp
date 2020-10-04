@@ -51,6 +51,8 @@ double evalFromString(string polynomial) {
 
 		if ( isOperator(polynomial[k]) ) {
             char op = polynomial[k];
+            // to replace operators with hash to replace it with the value
+            polynomial[k] = '#'; 
 
             for( int l = k-1; !isOperator(polynomial[l]) && l >= 0; l-- ) {
                 sFirstOperand.push_back(polynomial[l]);
@@ -66,12 +68,18 @@ double evalFromString(string polynomial) {
             }
             
             rSecondOperand = std::stod(sSecondOperand);
-            
+
+            sFirstOperand.push_back('#');
+            sFirstOperand += sSecondOperand;
+            sFirstOperand.push_back('*');
+
             rFinalNumber += execOperator(rFirstOperand, rSecondOperand, op);
 
-            //rFinalNumber += rFirstOperand;
-            //rFinalNumber += rSecondOperand;
-		
+            polynomial = std::regex_replace(polynomial, 
+                (std::regex)sFirstOperand, std::to_string( 
+                execOperator(rFirstOperand, rSecondOperand, op)
+                )
+            );
                     
             // remove duplicate numbers            
             rFinalNumber -= rFirstOperand == rSecondOperand ? rFirstOperand: 0;
@@ -79,17 +87,18 @@ double evalFromString(string polynomial) {
 	
 	}		
 
-    return rFinalNumber;
+    return std::stod(polynomial);
+    //return rFinalNumber;
 }
 
 
 int main() {
 
-    string fun = "10+16#2";
+    string fun = "10+16-2";
 
-    //std::cout << evalFromString(fun) << std::endl;
+    std::cout << evalFromString(fun) << std::endl;
 
-    std::regex x("16#2+*");
+    std::regex x("16#2*");
     string lol = "18";
 
     fun = std::regex_replace(fun, x, lol);

@@ -17,10 +17,10 @@ public:
         // convert function equation to postfix
         tmp = convertInToPost(this->equation);
         // regex to match x
-        std::regex x("[(x)]");
+        std::regex x("[x]");
 
         // get the evaluated value
-        return solvePostfix(std::regex_replace(tmp, x, std::to_string(value)) );// << std::endl;
+        return solvePostfix(std::regex_replace(tmp, x, std::to_string(value)) );
     }
 
 

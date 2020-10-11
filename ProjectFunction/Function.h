@@ -2,6 +2,8 @@
 #include <math.h> // pow
 #include <stdlib.h> // malloc 
 #include <regex> // regex_replace
+#include <algorithm> // replace_if
+#include <iostream>
 
 using std::string;
 
@@ -9,6 +11,8 @@ class Function {
 public:
     Function(string polynomial) {
         this->polynomial = polynomial;
+        this->lowerenPolynomial();
+        this->removeSpaces();
 
     }
 
@@ -18,16 +22,17 @@ public:
     
 
     double at(double point) {
-
+        this->replaceX(point);
+        std::cout << "in fn: " <<this->polynomial << std::endl;
         return this->evaluateInfix(this->polynomial);
     }
 
 
-private:
+//private:
 
     string polynomial;
 
-private: // functions
+//private: // functions
     
     double evaluateInfix(string polynomial) {
 
@@ -55,7 +60,7 @@ private: // functions
                 sFirstOperand.push_back('#');
                 sFirstOperand += sSecondOperand;
                 sFirstOperand.push_back('*');
-
+    
                 polynomial = std::regex_replace(polynomial, 
                     (std::regex)sFirstOperand, std::to_string( 
                     execOperator( stod(sFirstOperand)
@@ -68,7 +73,39 @@ private: // functions
         return std::stod(polynomial);
     }
 
-    string replaceX(double x) {
+    void replaceX(double x) {
+        std::string preX;
+        std::string afterX;
+
+        for(int k = 1; k < this->polynomial.size(); k++) {
+           if(this->polynomial[k] == 'x' && isdigit(this->polynomial[k - 1])) {
+               preX = this->polynomial.substr(0, k);
+               preX.push_back('*');
+               afterX = this->polynomial.substr(k, this->polynomial.size());
+
+               this->polynomial = preX + afterX;
+
+           }
+
+        }
+        this->polynomial.resize(this->polynomial.size() + 20*std::to_string(x).size());
+        this->polynomial = std::regex_replace(this->polynomial, 
+            (std::regex("[x]")), std::to_string(x));
+        
+
+    }
+
+    void lowerenPolynomial() {
+        for(char &c: this->polynomial) {
+            c = isupper(c)? (char)tolower(c): c;
+
+        }
+    }
+
+    void removeSpaces() {
+        this->polynomial = 
+            std::regex_replace(this->polynomial,
+                (std::regex)"\\s", "");
 
     }
 

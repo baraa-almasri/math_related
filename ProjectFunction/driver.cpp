@@ -5,10 +5,9 @@
 
 int main() {
     
-    std::unique_ptr<Function> fn(new Function("2.1-3. 14 *10x"));
+    std::unique_ptr<Function> fn(new Function("x^2+55+2x"));
 
     printf("val: %lf\n", fn->at(9));
-    std::cout << fn->polynomial << std::endl;
     
     return 0;
 }

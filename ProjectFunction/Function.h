@@ -13,86 +13,97 @@ public:
         this->polynomial = polynomial;
         this->lowerenPolynomial();
         this->removeSpaces();
+        if(this->checkConstFunction()) {
+            puts("Constant Function!");
+        }
 
     }
 
     ~Function() {
-
+        // no destructor
     }
     
 
     double at(double point) {
-        this->replaceX(point);
-        std::cout << "in fn: " <<this->polynomial << std::endl;
-        return this->evaluateInfix(this->polynomial);
+
+        return this->evaluateInfix(
+            this->replaceX(this->polynomial ,point)
+        );
     }
 
 
-//private:
+private:
 
     string polynomial;
 
-//private: // functions
+private: // functions
     
-    double evaluateInfix(string polynomial) {
+    double evaluateInfix(string polynomial) const {
 
     	for ( int k = 0; k < polynomial.size(); k++ ) {
-            string sFirstOperand{""};
-            string sSecondOperand{""};
 
-      		if ( isOperator(polynomial[k]) ) {
-                char op = polynomial[k];
-                // to replace operators with hash to replace it with the value
-                polynomial[k] = '#'; 
-
-                for( int l = k-1; !isOperator(polynomial[l]) && l >= 0; l-- ) {
-                    sFirstOperand.push_back(polynomial[l]);
-                }
-
-                std::reverse(sFirstOperand.begin(), sFirstOperand.end());   
-
-                for( int l = k+1; !isOperator(polynomial[l]) && l < polynomial.size(); l++ ) {
-                    sSecondOperand.push_back(polynomial[l]);
-                    // new index
-                    k = l;
-                }
-            
-                sFirstOperand.push_back('#');
-                sFirstOperand += sSecondOperand;
-                sFirstOperand.push_back('*');
-    
-                polynomial = std::regex_replace(polynomial, 
-                    (std::regex)sFirstOperand, std::to_string( 
-                    execOperator( stod(sFirstOperand)
-                        , stod(sSecondOperand)
-                        , op) )
-                );
-    		}
+            polynomial = isOperator(polynomial[k])? evaluateTwoOperandsInString(polynomial, k): polynomial;
+    		
     	}		
 
         return std::stod(polynomial);
     }
 
-    void replaceX(double x) {
+    string evaluateTwoOperandsInString(string polynomial, uint operatorsIndex) const {
+        
+        string sFirstOperand{""};
+        string sSecondOperand{""};
+        
+        char op = polynomial[operatorsIndex];
+        // to replace operators with hash to replace it with the value
+        polynomial[operatorsIndex] = '#'; 
+
+        for( int l = operatorsIndex-1; l >= 0 && !isOperator(polynomial[l]); l-- ) {
+            sFirstOperand.push_back(polynomial[l]);
+
+        }
+        
+        // since the number is pushed_back in a revered way!
+        std::reverse(sFirstOperand.begin(), sFirstOperand.end());   
+
+        for( int l = operatorsIndex+1; !isOperator(polynomial[l]) && l < polynomial.size(); l++ ) {
+            sSecondOperand.push_back(polynomial[l]);
+
+        }
+        
+        sFirstOperand.push_back('#');
+        sFirstOperand += sSecondOperand;
+        sFirstOperand.push_back('*');
+    
+        return  std::regex_replace(polynomial, 
+            (std::regex)sFirstOperand, std::to_string( 
+            execOperator( stod(sFirstOperand)
+                , stod(sSecondOperand)
+                , op) )
+        );
+
+    }
+
+    // TODO:
+    // fix this shit!
+    string replaceX(string polynomial, double x) const {
         std::string preX;
         std::string afterX;
 
-        for(int k = 1; k < this->polynomial.size(); k++) {
-           if(this->polynomial[k] == 'x' && isdigit(this->polynomial[k - 1])) {
-               preX = this->polynomial.substr(0, k);
+        for(int k = 1; k < polynomial.size(); k++) {
+           if(polynomial[k] == 'x' && isdigit(polynomial[k - 1])) {
+               preX = polynomial.substr(0, k);
                preX.push_back('*');
-               afterX = this->polynomial.substr(k, this->polynomial.size());
+               afterX = polynomial.substr(k, polynomial.size());
 
-               this->polynomial = preX + afterX;
+               polynomial = preX + afterX;
 
            }
 
         }
-        this->polynomial.resize(this->polynomial.size() + 20*std::to_string(x).size());
-        this->polynomial = std::regex_replace(this->polynomial, 
-            (std::regex("[x]")), std::to_string(x));
-        
 
+        return std::regex_replace(polynomial, 
+            (std::regex("[x]")), std::to_string(x));
     }
 
     void lowerenPolynomial() {
@@ -105,12 +116,23 @@ public:
     void removeSpaces() {
         this->polynomial = 
             std::regex_replace(this->polynomial,
-                (std::regex)"\\s", "");
+            (std::regex)"\\s", "");
 
     }
 
+    bool checkConstFunction() const {
+        for(char c: this->polynomial) {
+            if(c == 'x') {
+
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     // execute a binary operator using a character variable
-    static double execOperator(double rightOperand, double leftOperand, char op){
+    static double execOperator(double rightOperand, double leftOperand, char op) {
 
         return (op == '+')? rightOperand + leftOperand:
             (op == '-')? rightOperand - leftOperand:
@@ -120,7 +142,7 @@ public:
     }
 
     // check for operator
-    static bool isOperator(char character){
+    static bool isOperator(char character) {
         char c = character;
 
         return c == '+' || c == '-' || c == '*' || c == '/' || c == '^';

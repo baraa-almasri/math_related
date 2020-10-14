@@ -10,10 +10,13 @@ using std::string;
 using std::regex;
 
 class Function {
+private:
+    string equation;
+
 public:
     Function(string equation) {
         this->equation = equation;
-        this->lowerenPolynomial();
+        this->lowerenEquation();
         this->removeSpaces();
         if(this->checkConstFunction()) {
             puts("Constant Function!");
@@ -33,16 +36,13 @@ public:
     }
 
 
-private:
-
-    string equation;
-
 private: // functions
     
     static double evaluateInfix(string polynomial) {
 
     	for ( int k = 0; k < polynomial.size(); k++ ) {
             
+            polynomial = polynomial[k] == '('? execParanthsInString(polynomial): polynomial;
             polynomial = isOperator(polynomial[k])? evaluateTwoOperandsInString(polynomial, k): polynomial;
             k = isOperator(polynomial[k])? k-1: k;
     		
@@ -52,31 +52,14 @@ private: // functions
     }
 
     static string evaluateTwoOperandsInString(string polynomial, uint operatorIndex) {
-        
-        string sFirstOperand{""};
-        string sSecondOperand{""};
-        
+
         char op = polynomial[operatorIndex];
         // to replace operators with hash to replace it with the value
         polynomial[operatorIndex] = '#'; 
 
-        /*for( int l = operatorIndex-1; l >= 0 && !isOperator(polynomial[l]); l-- ) {
-            sFirstOperand.push_back(polynomial[l]);
-
-        }
-*/
-        sFirstOperand = polynomial.substr(0, operatorIndex);
+        string sFirstOperand = polynomial.substr(0, operatorIndex);
         
-        // since the number is slapped in in a revered way!
-        //std::reverse(sFirstOperand.begin(), sFirstOperand.end());   
-        
-//        sSecondOperand = polynomial[operatorIndex+1] == '('? execParanthsFromString(polynomial, operatorsIndex+1): sSecondOperand;
-        /*for( int l = operatorIndex+1; !isOperator(polynomial[l]) && l < polynomial.size(); l++ ) {
-            sSecondOperand.push_back(polynomial[l]);
-
-        }
-        */
-        sSecondOperand = polynomial.substr(operatorIndex + 1,
+        string sSecondOperand = polynomial.substr(operatorIndex + 1,
             polynomial.find( *std::find_if(polynomial.begin(), polynomial.end(), isOperator) )
             - 1 -
             operatorIndex  
@@ -84,25 +67,32 @@ private: // functions
     
         // regex pattern to replace first and second
         // operands in the given polynomial string
-        string sReplacePattern{""};
-        sReplacePattern += sFirstOperand;
-        sReplacePattern.push_back('#');
-        sReplacePattern += sSecondOperand;
+        string sReplacePattern = sFirstOperand + '#' + sSecondOperand;
         // pattern requirements!
         sReplacePattern.push_back('*');
 
-        /*sFirstOperand.push_back('#');
-        sFirstOperand += sSecondOperand;
-        // regex pattern!
-        sFirstOperand.push_back('*');
-    */
-        return  regex_replace(polynomial, 
+        return regex_replace(polynomial, 
             (regex)sReplacePattern, to_string( 
             execOperator( stod(sFirstOperand)
                 , stod(sSecondOperand)
                 , op) )
         );
 
+    }
+
+    // return a string with parenthesis evaluated at some index
+    static string execParanthsInString(string polynomial) {
+
+        string sInfixExpression;
+        sInfixExpression = polynomial.substr( 
+            polynomial.find('(') + 1, polynomial.find(')') - 1
+            
+        );
+
+        return evaluateTwoOperandsInString(sInfixExpression, 
+            sInfixExpression.find(*std::find_if(
+                polynomial.begin(), polynomial.end(), isOperator)) ) + 
+                    polynomial.substr(polynomial.find(')') + 1, string::npos);
     }
 
     // TODO:
@@ -147,39 +137,16 @@ private: // functions
         return regex_replace(polynomial, 
             (regex("[x]")), to_string(x));
     }
-public:
-    // return a string with parenthesis evaluated at some index
-    static string execParanthsFromString(string polynomial, uint index) {
-        string firstOperand{""};
-        string secondOperand{""};
 
-        uint operatorIndex;
-
-        for(uint k = index + 1; !isOperator(polynomial[k]); k++) {
-            firstOperand.push_back(polynomial[k]);
-            operatorIndex = k + 1;
-        }
-
-        for(uint k = operatorIndex + 1; k < polynomial.size() && polynomial[k] != ')'; k++) {
-            secondOperand.push_back(polynomial[k]);
-        }
-
-        double evaluatedShit = execOperator(stod(firstOperand), 
-            stod(secondOperand), 
-            polynomial[operatorIndex]
-        );
-
-
-        return to_string(evaluatedShit) ;//+ polynomial.substr(polynomial.find(')') + 1, polynomial.size());
-    }
-
-    void lowerenPolynomial() {
+    // convert each letter to lower case
+    void lowerenEquation() {
         for(char &c: this->equation) {
             c = isupper(c)? (char)tolower(c): c;
 
         }
     }
 
+    // remove spaces from the function's equation
     void removeSpaces() {
         this->equation = 
             regex_replace(this->equation,
@@ -187,6 +154,7 @@ public:
 
     }
 
+    // check if the equation reresents a line
     bool checkConstFunction() const {
         for(char c: this->equation) {
             if(c == 'x') {

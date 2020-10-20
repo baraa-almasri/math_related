@@ -40,7 +40,7 @@ private: // functions
     
     static double evaluateInfix(string polynomial) {
 
-    	for ( int k = 0; k < polynomial.size(); k++ ) {
+    	for( uint k = 0; k < polynomial.size(); k++ ) {
             
             polynomial = polynomial[k] == '('? execParanthsInString(polynomial): polynomial;
             polynomial = isOperator(polynomial[k])? evaluateTwoOperandsInString(polynomial, k): polynomial;
@@ -102,7 +102,7 @@ private: // functions
         string afterX;
         string preXadjacent{to_string(x)};
         
-        for(int k = 1; k < polynomial.size(); k++) {
+        for(uint k = 1; k < polynomial.size(); k++) {
             if(polynomial[k] == 'x' && isdigit(polynomial[k - 1])) {
                 // count digits before x
                 uint noDigitsBeforeX{0};
@@ -118,12 +118,8 @@ private: // functions
                 preX = polynomial.substr(0, k - noDigitsBeforeX);
 
                 // final format
-                // \\(\d\\*[x]\\)
-                preX.push_back('(');
-                preX += digitsBeforeX;
-                preX.push_back('*');
-                preX.push_back('x');
-                preX.push_back(')');
+                // \\(\d+\\*[x]\\)
+                preX += '(' + digitsBeforeX + "*x)";
 
                 // everything after x and its coefficient
                 afterX = polynomial.substr(k+1, polynomial.size());

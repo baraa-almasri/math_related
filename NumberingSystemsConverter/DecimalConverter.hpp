@@ -59,13 +59,13 @@ public:
         string sHexNum{""};         
         // converting number pre floating point
         sHexNum += convertPrePoint(stol(decNum.prePoint), 16);
-        /*// add floating point(if exists)
+        // add floating point(if exists)
         sHexNum.push_back( 
             decNum.pointIndex == -1? (char)48: '.'
         );
         // converting number after floating point
         sHexNum += convertPostPoint(stod(decNum.postPoint), 16);
-*/
+
         return sHexNum;
     }
 
@@ -77,7 +77,7 @@ private: // shady functions
         while(prePoint != 0) {
             sPrePoint.push_back( 
                 (char)( 
-                    prePoint % base > 10? 65: 48
+                    prePoint % base > 9? 55: 48
                     + prePoint % base
                 )
             );
@@ -96,8 +96,14 @@ private: // shady functions
         
         do {
             postPoint *= base;
-            int prePoint = fmod(postPoint, 10);
-            sPostPoint.push_back( (char)(48 + prePoint) );
+            int prePoint = fmod( postPoint
+                , base == 16? 100: 10 );
+            sPostPoint.push_back( 
+                (char)( 
+                    (prePoint % base > 9? 55: 48)
+                    + (prePoint % base)
+                )
+            );
             postPoint -= prePoint;
 
         } while((int)fmod(postPoint*10, 10) != (int)fmod(nInitPostPoint*10, 10) 

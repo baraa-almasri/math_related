@@ -77,8 +77,8 @@ private: // shady functions
         while(prePoint != 0) {
             sPrePoint.push_back( 
                 (char)( 
-                    prePoint % base > 9? 55: 48
-                    + prePoint % base
+                    (prePoint % base > 9? 55: 48)
+                    + (prePoint % base)
                 )
             );
             prePoint /= base;

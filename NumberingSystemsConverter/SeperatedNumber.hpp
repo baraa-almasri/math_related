@@ -15,7 +15,7 @@ struct SeperatedNumber {
 
         this->prePoint = to_string(x).substr(0, 
             this->pointIndex == -1? to_string(x).size():
-            this->pointIndex+1
+            this->pointIndex
         );
 
         this->postPoint = "0" +

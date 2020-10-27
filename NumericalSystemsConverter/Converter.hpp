@@ -1,74 +1,119 @@
 #ifndef CONVERTER_HPP
 #define CONVERTER_HPP
 
-#include "DecimalConverter.hpp"
-#include "BinaryConverter.hpp"
-#include "OctalConverter.hpp"
+#include <string>
+using std::string;
+using std::to_string;
+using std::stol;
+using std::stod;
+#include <algorithm>
+using std::reverse;
+#include <cmath> // fmod
+#include "SeperatedNumber.hpp" // lol
+typedef long long lli;
 
 class Converter {
-public:
+protected:
 
-    ~Converter() {
-        delete instance;
+    static string gerenralConvert(
+        const string number, 
+        const int targetBase, 
+        const int originalBase) 
+    {
+        SeperatedNumber num(stod(number));
+        // the compiler will convert it to decimal value, if declared as a normal number
+        string finalNumber{""};         
+        // converting number pre floating point
+        finalNumber += 
+            (originalBase == 10? convertPrePoint10: convertPrePoint)(num.prePoint, targetBase);
+        // add floating point(if exists)
+        finalNumber.push_back( 
+            num.pointIndex == -1? (char)48: '.'
+        );
+        // converting number after floating point
+        finalNumber += 
+            (originalBase == 10? convertPostPoint10: convertPostPoint)(num.postPoint, targetBase);
 
+        return finalNumber;
     }
 
-    static Converter *getInstance() {
-        instance = !instance? new Converter(): instance;
+private:
+    // convert from decimal
+    static string convertPrePoint10(string sPrePoint, lli base) {
+        lli prePoint = stol(sPrePoint);
+        sPrePoint.clear();
+
+        while(prePoint != 0) {
+            sPrePoint.push_back( 
+                (char)( 
+                    (prePoint % base > 9? 55: 48)
+                    + (prePoint % base)
+                )
+            );
+            prePoint /= base;
+        }
+        reverse(sPrePoint.begin(), sPrePoint.end());
 
 
-        return instance;
+        return sPrePoint;
     }
 
-    void convertToOthers(double number, int base) const {
+    // convert from decimal
+    static string convertPostPoint10(string sPostPoint, lli base) {
+        double postPoint = stod(sPostPoint);
+        sPostPoint.clear();
 
-        switch (base) {
-        case 2:
-            convertBinary(number);
-            break;
-        case 8:
-            convertOctal(number);
-            break;
-        case 10:
-            convertDecimal(number);
-            break;
+        double nInitPostPoint = postPoint;
         
-        default:
-            break;
+        do {
+            postPoint *= base;
+            int prePoint = fmod( postPoint
+                , base == 16? 100: 10 );
+            sPostPoint.push_back( 
+                (char)( 
+                    (prePoint % base > 9? 55: 48)
+                    + (prePoint % base)
+                )
+            );
+            postPoint -= prePoint;
+
+        } while(( (int)fmod(postPoint*10, 10) 
+            != (int)fmod(nInitPostPoint*10, 10) )
+            && postPoint != 0);
+
+
+        return sPostPoint;
+    }
+
+    // convert to decimal
+    static string convertPrePoint(string prePoint, lli base) {
+        reverse(prePoint.begin(), prePoint.end());
+
+        lli convertedPrePoint{0};
+        for(int k = 0; k < prePoint.size(); k++) {
+            convertedPrePoint += (int)(prePoint[k] - (prePoint[k] > 64? 55 : 48 ) )
+                *pow(base, k);
+
         }
 
+        return to_string(convertedPrePoint);
     }
 
-private: 
-    static Converter *instance;
+    // convert to decimal
+    static string convertPostPoint(string postPoint, lli base) {
+        double convertedPostPoint{0};
+        for(int k = 2; k < postPoint.size(); k++) {
+            // k-1 beacuase index started at 2 where point was at index 1 LOL
+            convertedPostPoint += (int)(postPoint[k] - (postPoint[k] > 64? 55 : 48 ))
+            *pow(base, -1*(k-1));
+            
+        }
 
-    Converter() {}
-
-    void convertBinary(double number) const {
-        printf("dec: %s\n", BinaryConverter::convertToDecimal(number).c_str());
-        printf("oct: %s\n", BinaryConverter::convertToOctal(number).c_str());
-        printf("hex: %s\n", BinaryConverter::convertToHexadecimal(100.010).c_str());
- 
-    }
-    
-    void convertOctal(double number) const {
-        printf("dec: %s\n", OctalConverter::convertToDecimal(number).c_str());
-        printf("bin: %s\n", OctalConverter::convertToBinary(number).c_str());
-        printf("hex: %s\n", OctalConverter::convertToHexadecimal(number).c_str());
-
+        // only the fractional part :)
+        return to_string(convertedPostPoint).substr(2, std::string::npos);
     }
 
-    void convertDecimal(double number) const {
-        printf("bin: %s\n", DecimalConverter::convertToBinary(number).c_str());
-        printf("oct: %s\n", DecimalConverter::convertToOctal(number).c_str());
-        printf("hex: %s\n", DecimalConverter::convertToHexadecimal(number).c_str());
-
-    }
-    //void convertHexadecimal(double number) {}
 
 };
 
-// static init
-Converter *Converter::instance = nullptr;
-
-#endif //CONVERTER_HPP
+#endif // CONVERTER_HPP

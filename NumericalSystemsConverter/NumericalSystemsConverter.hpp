@@ -21,20 +21,21 @@ public:
         return instance;
     }
 
-    void convertToOthers(double number, int base) const {
+    void convertToOthers(string number, int base) const {
+        number += number.find('.') == -1? ".": "";
 
         switch (base) {
         case 2:
-            convertBinary(number);
+            convertBinary(stod(number));
             break;
         case 8:
-            convertOctal(number);
+            convertOctal(stod(number));
             break;
         case 10:
-            convertDecimal(number);
+            convertDecimal(stod(number));
             break;
         case 16:
-            convertHexadecimal(to_string(number));
+            convertHexadecimal(number);
             break;
         
         default:

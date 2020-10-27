@@ -8,7 +8,7 @@ using std::stol;
 using std::stod;
 #include <algorithm>
 using std::reverse;
-#include <cmath> // fmod
+#include <cmath> // fmod, modf(in the future)
 #include "SeperatedNumber.hpp" // lol
 typedef long long lli;
 
@@ -20,26 +20,32 @@ protected:
         const int targetBase, 
         const int originalBase) 
     {
-        SeperatedNumber num(stod(number));
+        SeperatedNumber num(number);
         // the compiler will convert it to decimal value, if declared as a normal number
         string finalNumber{""};         
         // converting number pre floating point
         finalNumber += 
-            (originalBase == 10? convertPrePoint10: convertPrePoint)(num.prePoint, targetBase);
+            (originalBase == 10? convertPrePoint10: 
+                convertPrePoint)(num.prePoint, targetBase
+            );
+
         // add floating point(if exists)
         finalNumber.push_back( 
             num.pointIndex == -1? (char)48: '.'
         );
+
         // converting number after floating point
         finalNumber += 
-            (originalBase == 10? convertPostPoint10: convertPostPoint)(num.postPoint, targetBase);
+            (originalBase == 10? convertPostPoint10: 
+                convertPostPoint)(num.postPoint, targetBase
+            );
 
         return finalNumber;
     }
 
 private:
     // convert from decimal
-    static string convertPrePoint10(string sPrePoint, lli base) {
+    static string convertPrePoint10(string sPrePoint, const lli base) {
         lli prePoint = stol(sPrePoint);
         sPrePoint.clear();
 
@@ -59,7 +65,7 @@ private:
     }
 
     // convert from decimal
-    static string convertPostPoint10(string sPostPoint, lli base) {
+    static string convertPostPoint10(string sPostPoint, const lli base) {
         double postPoint = stod(sPostPoint);
         sPostPoint.clear();
 
@@ -86,7 +92,7 @@ private:
     }
 
     // convert to decimal
-    static string convertPrePoint(string prePoint, lli base) {
+    static string convertPrePoint(string prePoint, const lli base) {
         reverse(prePoint.begin(), prePoint.end());
 
         lli convertedPrePoint{0};
@@ -100,7 +106,7 @@ private:
     }
 
     // convert to decimal
-    static string convertPostPoint(string postPoint, lli base) {
+    static string convertPostPoint(string postPoint, const lli base) {
         double convertedPostPoint{0};
         for(int k = 2; k < postPoint.size(); k++) {
             // k-1 beacuase index started at 2 where point was at index 1 LOL

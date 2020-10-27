@@ -8,7 +8,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
     NumericalSystemsConverter *converter = NumericalSystemsConverter::getInstance();
-    converter->convertToOthers(atof(argv[1]), atoi(argv[2]));
+    converter->convertToOthers(argv[1], atoi(argv[2]));
 
     return 0;
 }

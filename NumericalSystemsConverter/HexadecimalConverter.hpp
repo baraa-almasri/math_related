@@ -25,14 +25,14 @@ public:
     static string convertToOctal(string number) {
 
         return DecimalConverter::convertToOctal(
-            stod(OctalConverter::convertToDecimal(stod(number)))
+            stod(HexadecimalConverter::convertToDecimal(number))
         );
     }
 
     static string convertToBinary(string number) {
 
         return DecimalConverter::convertToBinary(
-            stod(OctalConverter::convertToDecimal(stod(number)))
+            stod(HexadecimalConverter::convertToDecimal(number))
         );
     }
 

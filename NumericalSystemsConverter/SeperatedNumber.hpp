@@ -10,17 +10,17 @@ struct SeperatedNumber {
     string postPoint;
     int pointIndex;
 
-    SeperatedNumber(double x) {
-        this->pointIndex = to_string(x).find('.');
+    SeperatedNumber(string x) {
+        this->pointIndex = x.find('.');
 
-        this->prePoint = to_string(x).substr(0, 
-            this->pointIndex == -1? to_string(x).size():
+        this->prePoint = x.substr(0, 
+            this->pointIndex == -1? x.size():
             this->pointIndex
         );
 
         this->postPoint = "0" +
             (this->pointIndex == -1? "0" :
-            to_string(x).substr(this->pointIndex, std::string::npos)
+            x.substr(this->pointIndex, std::string::npos)
         );
     }
 };

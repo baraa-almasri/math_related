@@ -1,5 +1,5 @@
-#ifndef CONVERTER_HPP
-#define CONVERTER_HPP
+#ifndef SUPERCONVERTER_HPP
+#define SUPERCONVERTER_HPP
 
 #include <string>
 using std::string;
@@ -12,22 +12,39 @@ using std::reverse;
 #include "SeperatedNumber.hpp" // lol
 typedef long long lli;
 
-class Converter {
-protected:
+class SuperConverter {
+public:
+
+    // BIG FAT NOTE ABOUT THIS CLASS!!
+    // numbers are passed as strings, because of bases > 10
 
     static string gerenralConvert(
-        const string number, 
-        const int targetBase, 
-        const int originalBase) 
+        string number, 
+        const int numberBase, 
+        const int targetBase) 
     {
+        number += number.find('.') == -1? ".": "";
+
+        switch(numberBase) {
+            case 10:
+                return convertToTarget(number, targetBase);
+                
+            default:
+                return convertToTarget(
+                    convertToDecimal(number, numberBase),
+                    targetBase
+                );
+        }
+
+    }
+
+private:
+    static string convertToTarget(string number, lli targetBase) {
         SeperatedNumber num(number);
         // the compiler will convert it to decimal value, if declared as a normal number
         string finalNumber{""};         
         // converting number pre floating point
-        finalNumber += 
-            (originalBase == 10? convertPrePoint10: 
-                convertPrePoint)(num.prePoint, targetBase
-            );
+        finalNumber += convertPrePointFromDecimal(num.prePoint, targetBase);
 
         // add floating point(if exists)
         finalNumber.push_back( 
@@ -35,17 +52,32 @@ protected:
         );
 
         // converting number after floating point
-        finalNumber += 
-            (originalBase == 10? convertPostPoint10: 
-                convertPostPoint)(num.postPoint, targetBase
-            );
+        finalNumber += convertPostPointFromDecimal(num.postPoint, targetBase);
 
         return finalNumber;
     }
 
-private:
+    static string convertToDecimal(string number, lli numberBase) {
+        SeperatedNumber num(number);
+        // the compiler will convert it to decimal value, if declared as a normal number
+        string finalNumber{""};         
+        // converting number pre floating point
+        finalNumber += convertPrePointToDecimal(num.prePoint, numberBase);
+
+        // add floating point(if exists)
+        finalNumber.push_back( 
+            num.pointIndex == -1? (char)48: '.'
+        );
+
+        // converting number after floating point
+        finalNumber += convertPostPointToDecimal(num.postPoint, numberBase);
+
+        return finalNumber;
+    }
+
+// more private:
     // convert from decimal
-    static string convertPrePoint10(string sPrePoint, const lli base) {
+    static string convertPrePointFromDecimal(string sPrePoint, const lli base) {
         lli prePoint = stol(sPrePoint);
         sPrePoint.clear();
 
@@ -65,7 +97,7 @@ private:
     }
 
     // convert from decimal
-    static string convertPostPoint10(string sPostPoint, const lli base) {
+    static string convertPostPointFromDecimal(string sPostPoint, const lli base) {
         double postPoint = stod(sPostPoint);
         sPostPoint.clear();
 
@@ -91,8 +123,15 @@ private:
         return sPostPoint;
     }
 
-    // convert to decimal
-    static string convertPrePoint(string prePoint, const lli base) {
+    /* convert to decimal as this formula
+     * ∑ n[i]*(base)^i
+     * where digits before decimal point have 0 based indexes
+     * and after the point have indexes starting with -1 then -2 ....
+     * 
+    */
+
+    // before decimal point
+    static string convertPrePointToDecimal(string prePoint, const lli base) {
         reverse(prePoint.begin(), prePoint.end());
 
         lli convertedPrePoint{0};
@@ -104,9 +143,8 @@ private:
 
         return to_string(convertedPrePoint);
     }
-
-    // convert to decimal
-    static string convertPostPoint(string postPoint, const lli base) {
+    // after decimal point
+    static string convertPostPointToDecimal(string postPoint, const lli base) {
         double convertedPostPoint{0};
         for(int k = 2; k < postPoint.size(); k++) {
             // k-1 beacuase index started at 2 where point was at index 1 LOL
@@ -122,4 +160,4 @@ private:
 
 };
 
-#endif // CONVERTER_HPP
+#endif // SUPERCONVERTER_HPP

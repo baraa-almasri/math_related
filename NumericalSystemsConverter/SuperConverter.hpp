@@ -13,12 +13,13 @@ using std::reverse;
 typedef long long lli;
 
 class SuperConverter {
-public:
 
     // BIG FAT NOTE ABOUT THIS CLASS!!
     // numbers are passed as strings, because of bases > 10
 
-    static string gerenralConvert(
+public:
+
+    static string convert(
         string number, 
         const int numberBase, 
         const int targetBase) 
@@ -26,25 +27,31 @@ public:
         number += number.find('.') == -1? ".": "";
 
         switch(numberBase) {
-            case 10:
-                return convertToTarget(number, targetBase);
-                
-            default:
-                return convertToTarget(
-                    convertToDecimal(number, numberBase),
-                    targetBase
-                );
+        case 10:
+            return SuperConverter::gerenralConvert(number, 10, targetBase);
+            
+        default:
+            return SuperConverter::gerenralConvert( 
+                SuperConverter::gerenralConvert(number, numberBase, 10), 
+                10, targetBase
+            );
+
         }
 
     }
 
 private:
-    static string convertToTarget(string number, lli targetBase) {
+
+    static string gerenralConvert(string number, lli numberBase, lli targetBase) {
         SeperatedNumber num(number);
-        // the compiler will convert it to decimal value, if declared as a normal number
-        string finalNumber{""};         
+        string finalNumber{""};     
+
         // converting number pre floating point
-        finalNumber += convertPrePointFromDecimal(num.prePoint, targetBase);
+        finalNumber += (numberBase == 10? 
+            SuperConverter::convertPrePointFromDecimal:
+            SuperConverter::convertPrePointToDecimal
+
+        )(num.prePoint, numberBase == 10? targetBase: numberBase);
 
         // add floating point(if exists)
         finalNumber.push_back( 
@@ -52,30 +59,28 @@ private:
         );
 
         // converting number after floating point
-        finalNumber += convertPostPointFromDecimal(num.postPoint, targetBase);
+        finalNumber += (numberBase == 10? 
+            SuperConverter::convertPostPointFromDecimal:
+            SuperConverter::convertPostPointToDecimal
+        
+        )(num.prePoint, numberBase == 10? targetBase: numberBase);
 
-        return finalNumber;
+        // if the number was zero a weird string will be produced! so....
+        return finalNumber == ".0"? "0.0": finalNumber;
     }
 
-    static string convertToDecimal(string number, lli numberBase) {
-        SeperatedNumber num(number);
-        // the compiler will convert it to decimal value, if declared as a normal number
-        string finalNumber{""};         
-        // converting number pre floating point
-        finalNumber += convertPrePointToDecimal(num.prePoint, numberBase);
 
-        // add floating point(if exists)
-        finalNumber.push_back( 
-            num.pointIndex == -1? (char)48: '.'
-        );
+// more private level 1:
 
-        // converting number after floating point
-        finalNumber += convertPostPointToDecimal(num.postPoint, numberBase);
+/*
+ * TODO:
+ * verify number function
+ * 
+*/
 
-        return finalNumber;
-    }
 
-// more private:
+// more private level 2:
+
     // convert from decimal
     static string convertPrePointFromDecimal(string sPrePoint, const lli base) {
         lli prePoint = stol(sPrePoint);

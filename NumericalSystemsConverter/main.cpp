@@ -9,7 +9,7 @@ int main(int argc, char *argv[]) {
     }
 
     printf("(%s)%s => (%s)%s\n", argv[1], argv[2],
-        SuperConverter::gerenralConvert(argv[1], atoi(argv[2]), atoi(argv[3])).c_str(),
+        SuperConverter::convert(argv[1], atoi(argv[2]), atoi(argv[3])).c_str(),
         argv[3] 
     );
 

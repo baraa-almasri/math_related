@@ -2,6 +2,7 @@
 #include <cstring>
 #include "SuperConverter.hpp"
 
+// Usage: converter [NUMBER] [BASE] [TARGETBASE]
 int main(int argc, char *argv[]) {
     if(argc < 4) {
         puts("Not enough args!");

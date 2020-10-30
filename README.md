@@ -13,4 +13,6 @@
 - Five-point formula
 - Forward-Difference formula
 - Numerical Integration
-- Matrix app `moved to a seperate repo` ***moved back***
+- Matrix program
+- Function equation parser
+- Numerical Systems Converter

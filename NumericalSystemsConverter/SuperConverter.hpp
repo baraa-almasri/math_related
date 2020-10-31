@@ -22,27 +22,32 @@ public:
     static string convert(
         string number, 
         const int numberBase, 
-        const int targetBase) 
+        const int targetBase)
     {
-        number += number.find('.') == -1? ".": "";
+        // always make the number look like a real number
+        number += number.find('.') == -1 ? "." : "";
 
-        switch(numberBase) {
-        case 10:
-            return SuperConverter::gerenralConvert(number, 10, targetBase);
-            
-        default:
-            return SuperConverter::gerenralConvert( 
-                SuperConverter::gerenralConvert(number, numberBase, 10), 
-                10, targetBase
-            );
-
-        }
-
+        // ok this one is a bit messy
+        // first check if the number is valid according to its base
+        // if valid, check if the number's base is 10 if so
+        // convert it to the target base provided, if not 10
+        // convert it to 10, then the target base
+        // if the number is invalid return the message "IDI NAHUI"
+        // which is kinda of an error code :)
+        return SuperConverter::isNumberValid(number, numberBase)?
+            SuperConverter::convert0(numberBase == 10? number: 
+            SuperConverter::convert0(number, numberBase, 10),
+            10, targetBase):
+            "IDI NAHUI!!";
     }
 
 private:
 
-    static string gerenralConvert(string number, lli numberBase, lli targetBase) {
+    static string convert0(
+        const string number, 
+        const lli numberBase, 
+        const lli targetBase)
+    {
         SeperatedNumber num(number);
         string finalNumber{""};     
 
@@ -63,25 +68,30 @@ private:
             SuperConverter::convertPostPointFromDecimal:
             SuperConverter::convertPostPointToDecimal
         
-        )(num.prePoint, numberBase == 10? targetBase: numberBase);
+        )(num.postPoint, numberBase == 10? targetBase: numberBase);
 
         // if the number was zero a weird string will be produced! so....
-        return finalNumber == ".0"? "0.0": finalNumber;
+        return finalNumber == ".0"? "0.0": 
+            num.negative? "-" + finalNumber: finalNumber;
     }
 
 
 // more private level 1:
 
-/*
- * TODO:
- * verify number function
- * 
-*/
+    static bool isNumberValid(const string number, const int numberBase) {
+        for(char subNum: number) {
+            if((int)(subNum - 48) >= numberBase) {
 
+                return false;
+            }
+        }
+
+        return true;
+    }
 
 // more private level 2:
 
-    // convert from decimal
+    // before decimal point
     static string convertPrePointFromDecimal(string sPrePoint, const lli base) {
         lli prePoint = stol(sPrePoint);
         sPrePoint.clear();
@@ -101,7 +111,7 @@ private:
         return sPrePoint;
     }
 
-    // convert from decimal
+    // after decimal point
     static string convertPostPointFromDecimal(string sPostPoint, const lli base) {
         double postPoint = stod(sPostPoint);
         sPostPoint.clear();
@@ -111,7 +121,10 @@ private:
         do {
             postPoint *= base;
             int prePoint = fmod( postPoint
-                , base == 16? 100: 10 );
+                , base > 9? 100: 10 );
+            
+            double dum;
+            //int prePoint = modf(postPoint, &dum)*100;
             sPostPoint.push_back( 
                 (char)( 
                     (prePoint % base > 9? 55: 48)
@@ -148,8 +161,9 @@ private:
 
         return to_string(convertedPrePoint);
     }
+    
     // after decimal point
-    static string convertPostPointToDecimal(string postPoint, const lli base) {
+    static string convertPostPointToDecimal(const string postPoint, const lli base) {
         double convertedPostPoint{0};
         for(int k = 2; k < postPoint.size(); k++) {
             // k-1 beacuase index started at 2 where point was at index 1 LOL

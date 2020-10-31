@@ -9,8 +9,12 @@ struct SeperatedNumber {
     string prePoint;
     string postPoint;
     int pointIndex;
+    bool negative;
 
     SeperatedNumber(string x) {
+        negative = x[0] == '-';
+        x = negative? x.substr(1, std::string::npos): x;
+
         this->pointIndex = x.find('.');
 
         this->prePoint = x.substr(0, 

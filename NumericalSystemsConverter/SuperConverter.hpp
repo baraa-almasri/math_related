@@ -82,7 +82,7 @@ private:
 
     static bool isNumberValid(const string number, const int numberBase) {
         for(char digit: number) {
-            if((int)(digit - 48) >= numberBase && isdigit(digit)) {
+            if((int)(digit - (numberBase > 9? 55: 48) ) >= numberBase) {
 
                 return false;
             }

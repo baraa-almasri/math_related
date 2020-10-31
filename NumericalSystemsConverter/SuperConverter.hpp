@@ -10,6 +10,7 @@ using std::stod;
 using std::reverse;
 #include <cmath> // fmod, modf(in the future)
 #include "SeperatedNumber.hpp" // lol
+#include <cctype>
 typedef long long lli;
 
 class SuperConverter {
@@ -26,6 +27,7 @@ public:
     {
         // always make the number look like a real number
         number += number.find('.') == -1 ? "." : "";
+        SuperConverter::capitalize(number);
 
         // ok this one is a bit messy
         // first check if the number is valid according to its base
@@ -72,21 +74,27 @@ private:
 
         // if the number was zero a weird string will be produced! so....
         return finalNumber == ".0"? "0.0": 
-            num.negative? "-" + finalNumber: finalNumber;
+            num.negative? "-" + finalNumber: finalNumber; // also if the number is negative respect that!
     }
 
 
 // more private level 1:
 
     static bool isNumberValid(const string number, const int numberBase) {
-        for(char subNum: number) {
-            if((int)(subNum - 48) >= numberBase) {
+        for(char digit: number) {
+            if((int)(digit - 48) >= numberBase && isdigit(digit)) {
 
                 return false;
             }
         }
 
         return true;
+    }
+
+    static void capitalize(string &number) {
+        for(char &digit: number) {
+            digit = islower(digit)? toupper(digit): digit;
+        }
     }
 
 // more private level 2:
@@ -116,27 +124,22 @@ private:
         double postPoint = stod(sPostPoint);
         sPostPoint.clear();
 
-        double nInitPostPoint = postPoint;
-        
+        double initPostPoint = postPoint;
+        double dummy;
         do {
             postPoint *= base;
-            int prePoint = fmod( postPoint
-                , base > 9? 100: 10 );
-            
-            double dum;
-            //int prePoint = modf(postPoint, &dum)*100;
+            double prePointOfResult;
+            postPoint = modf(postPoint, &prePointOfResult);
+
             sPostPoint.push_back( 
                 (char)( 
-                    (prePoint % base > 9? 55: 48)
-                    + (prePoint % base)
+                    ((int)prePointOfResult % base > 9? 55: 48) // ascii code for CAPS or number
+                    + ((int)prePointOfResult % base) // how much ascii
                 )
             );
-            postPoint -= prePoint;
 
-        } while(( (int)fmod(postPoint*10, 10) 
-            != (int)fmod(nInitPostPoint*10, 10) )
-            && postPoint != 0);
-
+        } while(( modf(postPoint, &dummy) != modf(initPostPoint, &dummy) )
+            && postPoint >= 0.099);
 
         return sPostPoint;
     }

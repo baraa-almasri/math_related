@@ -1,14 +1,17 @@
 import kotlin.math.pow
 
 abstract class Parser(expression: String) {
-    protected var expression: String
+    var expression: String = ""
+        get() = field
+        private set
+
     protected var lastAnswer: Double
     protected var entries: ArrayList<String>
 
     init {
-        this.expression = " " + // so the evaluate function won't get confused
+        this.expression = (if(expression[0] == ' ') "" else " ") + // so the evaluate function won't get confused
                 (if(checkExpression(expression)) expression else "")  +
-                " " // LOL
+                if(expression[expression.length-1] == ' ') "" else " " // LOL
 
         this.lastAnswer = 0.0
         this.entries = ArrayList(0)
@@ -22,16 +25,15 @@ abstract class Parser(expression: String) {
 
     }
 
-    private fun getSpacesIndexes(): ArrayList<Int> {
-        val spacesIndex = ArrayList<Int>(0)
-        for((index, chr) in this.expression.withIndex()) {
-            if(chr == ' ') {
-                spacesIndex.add(index)
+    protected fun printWrongOps(): Boolean {
+        if(!isNumberOfOperandsValid()) {
+            println( (27).toChar() + "[31m" + "CHECK NUMBER OF OPERATORS!!")
+            print( (27).toChar() + "[30m")
 
-            }
+            return true
         }
 
-        return spacesIndex
+        return false
     }
 
     protected fun updateEntries() {
@@ -46,40 +48,18 @@ abstract class Parser(expression: String) {
         }
     }
 
-    protected fun checkSameEquation(expression: String): Boolean {
-
-        return false
-    }
-
-    protected fun checkExpression(expression: String): Boolean {
-        for(chr: Char in expression) {
-            if(!isCharValid(chr)) {
-                return false
-            }
-        }
-
-        return true
-    }
-
-     private fun isCharValid(chr: Char): Boolean {
-
-        return (
-                !(chr.isLowerCase() && chr.isUpperCase()) &&
-                ( chr.isDigit() || isOperator(chr) || chr == ' '
-                    || chr == '.'
-                )
-        )
-    }
-
     protected fun execOperator
             (rightOperand: Double, leftOperand: Double, op: Char)
             : Double {
 
-        return if(op == '+') rightOperand + leftOperand else
-            if(op == '-') rightOperand - leftOperand else
-            if(op == '*') rightOperand * leftOperand else
-            if(op == '/') rightOperand / leftOperand else
-            if(op == '^') rightOperand.pow(leftOperand) else 0.0
+        return when (op) {
+            '+' -> rightOperand + leftOperand
+            '-' -> rightOperand - leftOperand
+            '*' -> rightOperand * leftOperand
+            '/' -> rightOperand / leftOperand
+            '^' -> rightOperand.pow(leftOperand)
+            else -> 0.0
+        }
     }
 
     protected fun isOperator(chr: Char): Boolean {
@@ -89,4 +69,48 @@ abstract class Parser(expression: String) {
                 chr == '^'
     }
 
+    private fun checkExpression(expression: String): Boolean {
+        for(chr: Char in expression) {
+            if(!isCharValid(chr)) {
+                return false
+            }
+        }
+
+        return true
+    }
+
+    private fun isCharValid(chr: Char): Boolean {
+
+        return (
+                !(chr.isLowerCase() && chr.isUpperCase()) &&
+                ( chr.isDigit() || isOperator(chr) ||
+                        chr == ' ' || chr == '.')
+        )
+    }
+
+    private fun getSpacesIndexes(): ArrayList<Int> {
+        val spacesIndex = ArrayList<Int>(0)
+        for((index, chr) in this.expression.withIndex()) {
+            if(chr == ' ') {
+                spacesIndex.add(index)
+
+            }
+        }
+
+        return spacesIndex
+    }
+
+    protected fun isNumberOfOperandsValid(): Boolean {
+        var operands = 0
+        var operators = 0
+        for(entry: String in this.entries) {
+            if(isOperator(entry[0])) {
+                operators++
+            } else {
+                operands++
+            }
+        }
+
+        return operands == operators+1
+    }
 }

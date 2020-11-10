@@ -5,7 +5,7 @@ class PostfixParser(expression: String): Parser(expression) {
             return 0.0
         }
         for (i in 0 until this.entries.size) {
-            if (isOperator(this.entries[i][0])) {
+            if (isOperator(this.entries[i])) {
                 this.lastAnswer = execOperator(
                         this.entries[i - 2].toDouble(),
                         this.entries[i - 1].toDouble(),

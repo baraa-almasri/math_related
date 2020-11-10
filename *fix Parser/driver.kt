@@ -16,6 +16,7 @@ fun main() {
     parser = PostfixParser("3 4 + 2 * 7 /")
     println(parser.evaluate())
 
+    //parser = PrefixParser("+ - 2 7 * 8 / 12 3")
     parser = PrefixParser("+ - 2 7 * 8 / 4 12")
     println(parser.evaluate())
 

@@ -1,4 +1,6 @@
+import java.lang.NumberFormatException
 import kotlin.math.pow
+import java.lang.StringIndexOutOfBoundsException
 
 abstract class Parser(expression: String) {
     var expression: String = ""
@@ -23,6 +25,16 @@ abstract class Parser(expression: String) {
     fun addEntry(entry: String) {
         this.expression += if (checkExpression(entry)) entry else ""
 
+    }
+
+    protected fun isNumber(number: String): Boolean {
+        try{
+            number.toDouble()
+        } catch(nfe: NumberFormatException) {
+            return false
+        }
+
+        return true
     }
 
     protected fun printWrongOps(): Boolean {
@@ -62,11 +74,19 @@ abstract class Parser(expression: String) {
         }
     }
 
-    protected fun isOperator(chr: Char): Boolean {
+    protected fun isOperator(chr: String): Boolean {
+        val op = chr[0]
+        try{
+            chr[1]
 
-        return chr == '+' || chr == '-' ||
-                chr == '*' || chr == '/' ||
-                chr == '^'
+        } catch(sioobe: StringIndexOutOfBoundsException) {
+            return op == '+' || op == '-' ||
+                    op == '*' || op == '/' ||
+                    op == '^'
+
+        }
+
+        return false
     }
 
     private fun checkExpression(expression: String): Boolean {
@@ -83,7 +103,7 @@ abstract class Parser(expression: String) {
 
         return (
                 !(chr.isLowerCase() && chr.isUpperCase()) &&
-                ( chr.isDigit() || isOperator(chr) ||
+                ( chr.isDigit() || isOperator(chr.toString()) ||
                         chr == ' ' || chr == '.')
         )
     }
@@ -100,11 +120,11 @@ abstract class Parser(expression: String) {
         return spacesIndex
     }
 
-    protected fun isNumberOfOperandsValid(): Boolean {
+    private fun isNumberOfOperandsValid(): Boolean {
         var operands = 0
         var operators = 0
         for(entry: String in this.entries) {
-            if(isOperator(entry[0])) {
+            if(isOperator(entry)) {
                 operators++
             } else {
                 operands++

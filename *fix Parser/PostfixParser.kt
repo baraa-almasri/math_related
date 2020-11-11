@@ -2,7 +2,7 @@ class PostfixParser(expression: String): Parser(expression) {
     override fun evaluate(): Double {
         this.updateEntries()
         if(printWrongOps()) {
-            return 0.0
+            return Double.MIN_VALUE
         }
         for (i in 0 until this.entries.size) {
             if (isOperator(this.entries[i])) {

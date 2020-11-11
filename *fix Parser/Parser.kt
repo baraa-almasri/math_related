@@ -15,6 +15,8 @@ abstract class Parser(expression: String) {
                 (if(checkExpression(expression)) expression else "")  +
                 if(expression[expression.length-1] == ' ') "" else " " // LOL
 
+        this.removeExtraSpaces()
+        this.removeLastSpaces()
         this.lastAnswer = 0.0
         this.entries = ArrayList(0)
 
@@ -25,6 +27,25 @@ abstract class Parser(expression: String) {
     fun addEntry(entry: String) {
         this.expression += if (checkExpression(entry)) entry else ""
 
+    }
+
+    protected fun removeExtraSpaces() {
+        for(index in 0 until this.expression.length-1) {
+            if(this.expression[index] == ' ' &&
+                this.expression[index+1] == ' ')
+            {
+                this.expression =
+                    this.expression.substring(0, index) + this.expression.substring(index+1)
+                this.expression += " "
+            }
+        }
+    }
+
+    protected fun removeLastSpaces() {
+        val lastSpaceIndex = this.expression.indexOf("  ")
+        this.expression = this.expression.substring(0,
+                if(lastSpaceIndex > -1) lastSpaceIndex+1 else this.expression.length
+        )
     }
 
     protected fun isNumber(number: String): Boolean {
@@ -123,14 +144,14 @@ abstract class Parser(expression: String) {
     private fun isNumberOfOperandsValid(): Boolean {
         var operands = 0
         var operators = 0
-        for(entry: String in this.entries) {
-            if(isOperator(entry)) {
+        for (entry: String in this.entries) {
+            if (isOperator(entry)) {
                 operators++
             } else {
                 operands++
             }
         }
 
-        return operands == operators+1
+        return operands == operators + 1
     }
 }

@@ -2,7 +2,7 @@ class PrefixParser(expression: String): Parser(expression) {
     override fun evaluate(): Double {
         this.updateEntries()
         if(printWrongOps()) {
-            return 0.0
+            return Double.MIN_VALUE
         }
         var i = 0
         // for (i in 0 until this.entries.size) {

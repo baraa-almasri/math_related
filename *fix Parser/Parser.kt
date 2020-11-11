@@ -16,7 +16,7 @@ abstract class Parser(expression: String) {
                 if(expression[expression.length-1] == ' ') "" else " " // LOL
 
         this.removeExtraSpaces()
-        this.removeLastSpaces()
+        //this.removeLastSpaces()
         this.lastAnswer = 0.0
         this.entries = ArrayList(0)
 
@@ -29,17 +29,6 @@ abstract class Parser(expression: String) {
 
     }
 
-    protected fun removeExtraSpaces() {
-        for(index in 0 until this.expression.length-1) {
-            if(this.expression[index] == ' ' &&
-                this.expression[index+1] == ' ')
-            {
-                this.expression =
-                    this.expression.substring(0, index) + this.expression.substring(index+1)
-                this.expression += " "
-            }
-        }
-    }
 
     protected fun removeLastSpaces() {
         val lastSpaceIndex = this.expression.indexOf("  ")
@@ -154,4 +143,26 @@ abstract class Parser(expression: String) {
 
         return operands == operators + 1
     }
+
+    private fun removeExtraSpaces() {
+        var index = 0
+        while(index < this.expression.length-1) {
+            try {
+                if (this.expression[index] == ' ' &&
+                        this.expression[index + 1] == ' ')
+                {
+                    this.expression =
+                        this.expression.substring(0, index) +
+                        this.expression.substring(index + 1)
+                    index--
+                    continue
+                }
+            } catch(sioobe: StringIndexOutOfBoundsException) {
+                return
+            }
+
+            index++
+        }
+    }
+
 }

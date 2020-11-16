@@ -4,11 +4,13 @@ class PostfixParser(expression: String): Parser(expression) {
         if(printWrongOps()) {
             return Double.MIN_VALUE
         }
-        for (i in 0 until this.entries.size) {
-            if (isOperator(this.entries[i])) {
+        for (i in 2 until this.entries.size) {
+            if (isOperator(this.entries[i]) &&
+                    isNumber(this.entries[i-1]) &&
+                    isNumber(this.entries[i-2])) {
                 this.lastAnswer = execOperator(
-                        this.entries[i - 2].toDouble(),
-                        this.entries[i - 1].toDouble(),
+                        this.entries[i-2].toDouble(),
+                        this.entries[i-1].toDouble(),
                         this.entries[i][0]
                 )
                 // make answer and other operand as operands to the next operand

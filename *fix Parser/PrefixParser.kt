@@ -12,8 +12,8 @@ class PrefixParser(expression: String): Parser(expression) {
                     isNumber(this.entries[i+2]) )
             {
                 this.lastAnswer = execOperator(
-                        this.entries[i + 1].toDouble(),
-                        this.entries[i + 2].toDouble(),
+                        this.entries[i+1].toDouble(),
+                        this.entries[i+2].toDouble(),
                         this.entries[i][0]
                 )
 

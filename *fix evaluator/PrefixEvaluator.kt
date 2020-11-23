@@ -5,10 +5,10 @@ class PrefixEvaluator(expression: String): Evaluator(expression) {
         val numbers = Stack<Double>()
 
         for(entry in this.entries.reversed()) {
-            if(isNumber(entry)) {
+            if(TermChecker.isNumber(entry)) {
                 numbers.push(entry.toDouble())
             }
-            if(isOperator(entry)) {
+            if(TermChecker.isOperator(entry)) {
                 val firstOperand = numbers.peek()
                 numbers.pop()
                 val secondOperand = numbers.peek()

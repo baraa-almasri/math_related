@@ -5,10 +5,10 @@ class PostfixEvaluator(expression: String): Evaluator(expression) {
         val numbers = Stack<Double>()
 
         for(entry: String in this.entries) {
-            if(isNumber(entry)) {
+            if(TermChecker.isNumber(entry)) {
                 numbers.push(entry.toDouble())
             }
-            if(isOperator(entry)) {
+            if(TermChecker.isOperator(entry)) {
                 val secondOperand = numbers.peek()
                 numbers.pop()
                 val firstOperand = numbers.peek()

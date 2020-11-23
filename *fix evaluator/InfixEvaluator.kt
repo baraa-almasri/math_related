@@ -5,9 +5,9 @@ class InfixEvaluator(expression: String) : Evaluator(expression) {
 
         var i = 1
         while(i < this.entries.size-1){
-            if (isOperator(this.entries[i]) &&
-                    isNumber(this.entries[i+1]) &&
-                    isNumber(this.entries[i-1]) &&
+            if (TermChecker.isOperator(this.entries[i]) &&
+                    TermChecker.isNumber(this.entries[i+1]) &&
+                    TermChecker.isNumber(this.entries[i-1]) &&
                     (getOperatorPrecedence(this.entries[i][0])
                       == operandsPrecedences.max())
             ) {
@@ -55,7 +55,7 @@ class InfixEvaluator(expression: String) : Evaluator(expression) {
     private fun getOperatorsPrecedences(): ArrayList<Int> {
         val operandsPrecedences = ArrayList<Int>()
         for(entry in this.entries) {
-            if(isOperator(entry)) {
+            if(TermChecker.isOperator(entry)) {
                 operandsPrecedences.add(getOperatorPrecedence(entry[0]))
             }
         }

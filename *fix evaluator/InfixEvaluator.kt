@@ -1,15 +1,8 @@
-import java.lang.NumberFormatException
-import java.lang.reflect.Array
-
-class InfixParser(expression: String) : Parser(expression) {
+class InfixEvaluator(expression: String) : Evaluator(expression) {
     override fun evaluate(): Double {
-        this.updateEntries()
         val operandsPrecedences = this.getOperatorsPrecedences()
+        var lastAnswer = 0.0
 
-        if(printWrongOps()) {
-            return Double.MIN_VALUE
-        }
-        //for (i in 1 until this.entries.size-1)
         var i = 1
         while(i < this.entries.size-1){
             if (isOperator(this.entries[i]) &&
@@ -19,17 +12,17 @@ class InfixParser(expression: String) : Parser(expression) {
                       == operandsPrecedences.max())
             ) {
                 operandsPrecedences.removeLast()
-                this.lastAnswer = execOperator(
+                lastAnswer = execOperator(
                         this.entries[i-1].toDouble(),
                         this.entries[i+1].toDouble(),
                         this.entries[i][0]
                 )
-                //this.entries[i + 1] = this.lastAnswer.toString()
+                //this.this.entries[i + 1] = this.lastAnswer.toString()
 
                 // make answer and other operand as operands to the next operand
                 // IF THERE'S AN ANOTHER OPERAND
                 if(this.entries.size > 3) {
-                    this.entries[i-1] = this.lastAnswer.toString()
+                    this.entries[i-1] = lastAnswer.toString()
                     for(j in i until this.entries.size-2) {
                         this.entries[j] = this.entries[j+2]
                     } // lil for
@@ -43,7 +36,7 @@ class InfixParser(expression: String) : Parser(expression) {
         // in case of multi calls
         this.entries.clear()
 
-        return this.lastAnswer
+        return lastAnswer
     }
 
     // ok this shit is about to get heavy

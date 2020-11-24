@@ -15,8 +15,10 @@ class Expression(expression: String) {
         this.expression = " " + // to parse properly blyat
             expression +
             " " // LOL
-        this.expression = this.expression.replace("[(]".toRegex(), " ( ")
-        this.expression = this.expression.replace("[)]".toRegex(), " ) ")
+
+        this.removeExtraChars()
+        this.addSpaces()
+        // re-remove additional spaces caused by addSpaces
         this.removeExtraChars()
     }
 
@@ -60,10 +62,34 @@ class Expression(expression: String) {
     private fun removeExtraChars() {
         this.expression = this.expression.replace("\\s+".toRegex(), " ")
         this.expression = this.expression.replace("[+]+".toRegex(), "+")
-        this.expression = this.expression.replace("[-]+".toRegex(), "-")
+        this.expression = this.expression.replace("[-][-]+".toRegex(), "-")
         this.expression = this.expression.replace("[*]+".toRegex(), "*")
         this.expression = this.expression.replace("[/]+".toRegex(), "/")
         this.expression = this.expression.replace("[p]+".toRegex(), "p")
+    }
+
+    // ONLY FOR INFIX SINCE IT CAN ACCEPT THIS KIND OF SHIT
+    private fun addSpaces() {
+        this.expression =
+            this.expression.replace(
+                "[-][\\d]+".toRegex(),
+                " ${"[-][\\d]+".toRegex().find(this.expression)?.value.toString()} "
+            )
+
+        this.expression =
+            this.expression.replace("[-]".toRegex(), " - ")
+        this.expression =
+            this.expression.replace("[+]".toRegex(), " + ")
+        this.expression =
+            this.expression.replace("[*]".toRegex(), " * ")
+        this.expression =
+            this.expression.replace("[/]".toRegex(), " / ")
+        this.expression =
+            this.expression.replace("[p]".toRegex(), " p ")
+        this.expression =
+            this.expression.replace("[(]".toRegex(), " ( ")
+        this.expression =
+            this.expression.replace("[)]".toRegex(), " ) ")
     }
 
 }

@@ -1,7 +1,7 @@
 import kotlin.math.pow
 
 abstract class Evaluator(expression: String) {
-    var expression: String
+    protected var expression: String
     protected var entries: ArrayList<String>
 
     init {

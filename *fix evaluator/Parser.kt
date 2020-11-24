@@ -5,7 +5,6 @@
 class Parser(expression: String) {
     private var validatedExpression: String
     var entries: ArrayList<String>
-        get() = field
         private set
 
     init {
@@ -13,18 +12,21 @@ class Parser(expression: String) {
         this.entries = ArrayList()
 
         this.updateEntries()
-        if(!isNumberOfOperandsValid()) {
-            throw WrongOperatorsException("Check operators count!")
+        if (!isNumberOfOperandsValid()) {
+            throw WrongOperatorsException("Check Operators Count!")
+        }
+        if (!areNumbersEntriesValid()) {
+            throw NotValidExpressionException("Check Numbers!")
         }
     }
 
     private fun updateEntries() {
         val spacesIndexes = getSpacesIndexes()
-        for(index: Int in 0 until spacesIndexes.size - 1) {
+        for (index: Int in 0 until spacesIndexes.size - 1) {
             this.entries.add(
                 this.validatedExpression.substring(
                     spacesIndexes[index] + 1,
-                    spacesIndexes[index+1]
+                    spacesIndexes[index + 1]
                 )
             )
         }
@@ -32,8 +34,8 @@ class Parser(expression: String) {
 
     private fun getSpacesIndexes(): ArrayList<Int> {
         val spacesIndex = ArrayList<Int>(0)
-        for((index, chr) in this.validatedExpression.withIndex()) {
-            if(chr == ' ') {
+        for ((index, chr) in this.validatedExpression.withIndex()) {
+            if (chr == ' ') {
                 spacesIndex.add(index)
 
             }
@@ -42,6 +44,18 @@ class Parser(expression: String) {
         return spacesIndex
     }
 
+    private fun areNumbersEntriesValid(): Boolean {
+
+        for (entry: String in this.entries) {
+            if (!TermChecker.isOperator(entry) ||
+                !TermChecker.isParenth(entry) &&
+                TermChecker.isNumber(entry)) {
+                return true
+            }
+        }
+
+        return false
+    }
 
     private fun isNumberOfOperandsValid(): Boolean {
         var operands = 0
@@ -49,7 +63,7 @@ class Parser(expression: String) {
         for (entry: String in this.entries) {
             if (TermChecker.isOperator(entry)) {
                 operators++
-            } else {
+            } else if (TermChecker.isNumber(entry)) {
                 operands++
             }
         }

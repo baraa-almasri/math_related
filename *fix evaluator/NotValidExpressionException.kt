@@ -1,7 +1,7 @@
-class NotValidExpressionException: Throwable {
+class NotValidExpressionException : Throwable {
 
-    constructor(): super() {}
+    constructor() : super()
 
-    constructor(msg: String): super(msg) {}
+    constructor(msg: String) : super(msg)
 
 }

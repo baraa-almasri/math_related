@@ -1,6 +1,6 @@
-class WrongOperatorsException: Throwable {
-    constructor(): super() {}
+class WrongOperatorsException : Throwable {
+    constructor() : super()
 
-    constructor(msg: String): super(msg) {}
+    constructor(msg: String) : super(msg)
 
 }

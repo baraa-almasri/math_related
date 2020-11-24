@@ -9,6 +9,10 @@ object TermChecker {
         return true
     }
 
+    fun isParenth(chr: String): Boolean {
+        return chr[0] == ')' || chr[0] == '('
+    }
+
     fun isOperator(chr: String): Boolean {
         val op = chr[0]
         try {
@@ -16,8 +20,8 @@ object TermChecker {
 
         } catch (sioobe: StringIndexOutOfBoundsException) {
             return op == '+' || op == '-' ||
-                    op == '*' || op == '/' ||
-                    op == 'p'
+                op == '*' || op == '/' ||
+                op == 'p'
 
         }
 

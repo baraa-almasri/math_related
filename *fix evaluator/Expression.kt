@@ -4,29 +4,45 @@
 
 class Expression(expression: String) {
     var expression: String
-        get() = field
         private set
 
     init {
-        if(!isExpressionValid(expression)) {
+        if (!isExpressionValid(expression) ||
+            !isNumberOfParenthsValid(expression)) {
             throw NotValidExpressionException()
         }
 
         this.expression = " " + // to parse properly blyat
-                expression +
-                " " // LOL
-
+            expression +
+            " " // LOL
+        this.expression = this.expression.replace("[(]".toRegex(), " ( ")
+        this.expression = this.expression.replace("[)]".toRegex(), " ) ")
         this.removeExtraChars()
     }
 
     private fun isExpressionValid(expression: String): Boolean {
-        for(chr: Char in expression) {
-            if(!isCharValid(chr)) {
+        for (chr: Char in expression) {
+            if (!isCharValid(chr)) {
                 return false
             }
         }
 
         return true
+    }
+
+    private fun isNumberOfParenthsValid(expression: String): Boolean {
+        var openParenths = 0
+        var closeParenths = 0
+        for (chr: Char in expression) {
+            if (chr == '(') {
+                openParenths++
+
+            } else if (chr == ')') {
+                closeParenths++
+            }
+        }
+
+        return openParenths == closeParenths
     }
 
     private fun isCharValid(chr: Char): Boolean {
@@ -35,10 +51,10 @@ class Expression(expression: String) {
             TermChecker.isNumber(chr.toString()) ||
                 TermChecker.isOperator(chr.toString()) ||
                 chr == ' ' ||
-                chr == '.'  ||
+                chr == '.' ||
                 chr == ')' ||
                 chr == '('
-        )
+            )
     }
 
     private fun removeExtraChars() {

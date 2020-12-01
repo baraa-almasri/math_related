@@ -1,3 +1,5 @@
+package ExpressionToolbox
+
 class NotValidExpressionException : Throwable {
 
     constructor() : super()

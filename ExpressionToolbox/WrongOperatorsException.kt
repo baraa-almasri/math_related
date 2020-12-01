@@ -1,3 +1,5 @@
+package ExpressionToolbox
+
 class WrongOperatorsException : Throwable {
     constructor() : super()
 

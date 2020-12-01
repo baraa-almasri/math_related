@@ -1,10 +1,13 @@
+package ExpressionToolbox
+
 fun main() {
 
     var evaluator: Evaluator
 
     //evaluator = InfixEvaluator(" 1 + 2 * 3 / 5 - 15")
     //evaluator = InfixEvaluator(" 5 + 10 * 2 ")
-    evaluator = InfixEvaluator(" (10 + 11) * 12 - 13 + 14 ")
+    //evaluator = InfixEvaluator(" (10 + 11) * 12 - 13 + 14 ")
+    evaluator = InfixEvaluator(" 1 - ( 4 + 5 ) ")
     println(evaluator.evaluate())
 
     //parser = PostfixParser("4 5 7 2 + - *")

@@ -1,3 +1,5 @@
+package ExpressionToolbox
+
 object TermChecker {
     fun isNumber(number: String): Boolean {
         try {

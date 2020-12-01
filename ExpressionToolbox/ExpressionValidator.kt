@@ -1,25 +1,25 @@
-/*
- * use this class to get validated expression
- */
+package ExpressionToolbox
 
-class Expression(expression: String) {
-    var expression: String
-        private set
+class ExpressionValidator(expression: String) {
+    private var expression: String
 
     init {
-        if (!isExpressionValid(expression) ||
-            !isNumberOfParenthsValid(expression)) {
+        this.expression = " $expression "
+    }
+
+    fun getValidatedExpression(): String {
+        if (!isExpressionValid(this.expression) ||
+            !isNumberOfParenthsValid(this.expression)) {
             throw NotValidExpressionException()
         }
 
-        this.expression = " " + // to parse properly blyat
-            expression +
-            " " // LOL
-
         this.removeExtraChars()
+        // in the future blyat
         this.addSpaces()
-        // re-remove additional spaces caused by addSpaces
+        // re-remove additional shits caused by addSpaces
         this.removeExtraChars()
+
+        return this.expression
     }
 
     private fun isExpressionValid(expression: String): Boolean {
@@ -70,7 +70,7 @@ class Expression(expression: String) {
 
     // ONLY FOR INFIX SINCE IT CAN ACCEPT THIS KIND OF SHIT
     private fun addSpaces() {
-        this.expression =
+        /*this.expression =
             this.expression.replace(
                 "[-][\\d]+".toRegex(),
                 " ${"[-][\\d]+".toRegex().find(this.expression)?.value.toString()} "
@@ -85,7 +85,7 @@ class Expression(expression: String) {
         this.expression =
             this.expression.replace("[/]".toRegex(), " / ")
         this.expression =
-            this.expression.replace("[p]".toRegex(), " p ")
+            this.expression.replace("[p]".toRegex(), " p ")*/
         this.expression =
             this.expression.replace("[(]".toRegex(), " ( ")
         this.expression =

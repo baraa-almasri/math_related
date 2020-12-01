@@ -1,3 +1,5 @@
+package ExpressionToolbox
+
 object ExpressionChecker {
     fun isInfix(entries: ArrayList<String>): Boolean {
         return (

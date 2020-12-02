@@ -8,7 +8,9 @@ class ExpressionConverter {
         // reverse the expression to process it as a postfix :) THIS IS TMP BLYAT
         val entries = (
             ExpressionParser(
-                expression.replace("[)]".toRegex(), "#").replace("[(]".toRegex(), ")").replace("[#]".toRegex(), "(")
+                expression.replace("[)]".toRegex(), "#").
+                replace("[(]".toRegex(), ")").
+                replace("[#]".toRegex(), "(")
             )
             ).getParsedExpression()
 
@@ -24,7 +26,7 @@ class ExpressionConverter {
 
     fun convertInfix2Postfix(expression: String): String {
         val entries = (
-            ExpressionParser(expression)
+            ExpressionParser(" $expression ")
             ).getParsedExpression()
 
         if (!ExpressionChecker.isInfix(entries)) {
@@ -49,19 +51,57 @@ class ExpressionConverter {
                 if (getOperatorPrecedence(entry[0]) >
                     getOperatorPrecedence(operators.peek())) {
 
+
                     operators.push(entry[0])
+
+
+
 
                 } else if (getOperatorPrecedence(entry[0]) <
                     getOperatorPrecedence(operators.peek())) {
 
                     postfixExpression += " ${operators.peek()}"
                     operators.pop()
+
+                    if (isStackTopAndPreTopSamePrecedence(operators) ||
+                        (getOperatorPrecedence(entry[0]) ==
+                            getOperatorPrecedence(operators.peek())))
+                    {
+                        postfixExpression += " ${operators.peek()}"
+                        //postfixExpression += " ${entry[0]}"
+                        operators.pop()
+
+                        operators.push(entry[0])
+
+                        continue
+                    }
+
                     operators.push(entry[0])
+
+                } else if (getOperatorPrecedence(entry[0]) ==
+                    getOperatorPrecedence(operators.peek())) {
+
+                    postfixExpression += " ${entry[0]}"
                 }
             }
         }
 
-        return postfixExpression
+        return "$postfixExpression "
+    }
+
+    private fun isStackTopAndPreTopSamePrecedence(stk: Stack<Char>): Boolean {
+        val tmp = Stack<Char>()
+        tmp.addAll(stk)
+
+        return try {
+            val top = tmp.peek()
+            tmp.pop()
+            val preTop = tmp.peek()
+
+            top == preTop
+        } catch (ese: EmptyStackException) {
+            false
+        }
     }
 
     private fun popStackUntilOpenParenthAndStoreInString(stk: Stack<Char>): String {
@@ -83,8 +123,8 @@ class ExpressionConverter {
     private fun getOperatorPrecedence(op: Char): Int {
 
         return when (op) {
+            '-' -> 1
             '+' -> 1
-            '-' -> 2
             '*' -> 3
             '/' -> 3
             '^' -> 5

@@ -26,7 +26,7 @@ class ExpressionParser(expression: String) {
        this.entries =
            this.validatedExpression.substring(
                1, this.validatedExpression.length-1
-           ).split(" ") as ArrayList<String>
+           ).split("\\s".toRegex()) as ArrayList<String>
     }
 
 

@@ -1,21 +1,19 @@
 package ExpressionToolbox
 
-class InfixEvaluator(expression: String) : Evaluator(expression) {
+class InfixEvaluator(expression: String) : Evaluator(expression, true) {
     private var converter: ExpressionConverter
+
     init {
-        this.converter = ExpressionConverter()
+        this.converter = ExpressionConverter
     }
 
     override fun evaluate(): Double {
-        if (!ExpressionChecker.isInfix(
-                this.parsedEntries.getParsedExpression()
-            )) {
+        if (!this.expressionChecker.isInfix(this.entries)) {
             throw NotValidExpressionException("Check expression type!")
         }
-        this.panicIfSomethingIsWrong()
 
-        val postfix = (ExpressionConverter()
-            ).convertInfix2Postfix(" (${this.expression}) ")
+        val postfix = (this.converter
+            ).convertInfix2Postfix(this.expression)
 
         return PostfixEvaluator(postfix).evaluate()
     }

@@ -23,7 +23,7 @@ object TermChecker {
         } catch (sioobe: StringIndexOutOfBoundsException) {
             return op == '+' || op == '-' ||
                 op == '*' || op == '/' ||
-                op == 'p'
+                op == '^'
 
         }
 

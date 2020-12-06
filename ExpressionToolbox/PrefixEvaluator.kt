@@ -2,24 +2,20 @@ package ExpressionToolbox
 
 import java.util.*
 
-class PrefixEvaluator(expression: String) : Evaluator(expression) {
+class PrefixEvaluator(expression: String) : Evaluator(expression, false) {
     override fun evaluate(): Double {
-        if (!ExpressionChecker.isPrefix(
-                this.parsedEntries.getParsedExpression()
-            )) {
+        if (!this.expressionChecker.isPrefix(this.entries)) {
             throw NotValidExpressionException("Check expression type!")
         }
-        this.panicIfSomethingIsWrong()
 
         val numbers = Stack<Double>()
 
-        for (entry in
-        this.parsedEntries.getParsedExpression().reversed()) {
+        for (entry in this.entries.reversed()) {
 
             if (TermChecker.isNumber(entry)) {
                 numbers.push(entry.toDouble())
-            }
-            if (TermChecker.isOperator(entry)) {
+
+            } else if (TermChecker.isOperator(entry)) {
                 val firstOperand = numbers.peek()
                 numbers.pop()
                 val secondOperand = numbers.peek()
@@ -32,8 +28,6 @@ class PrefixEvaluator(expression: String) : Evaluator(expression) {
             }
         }
 
-
         return numbers.peek()
     }
-
 }

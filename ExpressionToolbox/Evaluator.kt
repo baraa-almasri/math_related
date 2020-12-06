@@ -2,49 +2,50 @@ package ExpressionToolbox
 
 import kotlin.math.pow
 
-abstract class Evaluator(expression: String) {
+abstract class Evaluator(expression: String, private var infix: Boolean) {
     protected var expression: String
-    protected var parsedEntries: ExpressionParser
-    protected var expressionChecker: ExpressionChecker
+    protected val entries: ArrayList<String>
+    protected val expressionChecker: ExpressionChecker
 
     init {
         this.expression = (
-            ExpressionValidator(expression)
+            ExpressionValidator(expression, this.infix)
             ).getValidatedExpression()
 
         this.expressionChecker = ExpressionChecker
-        this.parsedEntries = ExpressionParser(expression)
+        this.entries =
+            ExpressionParser(this.expression).getParsedExpression()
     }
 
+    // the magical function
     abstract fun evaluate(): Double
+
+    // set expression to new value of the SAME expression type
+    fun replaceExpression(expression: String) {
+        this.expression = (
+            ExpressionValidator(expression, this.infix)
+            ).getValidatedExpression()
+    }
 
     // add an entry to the expression string and update fields
     fun addEntry(entry: String) {
+        // check the added entry
         this.expression += (
-            ExpressionValidator(entry)
+            ExpressionValidator(entry, infix)
             ).getValidatedExpression() + " "
 
-        this.parsedEntries = ExpressionParser(this.expression)
+        this.entries.add(entry)
     }
 
-    protected fun panicIfSomethingIsWrong() {
-        if (!parsedEntries.isNumberOfOperandsValid()) {
-            throw WrongOperatorsException("Check Operators Count!")
-        }
-        if (!parsedEntries.areNumbersEntriesValid()) {
-            throw NotValidExpressionException("Check Numbers!")
-        }
-    }
-
-    protected fun execOperator(rightOperand: Double, leftOperand: Double, op: Char)
-        : Double {
+    protected fun
+        execOperator(rightOperand: Double, leftOperand: Double, op: Char): Double {
 
         return when (op) {
             '+' -> rightOperand + leftOperand
             '-' -> rightOperand - leftOperand
             '*' -> rightOperand * leftOperand
             '/' -> rightOperand / leftOperand
-            'p' -> rightOperand.pow(leftOperand)
+            '^' -> rightOperand.pow(leftOperand)
             else -> 0.0
         }
     }
